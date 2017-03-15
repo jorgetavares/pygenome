@@ -28,6 +28,20 @@ def integer_chromossome(size, min_value=0, max_value=1):
     return chromossome
 
 
+def permutation_chromossome(size):
+    '''
+    Permutation Chromossome (random)
+
+    Args:
+        size (int): the fixed size of the chromossome
+    
+    Returns:
+        fixed size chromossome initialized with a random permutation from 0 to size -1 
+    '''
+
+    return np.random.permutation(size)
+
+
 def uniform_chromossome(size, min_value=0.0, max_value=1.0)):
     '''
     Uniform Chromossome (random)
@@ -40,10 +54,8 @@ def uniform_chromossome(size, min_value=0.0, max_value=1.0)):
     Returns:
         fixed size chromossome initialized with random floats using a uniform distribution
     '''
-    chromossome = np.random.uniform(min_value, max_value, size)
+    return np.random.uniform(min_value, max_value, size)
     
-    return chromossome
-
 
 def normal_chromossome(size, mean=0.0, sigma=1.0)):
     '''
@@ -57,6 +69,4 @@ def normal_chromossome(size, mean=0.0, sigma=1.0)):
     Returns:
         fixed size chromossome initialized with random floats using a normal distribution
     '''
-    chromossome = np.random.normal(loc=mean, scale=sigma, size=size)
-    
-    return chromossome
+    return np.random.normal(loc=mean, scale=sigma, size=size)
