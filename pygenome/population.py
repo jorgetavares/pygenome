@@ -14,7 +14,7 @@ class Population(object):
 
 def make_generic_population(size, make_individual_fn, *args, **kargs):
     '''
-    Make Generic Population (random)
+    Make Generic Population
 
     Args:
         size (int): number of individuals in the population
