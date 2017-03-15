@@ -10,19 +10,53 @@ class Individual(object):
         self.genome = None  # this should be an object that can be of any type 
 
 
-def linear_chromossome(size, min_value=0, max_value=1):
+def integer_chromossome(size, min_value=0, max_value=1):
     '''
-    Linear Chromossome
+    Integer Chromossome (random)
 
     Args:
         size (int): the fixed size of the chromossome
         min_value (int): minimum value that can be in the chromossome
-        max_value (int): maximum value (inclusive) that can be in the chromossome
+        max_value (int): maximum value (exclusive) that can be in the chromossome
     
     Returns:
         fixed size chromossome initialized with random integers
     '''
-    value_range = (max_value - min_value) + 1
+    value_range = (max_value - min_value)
     chromossome = np.random.randint(value_range, size=size) + min_value
+    
+    return chromossome
+
+
+def uniform_chromossome(size, min_value=0.0, max_value=1.0)):
+    '''
+    Uniform Chromossome (random)
+
+    Args:
+        size (int): the fixed size of the chromossome
+        min_value (float): minimum value that can be in the chromossome
+        max_value (float): maximum value (exclusive) that can be in the chromossome
+    
+    Returns:
+        fixed size chromossome initialized with random floats using a uniform distribution
+    '''
+    chromossome = np.random.uniform(min_value, max_value, size)
+    
+    return chromossome
+
+
+def normal_chromossome(size, mean=0.0, sigma=1.0)):
+    '''
+    Normal Chromossome (random)
+
+    Args:
+        size (int): the fixed size of the chromossome
+        mean (float): mean of the normal distribution
+        sigma (float): sigma of the normal distribution
+    
+    Returns:
+        fixed size chromossome initialized with random floats using a normal distribution
+    '''
+    chromossome = np.random.normal(loc=mean, scale=sigma, size=size)
     
     return chromossome
