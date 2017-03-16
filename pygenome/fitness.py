@@ -13,7 +13,7 @@ class Fitness(object):
 
 def evaluate_population(pop, fitness_fn, **kargs):
     '''
-    Evaluate population
+    Evaluate Population
 
     Args:
         pop (Population): population to be evaluated in-place
@@ -21,7 +21,7 @@ def evaluate_population(pop, fitness_fn, **kargs):
         **kargs: keyword arguments that fitness_fn might have
 
     Returns:
-        evaluated population by cal
+        evaluated population by calling the fitness function
     '''
     for i in range(pop.size):
         ind = pop.individuals[i]

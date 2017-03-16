@@ -10,7 +10,20 @@ class Population(object):
     def __init__(self, individuals=None):
         self.individuals = individuals
         self.size = individuals.size if individual is not None else 0
-    
+
+
+def make_empty_population(size):
+    '''
+    Make Empty Population
+
+    Args:
+        size (int): number of individuals that the population will contain
+
+    Returns:
+        empty population of fixed size to store new individuals
+    '''
+    return Population(individuals=np.empty(size, dtype=individual.Individual))
+
 
 def make_generic_population(size, make_individual_fn, *args, **kargs):
     '''
@@ -23,7 +36,7 @@ def make_generic_population(size, make_individual_fn, *args, **kargs):
     Return:
         random population of fixed size without fitness evaluation 
     '''
-    pop = np.empty(size, dtype=individual.Individual)
+    pop = make_empty_population(size)
 
     for i in range(size):
         pop[i] = individual.Individual()
