@@ -14,7 +14,7 @@ class Individual(object):
         return deepcopy(self)
         
 
-def integer_chromossome(size, min_value=0, max_value=1):
+def integer_chromossome(size, low=0, high=1):
     '''
     Integer Chromossome (random)
 
@@ -26,8 +26,8 @@ def integer_chromossome(size, min_value=0, max_value=1):
     Returns:
         fixed size chromossome initialized with random integers
     '''
-    value_range = (max_value - min_value) + 1
-    chromossome = np.random.randint(value_range, size=size) + min_value
+    high_value = high + 1
+    chromossome = np.random.randint(low, high=high_value, size=size)
     
     return chromossome
 
@@ -45,7 +45,7 @@ def permutation_chromossome(size):
     return np.random.permutation(size)
 
 
-def uniform_chromossome(size, min_value=0.0, max_value=1.0):
+def uniform_chromossome(size, low=0.0, high=1.0):
     '''
     Uniform Chromossome (random)
 
@@ -57,7 +57,7 @@ def uniform_chromossome(size, min_value=0.0, max_value=1.0):
     Returns:
         fixed size chromossome initialized with random floats using a uniform distribution
     '''
-    return np.random.uniform(min_value, max_value, size)
+    return np.random.uniform(low=low, high=high, size=size)
     
 
 def normal_chromossome(size, mean=0.0, sigma=1.0):

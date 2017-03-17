@@ -17,7 +17,7 @@ def test_integer_chromossome():
     # with min/max values, integer chromossome
     np.random.seed(5389)
     # array([-2,  3, -4, -1,  5,  5, -1,  4,  4,  0])
-    chromossome = individual.integer_chromossome(10, -5, 5)
+    chromossome = individual.integer_chromossome(10, low=-5, high=5)
     assert np.size(chromossome) == 10
     assert np.amin(chromossome) >= -5
     assert np.amax(chromossome) <= 5
@@ -42,7 +42,7 @@ def test_uniform_chromossome():
     assert np.amax(chromossome) < 1.0
     # with min/max values, U(min,max)
     np.random.seed(5389)
-    chromossome = individual.uniform_chromossome(10, min_value=-5.0, max_value=5.0)
+    chromossome = individual.uniform_chromossome(10, low=-5.0, high=5.0)
     assert np.size(chromossome) == 10
     assert np.amin(chromossome) >= -5.0
     assert np.amax(chromossome) < 5.0
