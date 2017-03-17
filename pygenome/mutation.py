@@ -21,3 +21,42 @@ def apply_mutation(pop, rate, mt_op, **kargs):
             pop.individuals[i].genome = offspring
     
     return pop
+
+
+def flip_mutation(chromossome, rate, low=0, high=1):
+    '''
+    Flip Mutation
+
+    Args:
+        chromossome (array): integer chromossome to be mutated
+        rate (float): per gene mutation rate
+        low (int): low value the chromossome can have
+        hight (int): high value (inclusive) the chromossome can have
+
+    Returns:
+        mutated chromossome
+    '''
+    for i in range(0, chromossome.size):
+        high_value = highe + 1 # to be inclusive
+        if np.random.uniform() < rate:
+            chromossome[i] = np.random.randint(low, high=high_value)
+
+    return chromossome
+
+
+def uniform_mutation(chromossome, rate):
+    '''
+    Uniform Mutation
+
+    Args:
+        chromossome (array): float chromossome to be mutated
+        rate (float): per gene mutation rate
+
+    Returns:
+        mutated chromossome
+    '''
+    for i in range(0, chromossome.size):
+        if np.random.uniform() < rate:
+            chromossome[i] = np.random.uniform()
+
+    return chromossome
