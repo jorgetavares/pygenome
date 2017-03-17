@@ -16,7 +16,7 @@ def apply_crossover(pop, rate, cx_op, **kargs):
         population of individuals after crossover being applied in-place
     '''
     for i in range(0, pop.size - 1, step=2):
-        if np.ranom.uniform() < rate:
+        if np.random.uniform() < rate:
             o1, o2 = cx_op(pop.individuals[i].genome, pop.individuals[i+1].genome, **kargs)
             pop.individuals[i].genome = o1
             pop.individuals[i+1].genome = o2
@@ -66,4 +66,3 @@ def uniform_crossover(g1, g2, rate=0.5):
             o2[i] = g1[i]
 
     return (o1, o2)
-    
