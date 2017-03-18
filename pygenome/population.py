@@ -45,20 +45,20 @@ def make_generic_population(size, make_individual_fn, *args, **kargs):
     return Population(pop)
 
 
-def make_integer_population(size, ind_size, min_value=0, max_value=1):
+def make_integer_population(size, ind_size, low=0, high=1):
     '''
     Make Integer Population
 
     Args:
         size (int): number of individuals in the Population
         ind_size (int): the fixed size of the chromossome
-        min_value (int): minimum value that can be in the chromossome
-        max_value (int): maximum value (inclusive) that can be in the chromossome
+        low (int): minimum value that can be in the chromossome
+        high (int): maximum value (inclusive) that can be in the chromossome
 
     Returns:
         array of individuals randomly initialized to have integer chromossomes
     '''
-    return make_generic_population(size, individual.integer_chromossome, ind_size, min_value=min_value, max_value=max_value)
+    return make_generic_population(size, individual.integer_chromossome, ind_size, low=low, high=high)
 
 
 def make_permutation_population(size, ind_size):
@@ -75,20 +75,20 @@ def make_permutation_population(size, ind_size):
     return make_generic_population(size, individual.permutation_chromossome, ind_size)
 
 
-def make_uniform_population(size, ind_size, min_value=0.0, max_value=1.0):
+def make_uniform_population(size, ind_size, low=0.0, high=1.0):
     '''
     Make Uniform Population
 
     Args:
         size (int): number of individuals in the Population
         ind_size (int): the fixed size of the chromossome, defines the permutation range
-        min_value (float): minimum value that can be in the chromossome
-        max_value (float): maximum value (exclusive) that can be in the chromossome
+        low (float): minimum value that can be in the chromossome
+        high (float): maximum value (exclusive) that can be in the chromossome
 
     Returns:
         array of individuals randomly initialized with a uniform distribution
     '''
-    return make_generic_population(size, individual.uniform_chromossome, ind_size, min_value=min_value, max_value=max_value)
+    return make_generic_population(size, individual.uniform_chromossome, ind_size, low=low, high=high)
 
 
 def make_normal_population(size, ind_size, mean=0.0, sigma=1.0):

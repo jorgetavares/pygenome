@@ -19,7 +19,7 @@ def generational_integer_ea(config):
     selection_fn_kargs = config['selection_function_kargs']
 
     # build population
-    pop = population.make_integer_population(size, ind_size, min_value, max_value)
+    pop = population.make_integer_population(size, ind_size, low=low, high=high)
     pop = fitness.evaluate_population(pop, fitness_func, fitness_fn_kargs)
     logging.evolution_progress(1, pop)
 
