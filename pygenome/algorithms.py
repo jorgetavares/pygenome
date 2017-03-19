@@ -9,14 +9,8 @@ import pygenome.replacement as replacement
 import pygenome.logging as logging
 
 
-def generational_integer_ea(config):
-
-    # load config parameters
-    total_generations = config['generations'] + 1
-    fitness_fn = config['fitness_function']
-    fitness_fn_kargs = config['fitness_function_kargs']
-    selection_fn = config['selection_function']
-    selection_fn_kargs = config['selection_function_kargs']
+# TODO: use only builders here so that other functions bukd on top
+def generic_ea():
 
     # build population
     pop = population.make_integer_population(size, ind_size, low=low, high=high)
