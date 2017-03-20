@@ -23,7 +23,7 @@ def apply_mutation(pop, rate, mt_op, **kargs):
     return pop
 
 
-def flip_mutation(chromossome, rate, low=0, high=1):
+def flip_mutation(chromossome, flip_rate=None, low=0, high=1):
     '''
     Flip Mutation
 
@@ -36,8 +36,9 @@ def flip_mutation(chromossome, rate, low=0, high=1):
     Returns:
         mutated chromossome
     '''
+    rate = 1. / chromossome.size if flip_rate is None else flip_rate
     for i in range(0, chromossome.size):
-        high_value = highe + 1 # to be inclusive
+        high_value = high + 1 # to be inclusive
         if np.random.uniform() < rate:
             chromossome[i] = np.random.randint(low, high=high_value)
 

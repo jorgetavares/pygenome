@@ -14,5 +14,5 @@ def evolution_progress(generation, pop):
     Returns:
         nothing since it prints basic stats
     '''
-    samples = np.fromiter((i.fitness.value for i in pop.individuals), pop.individuals.dtype, pop.size)
+    samples = [i.fitness.value for i in pop.individuals] # TODO: redo using np.fromiter
     print('%s\t%s\t%s\t%s' % (generation, np.min(samples), np.mean(samples), np.std(samples)))

@@ -17,12 +17,33 @@ def select_population(pop, selection_fn, **kargs):
     Returns:
         selected population for mating 
     '''
-    new_pop = make_empty_population(pop.size)
+    new_pop = population.make_empty_population(pop.size)
 
     for i in range(new_pop.size):
         new_pop.individuals[i] = selection_fn(pop, **kargs)
         
     return new_pop
+
+
+def best_individual(pop):
+    '''
+    Best individual
+
+    Args:
+        pop (Population): population of individuals
+
+    Returns:
+        return a clone of the best individual in the population
+    '''
+    best_idx = 0
+    best_fit = pop.individuals[best_idx].fitness.value
+
+    for i in range(1, pop.size):
+        if pop.individuals[i].fitness.value < pop.individuals[best_idx].fitness.value:
+            best_idx = i
+            best_fit = pop.individuals[i].fitness.value
+    
+    return pop.individuals[best_idx].clone()
 
 
 def tournament_selection(pop, size=3):
@@ -36,10 +57,10 @@ def tournament_selection(pop, size=3):
     Returns:
         cloned selected individual
     '''
-    best = population.individuals[np.random.randint(pop.size)]
+    best = pop.individuals[np.random.randint(pop.size)]
 
     for step in range(2, size):
-        current = population.individuals[np.random.randint(pop.size)]
+        current = pop.individuals[np.random.randint(pop.size)]
         best = current if current.fitness.value < best.fitness.value else best
 
     return best.clone()

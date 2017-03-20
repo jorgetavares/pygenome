@@ -11,11 +11,12 @@ def apply_crossover(pop, rate, cx_op, **kargs):
         pop (Population): individuals to apply crossover, 2 by 2
         rate (float): crossover rate
         cx_op (function): crossover operator for 2 genomes
+        **kargs: keyword arguments for the crossover oeprator
 
     Return:
         population of individuals after crossover being applied in-place
     '''
-    for i in range(0, pop.size - 1, step=2):
+    for i in range(0, pop.size - 1, 2):
         if np.random.uniform() < rate:
             o1, o2 = cx_op(pop.individuals[i].genome, pop.individuals[i+1].genome, **kargs)
             pop.individuals[i].genome = o1
@@ -55,7 +56,7 @@ def uniform_crossover(g1, g2, rate=0.5):
     '''
 
     o1 = np.empty(g1.size, dtype=g1.dtype)
-    o1 = np.empty(g2.size, dtype=g2.dtype)
+    o2 = np.empty(g2.size, dtype=g2.dtype)
     
     for i in range(0, g1.size):
         if np.random.uniform() < rate:

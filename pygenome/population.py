@@ -39,10 +39,10 @@ def make_generic_population(size, make_individual_fn, *args, **kargs):
     pop = make_empty_population(size)
 
     for i in range(size):
-        pop[i] = individual.Individual()
-        pop[i].genome = make_individual_fn(*args, **kargs)
+        pop.individuals[i] = individual.Individual()
+        pop.individuals[i].genome = make_individual_fn(*args, **kargs)
        
-    return Population(pop)
+    return pop
 
 
 def make_integer_population(size, ind_size, low=0, high=1):
