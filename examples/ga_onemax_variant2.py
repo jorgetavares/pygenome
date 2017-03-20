@@ -10,6 +10,9 @@ import pygenome.replacement as replacement
 import pygenome.logging as logging
 
 
+# set seed
+np.random.seed(42)
+
 # config GA, minimization fitness function required
 fitness_fn = lambda x : 1. / fitness.onemax(x) 
 onemax_size = 10
