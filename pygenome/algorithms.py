@@ -11,7 +11,7 @@ import pygenome.logging as logging
 # framework calls
 
 # standard GA
-def genetic_algorithm_binary(fitness_fn, chr_size, pop_size=100, total_generations=10, 
+def genetic_algorithm_binary(fitness_fn, chr_size, pop_size=100, total_generations=20, 
                              cx=crossover.uniform_crossover, cx_rate=0.7, 
                              mt=mutation.flip_mutation, ind_mt_rate=1.0, op_mt_rate=0.01, 
                              select_fn=selection.tournament_selection, 
@@ -28,20 +28,18 @@ def genetic_algorithm_binary(fitness_fn, chr_size, pop_size=100, total_generatio
     # run ga
     pop = generic_ea(total_generations, make_pop, eval_pop, select_pop, apply_cx, apply_mt, replace_pop)
 
-    # do post-run operations
-    best = selection.best_individual(pop)
-    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genome))
-
+    return pop
+    
 
 # TODO: use only builders here so that other functions build on top
 def generic_ea(total_generations, make_pop, eval_pop, select_pop, apply_cx, apply_mt, replace_pop):
     # build population
     pop = make_pop()
     pop = eval_pop(pop)
-    logging.evolution_progress(1, pop)
+    logging.evolution_progress(0, pop)
 
     # evolutionary loop
-    for i in range(2, total_generations):
+    for i in range(1, total_generations):
         pop = select_pop(pop)
         offsprings = apply_cx(pop)
         offsprings = apply_mt(offsprings)
