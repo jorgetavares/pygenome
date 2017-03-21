@@ -22,6 +22,18 @@ def genetic_algorithm_binary(fitness_fn, chr_size, pop_size=100, total_generatio
                             select_fn=select_fn, elitism=elitism, generational=generational, **kargs)
     return pop
 
+# standard permutation GA
+def genetic_algorithm_permutation(fitness_fn, chr_size, pop_size=100, total_generations=20, 
+                                  cx=crossover.uniform_crossover, cx_rate=0.7, 
+                                  mt=mutation.flip_mutation, ind_mt_rate=1.0, op_mt_rate=0.01, 
+                                  select_fn=selection.tournament_selection, 
+                                  elitism=False, generational=True, **kargs):
+    # run ga
+    pop = genetic_algorithm(fitness_fn, chr_size, None, None, pop_size=pop_size, total_generations=total_generations,
+                            cx=cx, cx_rate=cx_rate, mt=mt, ind_mt_rate=ind_mt_rate, op_mt_rate=op_mt_rate,
+                            select_fn=select_fn, elitism=elitism, generational=generational, **kargs)
+    return pop
+
 # standard integer GA
 def genetic_algorithm(fitness_fn, chr_size, low, high, pop_size=100, total_generations=20, 
                       cx=crossover.uniform_crossover, cx_rate=0.7, 
@@ -37,7 +49,7 @@ def genetic_algorithm(fitness_fn, chr_size, low, high, pop_size=100, total_gener
     else:
         replace_pop = lambda p, o : replace(p, o)
     apply_cx = lambda p : crossover.apply_crossover(p, cx_rate, cx)
-    apply_mt = lambda p : mutation.apply_mutation(p, ind_mt_rate, mt, flip_rate=op_mt_rate, low=low, high=high)
+    apply_mt = lambda p : mutation.apply_mutation(p, ind_mt_rate, mt, gene_rate=op_mt_rate, low=low, high=high)
     select_pop = lambda p : selection.select_population(p, select_fn)
 
     # run ga

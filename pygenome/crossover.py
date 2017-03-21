@@ -43,6 +43,55 @@ def one_point_crossover(g1, g2):
     return (o1, o2)
 
 
+def partially_match_crossover(g1, g2):
+    '''
+    One Point Order Crossover
+
+    Args:
+        g1 (array): indivdiual 1 fixed genome
+        g2 (array): indivdiual 2 fixed genome
+    
+    Returns:
+        tuple with resulting offsprings genomes
+    '''
+    # compute start and end cut points
+    point1 = np.random.randint(g1.size)
+    point2 = np.random.randint(g1.size)
+    start = min(point1, point2)
+    end = max(point1, point2)
+   
+    # init offpsprings chromossomes
+    o1 = np.full(g1.size, -1, dtype=g1.dtype)
+    o2 = np.full(g2.size, -1, dtype=g2.dtype)
+    o1_genes = set()
+    o2_genes = set()
+
+    # copy into offsprings the parents genes 
+    for i in range(start, end):
+        o1[i] = g2[i]
+        o1_genes.add(g2[i])
+        o2[i] = g1[i]
+        o2_genes.add(g1[i])
+    
+    # compute genes that still need to pass
+    genes1 = []
+    genes2 = []
+    for i in range(0, g1.size):
+        if g1[i] not in o1_genes:
+            genes1.append(g1[i])
+        if g2[i] not in o2_genes:
+            genes2.append(g2[i]) 
+    
+    # insert remaining genes
+    for i in range(0, g1.size):
+        if o1[i] == -1 and genes1:
+            o1[i] = genes1.pop(0)
+        if o2[i] == -1 and genes2:
+            o2[i] = genes2.pop(0)
+
+    return (o1, o2)
+
+
 def uniform_crossover(g1, g2, rate=0.5):
     '''
     Uniform Crossover

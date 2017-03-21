@@ -56,23 +56,15 @@ def make_integer_population(size, ind_size, low=0, high=1):
         high (int): maximum value (inclusive) that can be in the chromossome
 
     Returns:
-        array of individuals randomly initialized to have integer chromossomes
+        array of individuals randomly initialized to have integer chromossomes. 
+        if low and high are None, it generates a permutation from 0 to ind_size - 1
     '''
-    return make_generic_population(size, individual.integer_chromossome, ind_size, low=low, high=high)
+    if low is None and high is None:
+        individual_type = individual.permutation_chromossome
+    else: 
+        individual_type = individual.integer_chromossome
 
-
-def make_permutation_population(size, ind_size):
-    '''
-    Make Permutation Population
-
-    Args:
-        size (int): number of individuals in the Population
-        ind_size (int): the fixed size of the chromossome, defines the permutation range
-
-    Returns:
-        array of individuals randomly initialized to have permutation chromossomes
-    '''
-    return make_generic_population(size, individual.permutation_chromossome, ind_size)
+    return make_generic_population(size, individual_type, ind_size, low=low, high=high)
 
 
 def make_uniform_population(size, ind_size, low=0.0, high=1.0):

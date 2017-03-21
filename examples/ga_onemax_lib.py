@@ -28,7 +28,7 @@ def genetic_algorithm_binary(fitness_fn, chr_size, pop_size=100, total_generatio
     for i in range(1, total_generations):
         pop = selection.select_population(pop, selection.tournament_selection)
         offsprings = crossover.apply_crossover(pop, cx_rate, crossover.uniform_crossover)
-        offsprings = mutation.apply_mutation(offsprings, ind_mt_rate, mutation.flip_mutation, flip_rate=op_mt_rate)
+        offsprings = mutation.apply_mutation(offsprings, ind_mt_rate, mutation.flip_mutation, gene_rate=op_mt_rate)
         if elitism:
             pop = replacement.elite_strategy(replacement.generational(pop, offsprings), selection.best_individual(pop))
         else:   
