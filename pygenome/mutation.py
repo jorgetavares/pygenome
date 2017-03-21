@@ -23,7 +23,7 @@ def apply_mutation(pop, rate, mt_op, **kargs):
     return pop
 
 
-def flip_mutation(chromossome, gene_rate=None, low=0, high=1):
+def flip_mutation(chromossome, gene_rate=None, low=0, high=1, **kargs):
     '''
     Flip Mutation
 
@@ -45,7 +45,7 @@ def flip_mutation(chromossome, gene_rate=None, low=0, high=1):
     return chromossome
 
 
-def swap_mutation(chromossome, gene_rate=None):
+def swap_mutation(chromossome, gene_rate=None, **kargs):
     '''
     Swap Mutation
 
@@ -68,7 +68,7 @@ def swap_mutation(chromossome, gene_rate=None):
     return chromossome
 
 
-def uniform_mutation(chromossome, gene_rate=None):
+def uniform_mutation(chromossome, gene_rate=None, **kargs):
     '''
     Uniform Mutation
 

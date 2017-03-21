@@ -61,10 +61,12 @@ def make_integer_population(size, ind_size, low=0, high=1):
     '''
     if low is None and high is None:
         individual_type = individual.permutation_chromossome
+        pop = make_generic_population(size, individual_type, ind_size)
     else: 
         individual_type = individual.integer_chromossome
+        pop = make_generic_population(size, individual_type, ind_size, low=low, high=high)
 
-    return make_generic_population(size, individual_type, ind_size, low=low, high=high)
+    return pop
 
 
 def make_uniform_population(size, ind_size, low=0.0, high=1.0):

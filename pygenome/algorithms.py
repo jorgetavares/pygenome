@@ -15,23 +15,23 @@ def genetic_algorithm_binary(fitness_fn, chr_size, pop_size=100, total_generatio
                              cx=crossover.uniform_crossover, cx_rate=0.7, 
                              mt=mutation.flip_mutation, ind_mt_rate=1.0, op_mt_rate=0.01, 
                              select_fn=selection.tournament_selection, 
-                             elitism=False, generational=True, **kargs):
+                             elitism=False, generational=True):
     # run ga
     pop = genetic_algorithm(fitness_fn, chr_size, 0, 1, pop_size=pop_size, total_generations=total_generations,
                             cx=cx, cx_rate=cx_rate, mt=mt, ind_mt_rate=ind_mt_rate, op_mt_rate=op_mt_rate,
-                            select_fn=select_fn, elitism=elitism, generational=generational, **kargs)
+                            select_fn=select_fn, elitism=elitism, generational=generational)
     return pop
 
 # standard permutation GA
 def genetic_algorithm_permutation(fitness_fn, chr_size, pop_size=100, total_generations=20, 
-                                  cx=crossover.uniform_crossover, cx_rate=0.7, 
-                                  mt=mutation.flip_mutation, ind_mt_rate=1.0, op_mt_rate=0.01, 
+                                  cx=crossover.partially_match_crossover, cx_rate=0.7, 
+                                  mt=mutation.swap_mutation, ind_mt_rate=1.0, op_mt_rate=None, 
                                   select_fn=selection.tournament_selection, 
-                                  elitism=False, generational=True, **kargs):
+                                  elitism=False, generational=True):
     # run ga
     pop = genetic_algorithm(fitness_fn, chr_size, None, None, pop_size=pop_size, total_generations=total_generations,
                             cx=cx, cx_rate=cx_rate, mt=mt, ind_mt_rate=ind_mt_rate, op_mt_rate=op_mt_rate,
-                            select_fn=select_fn, elitism=elitism, generational=generational, **kargs)
+                            select_fn=select_fn, elitism=elitism, generational=generational)
     return pop
 
 # standard integer GA
@@ -39,7 +39,7 @@ def genetic_algorithm(fitness_fn, chr_size, low, high, pop_size=100, total_gener
                       cx=crossover.uniform_crossover, cx_rate=0.7, 
                       mt=mutation.flip_mutation, ind_mt_rate=1.0, op_mt_rate=0.01, 
                       select_fn=selection.tournament_selection, 
-                      elitism=False, generational=True, **kargs):
+                      elitism=False, generational=True):
     # config ga components
     make_pop = lambda : population.make_integer_population(pop_size, chr_size, low=low, high=high)
     eval_pop = lambda p : fitness.evaluate_population(p, fitness_fn)
