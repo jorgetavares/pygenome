@@ -8,7 +8,6 @@ import pygenome.individual as individual
 import pygenome.fitness as fitness
 import pygenome.selection as selection
 
-#TODO: BUG: verify why elistism is not working
 
 # fitness function: measures the sortness of a permutation
 def sorted_permutation(vector):
@@ -18,19 +17,19 @@ def sorted_permutation(vector):
             unsorted -= 1
     return unsorted    
 
-permutation_size = 20
+permutation_size = 10
 
 # GA 1
 def generational_no_elitism():
     np.random.seed(42)
-    pop = algo.genetic_algorithm_permutation(sorted_permutation, permutation_size, total_generations=30)
+    pop = algo.genetic_algorithm_permutation(sorted_permutation, permutation_size, total_generations=25)
     best = selection.best_individual(pop)
     print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genome))
 
 # GA 2
 def generational_with_elitism():
     np.random.seed(42)
-    pop = algo.genetic_algorithm_permutation(sorted_permutation, permutation_size, total_generations=30, elitism=True)
+    pop = algo.genetic_algorithm_permutation(sorted_permutation, permutation_size, total_generations=25, elitism=True)
     best = selection.best_individual(pop)
     print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genome))
 

@@ -3,7 +3,7 @@ import pygenome.population as population
 import pygenome.fitness as fitness
 
 
-def evolution_progress(generation, pop):
+def evolution_progress(generation, pop, msg=None):
     '''
     Evolution Progress
 
