@@ -25,6 +25,27 @@ def select_population(pop, selection_fn, **kargs):
     return new_pop
 
 
+def select_steadystate_population(pop, selection_fn, steady_state_size=2, **kargs):
+    '''
+    Select Steady-State Population
+
+    Args:
+        pop (Population): population to apply selection
+        selection_fn (function): selection function
+        steady_state_size (int): size of parents to select
+        **kargs: keyword arguments that selection_fn might have
+
+    Returns:
+        selected  individuals for steady state mating 
+    '''
+    new_pop = population.make_empty_population(steady_state_size)
+
+    for i in range(steady_state_size):
+        new_pop.individuals[i] = selection_fn(pop, **kargs)
+        
+    return new_pop
+
+
 def best_individual(pop):
     '''
     Best individual

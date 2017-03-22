@@ -43,8 +43,12 @@ def genetic_algorithm(fitness_fn, chr_size, low, high, pop_size=100, total_gener
     # config ga components
     make_pop = lambda : population.make_integer_population(pop_size, chr_size, low=low, high=high)
     eval_pop = lambda p : fitness.evaluate_population(p, fitness_fn)
-    # config replacement strategy
+    
+    # config selection/replacement strategy
     replace = replacement.generational if generational else replacement.steady_state
+    select = selection.select_population if generational else selection.select_steadystate_population
+    select_pop = lambda p : select(p, select_fn)
+
     if elitism:
         def replace_pop(p, o):
            b = selection.best_individual(p)
@@ -53,11 +57,11 @@ def genetic_algorithm(fitness_fn, chr_size, low, high, pop_size=100, total_gener
     else:
         def replace_pop(p, o):
            return replace(p, o)
+
     # operators and selection
     apply_cx = lambda p : crossover.apply_crossover(p, cx_rate, cx)
     apply_mt = lambda p : mutation.apply_mutation(p, ind_mt_rate, mt, gene_rate=op_mt_rate, low=low, high=high)
-    select_pop = lambda p : selection.select_population(p, select_fn)
-
+    
     # run ga
     pop = generic_ea(total_generations, make_pop, eval_pop, select_pop, apply_cx, apply_mt, replace_pop)
 
