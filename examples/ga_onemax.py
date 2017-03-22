@@ -27,6 +27,20 @@ def generational_with_elitism():
     best = selection.best_individual(pop)
     print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genome))
 
+# GA 3
+def steady_state_no_elitism():
+    np.random.seed(42)
+    pop = algo.genetic_algorithm_binary(fitness_fn, onemax_size, generational=False, total_generations=200)
+    best = selection.best_individual(pop)
+    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genome))
+
+# GA 4
+def steady_state_with_elitism():
+    np.random.seed(42)
+    pop = algo.genetic_algorithm_binary(fitness_fn, onemax_size, generational=False, total_generations=200, elitism=True)
+    best = selection.best_individual(pop)
+    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genome))
+
 # entry point
 if __name__ == "__main__":
     print('GA 1: generational, no elitism')
@@ -34,3 +48,9 @@ if __name__ == "__main__":
 
     print('GA 2: generational, with elitism')
     generational_with_elitism()    
+
+    print('GA 3: steady state, no elitism')
+    steady_state_no_elitism()   
+
+    print('GA 4: steady state, with elitism')
+    steady_state_with_elitism()   
