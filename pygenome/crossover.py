@@ -116,3 +116,65 @@ def uniform_crossover(g1, g2, rate=0.5):
             o2[i] = g1[i]
 
     return (o1, o2)
+
+
+# ES functions
+def apply_global_crossover(pop, cx_op, **kargs):
+    '''
+    Apply Global Crossover
+
+    Args:
+        pop (Population): individuals to apply crossover, 1 by 1, where parent 2 is randomly picked
+        cx_op (function): crossover operator for 2 genomes
+        **kargs: keyword arguments for the crossover oeprator
+
+    Return:
+        population of individuals after crossover being applied in-place
+    '''
+    for i in range(0, pop.size):
+        pop.individuals[i].genome = cx_op(pop.individuals[i].genome, 
+                                          pop.individuals[np.random.randint(pop.size)].genome, 
+                                          **kargs)
+    
+    return pop
+
+
+def intermediary_crossover(g1, g2):
+    '''
+    Intermediary Crossover
+
+    Args:
+        g1 (array): indivdiual 1 fixed genome
+        g2 (array): indivdiual 2 fixed genome
+    
+    Returns:
+        single offspring from 2 parents
+    '''
+    o1 = np.empty(g1.size, dtype=g1.dtype)
+
+    for i in range(g1.size):
+        o1[i] = (g1[i] + g2[i]) / 2.0
+
+    return o1
+
+
+def discrete_crossover(g1, g2):
+    '''
+    Discrete Crossover
+
+    Args:
+        g1 (array): indivdiual 1 fixed genome
+        g2 (array): indivdiual 2 fixed genome
+    
+    Returns:
+        single offspring from 2 parents
+    '''
+    o1 = np.empty(g1.size, dtype=g1.dtype)
+
+    for i in range(g1.size):
+        if np.random.uniform() < 0.5:
+            o1[i] = g1[i]
+        else:
+            o1[i] = g2[i]
+
+    return o1
