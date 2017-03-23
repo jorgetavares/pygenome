@@ -56,3 +56,50 @@ def elite_strategy(pop, best):
     pop.individuals[np.random.randint(pop.size)] = best
 
     return pop
+
+
+# ES stype replacement
+
+def mu_comma_lambda_replacement(pop, offsprings):
+    '''
+    Mu Comma Lambda replacement (mu, lambda)
+
+    Args:
+        pop (Population): original individuals
+        offsprings (Popultion): offpsrings that will be inserted into pop
+
+    Returns:
+        popuplation from sorted offsprings
+    '''
+    # get offpsrings sorted indexes
+    fitness_values = [i.fitness.value for i in offpsrings.individuals]
+    sort_indexes = np.argsort(fitness_values)
+    
+    # replace population with sorted offpsrings
+    for i in range(pop.size):
+        pop.individuals[i] = offsprings.individuals[sort_indexes[i]].clone()
+
+    return pop 
+
+
+def mu_plus_lambda_replacement(pop, offsprings):
+    '''
+    Mu Plus Lambda replacement (mu + lambda)
+
+    Args:
+        pop (Population): original individuals
+        offsprings (Popultion): offpsrings that will be inserted into pop
+
+    Returns:
+        popuplation from sorted original population plus offsprings
+    '''
+    # joins individuals and get sorted indexes 
+    joint_pop = np.concatenate((pop, offsprings))
+    fitness_values = [i.fitness.value for i in joint_pop.individuals]
+    sort_indexes = np.argsort(fitness_values)
+
+    # replace population with sorted joint populaton
+    for i in range(pop.size):
+        pop.individuals[i] = joint_pop.individuals[sort_indexes[i]].clone()
+
+    return pop
