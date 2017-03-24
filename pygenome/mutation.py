@@ -121,7 +121,7 @@ def uncorrelated_one_step_mutation(chromossome, epsilon):
     for i in range(chromossome.size):
         offspring[i] = chromossome[i] + sigma * np.random.normal()
 
-    offspring[-1] = sigma
+    offspring[-1] = sigma # last is the self-adaptive rate, not part of the solution
 
     return offspring
 
