@@ -116,7 +116,7 @@ def uncorrelated_one_step_mutation(chromossome, epsilon):
     tau = 1.0 / np.sqrt(chromossome.size - 1)
     sigma = sigma_check(chromossome[-1] * np.exp(tau * np.random.normal(), epsilon))
 
-    offspring = np.empty(chromossome.size, dtype=chromossome.dtype=float)
+    offspring = np.empty(chromossome.size, dtype=chromossome.dtype)
 
     for i in range(chromossome.size):
         offspring[i] = chromossome[i] + sigma * np.random.normal()
