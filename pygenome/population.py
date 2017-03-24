@@ -11,6 +11,9 @@ class Population(object):
         self.individuals = individuals
         self.size = individuals.size if individual is not None else 0
 
+    def clone(self):
+        return deepcopy(self)
+        
 
 def make_empty_population(size):
     '''
