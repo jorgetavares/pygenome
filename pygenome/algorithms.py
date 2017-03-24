@@ -67,8 +67,8 @@ def genetic_algorithm(fitness_fn, chr_size, low, high, pop_size=100, total_gener
 
     return pop
 
-# generic EA franework
-# TODO: use only builders here so that other functions build on top
+
+# generic EA framework
 def generic_ea(total_generations, make_pop, eval_pop, select_pop, apply_cx, apply_mt, replace_pop):
     # build population
     pop = make_pop()
@@ -82,6 +82,52 @@ def generic_ea(total_generations, make_pop, eval_pop, select_pop, apply_cx, appl
         offsprings = apply_mt(offsprings)
         pop = replace_pop(pop, offsprings)
         pop = eval_pop(pop)
+        logging.evolution_progress(i, pop)
+    
+    # return final population
+    return pop
+
+
+def evolutionary_strategy(fitness_fn, chr_size, low, high, pop_size=100, total_generations=20, 
+                          mt=mutation.uncorrelated_one_step_mutation,  
+                          cx=crossover.intermediary_crossover, pool_size=100, epsilon=0.000001, 
+                          replace=replacement.mu_comma_lambda_replacement,
+                          pop_init=uniform):
+    
+    # chromossome size is extended to have self-adaptive mutation rates
+    # according to the chosen operator: one_step (+1) or n_steps (*2)
+    ext_chr = chr_size + 1 if mt == mutation.uncorrelated_one_step_mutation else chr_size * 2
+
+    if pop_init == 'uniform':
+        init_pop = lambda : population.make_uniform_population(pop_size, ext_chr, low=low, high=high) 
+    else:
+        init_pop = lambda : population.make_normal_population(pop_size, ext_chr, mean=low, sigma=high)
+    
+    eval_pop = lambda p : fitness.evaluate_population(p, fitness_fn)
+    
+    # operators and selection
+    apply_mt = lambda p : mutation.apply_global_mutation(p, pool_size, mt, epsilon=epsilon)
+    apply_cx = lambda p : crossover.apply_global_crossover(p, cx)
+    
+    # run es
+    pop = generic_es(total_generations, make_pop, eval_pop, apply_mt, apply_cx, replace_pop)
+
+    return pop    
+   
+
+# generic ES framework
+def generic_es(total_generations, make_pop, eval_pop, apply_mt, apply_cx, replace_pop):
+    # build population
+    pop = make_pop()
+    pop = eval_pop(pop)
+    logging.evolution_progress(0, pop)
+
+    # evolutionary loop
+    for i in range(1, total_generations):
+        offsprings = apply_mt(pop)
+        offsprings = apply_cx(offsprings)
+        offsprings = eval_pop(offsprings)
+        pop = replace_pop(pop, offsprings)
         logging.evolution_progress(i, pop)
     
     # return final population
