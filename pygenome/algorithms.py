@@ -88,20 +88,20 @@ def generic_ea(total_generations, make_pop, eval_pop, select_pop, apply_cx, appl
     return pop
 
 
-def evolutionary_strategy(fitness_fn, chr_size, low, high, pop_size=100, total_generations=20, 
+def evolutionary_strategy(fitness_fn, chr_size, low, high, pop_size=30, total_generations=100, 
                           mt=mutation.uncorrelated_one_step_mutation,  
-                          cx=crossover.intermediary_crossover, pool_size=100, epsilon=0.000001, 
-                          replace=replacement.mu_comma_lambda_replacement,
-                          pop_init=uniform):
+                          cx=crossover.intermediary_crossover, pool_size=100, epsilon=0.000000001, 
+                          replace_pop=replacement.mu_comma_lambda_replacement,
+                          make_pop='uniform'):
     
     # chromossome size is extended to have self-adaptive mutation rates
     # according to the chosen operator: one_step (+1) or n_steps (*2)
     ext_chr = chr_size + 1 if mt == mutation.uncorrelated_one_step_mutation else chr_size * 2
 
-    if pop_init == 'uniform':
-        init_pop = lambda : population.make_uniform_population(pop_size, ext_chr, low=low, high=high) 
+    if make_pop == 'uniform':
+        make_pop = lambda : population.make_uniform_population(pop_size, ext_chr, low=low, high=high) 
     else:
-        init_pop = lambda : population.make_normal_population(pop_size, ext_chr, mean=low, sigma=high)
+        make_pop = lambda : population.make_normal_population(pop_size, ext_chr, mean=low, sigma=high)
     
     eval_pop = lambda p : fitness.evaluate_population(p, fitness_fn)
     
