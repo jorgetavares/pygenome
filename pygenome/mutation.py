@@ -84,3 +84,60 @@ def uniform_mutation(chromossome, gene_rate=None, **kargs):
             chromossome[i] = np.random.uniform()
 
     return chromossome
+
+
+# ES functions
+def apply_global_mutation(pop, pool_size, mt_op, **kargs):
+    '''
+    Apply Global Mutation
+
+    Args:
+        pop (Population): individuals to apply mutation, randomly picked until pool_size
+        pool_size (int): number of individuals that will be applied mutation
+        mt_op (function): mutation operator
+        **kargs: keyword arguments for the crossover oeprator
+
+    Return:
+        population of mutated individuals 
+    '''
+    new_pop = population.make_empty_population(pool_size)
+
+    for i in range(0, pool_size):
+        new_pop.individuals[i].genome = mt_op(pop.individuals[np.random.randint(pop.size)].genome, **kargs)
+    
+    return new_pop
+
+
+def sigma_check(value, epsilon):
+    return epsilon if value < epsilon else value
+
+
+def uncorrelated_one_step_mutation(chromossome, epsilon):
+    tau = 1.0 / np.sqrt(chromossome.size - 1)
+    sigma = sigma_check(chromossome[-1] * np.exp(tau * np.random.normal(), epsilon))
+
+    offspring = np.empty(chromossome.size, dtype=chromossome.dtype=float)
+
+    for i in range(chromossome.size):
+        offspring[i] = chromossome[i] + sigma * np.random.normal()
+
+    offspring[-1] = sigma
+
+    return offspring
+
+
+def uncorrelated_n_steps_mutation(chromossome, epsilon):
+    n = chromossome.size / 2
+    tau1 = 1.0 / np.srqt(2.0 * n)
+    tau2 = 1.0 / np.srqt(2.0 * np.sqrt(n))
+    
+    sigmas = np.array(chromossome[n:])
+    for i in range(sigmas.size):
+        sigmas[i] = sigma_check(sigmas[i] * np.exp(tau1 * np.random.normal() + tau2 * np.random.normal()), epsilon)
+
+    values = np.array(chromossome[:n])
+    for i in range(values.size):
+        values[i] = values[i] + sigmas[i] * np.random.normal()
+
+    return np.concatenate((values, sigmas))
+    
