@@ -53,6 +53,6 @@ def sphere_model(vector):
     Returns:
         computed solution
     '''
-    spehere = np.vectorize(lambda x : x ** 2.0)
+    sphere = np.vectorize(lambda x : x ** 2.0)
 
     return np.sum(sphere(vector))
