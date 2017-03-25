@@ -23,4 +23,5 @@ In the future, it's a wish that the algorithms are using multiprocessing as defa
 
 Distributed computing should also be done to allow better scalability but also more complex algorithms based on coevolution or for neuroevolution. In principle this should be achieved using MPI.
 
-## 
+## Neuroevolution
+PyGenome must be a first-class library for Neuroevolution. Besides supporting the most popular methods like NEAT, it should also allow to connect easily to a external toolkit like Keras. This will allow to do Deep Neuroevolution. The main issues here will be how to do this bridge. How much can it be abstracted? How will concurrency/distributed will play out? Right now this is just an idea/goal.
