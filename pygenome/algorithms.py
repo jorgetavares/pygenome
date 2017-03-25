@@ -90,7 +90,7 @@ def generic_ea(total_generations, make_pop, eval_pop, select_pop, apply_cx, appl
 
 def evolutionary_strategy(fitness_fn, chr_size, low, high, pop_size=30, total_generations=100, 
                           mt=mutation.uncorrelated_one_step_mutation,  
-                          cx=crossover.intermediary_crossover, pool_size=100, epsilon=0.000000001, 
+                          cx=crossover.intermediary_crossover, pool_size=100, epsilon=1e-08, 
                           replace_pop=replacement.mu_comma_lambda_replacement,
                           make_pop='uniform'):
     
@@ -121,7 +121,7 @@ def generic_es(total_generations, make_pop, eval_pop, apply_mt, apply_cx, replac
     pop = make_pop()
     pop = eval_pop(pop)
     logging.evolution_progress(0, pop)
-
+    
     # evolutionary loop
     for i in range(1, total_generations):
         offsprings = apply_mt(pop)
@@ -129,7 +129,7 @@ def generic_es(total_generations, make_pop, eval_pop, apply_mt, apply_cx, replac
         offsprings = eval_pop(offsprings)
         pop = replace_pop(pop, offsprings)
         logging.evolution_progress(i, pop)
-    
+        
     # return final population
     return pop
     

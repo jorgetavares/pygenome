@@ -125,6 +125,16 @@ def sigma_check(sigma, epsilon=1e-08):
 
 
 def uncorrelated_one_step_mutation(chromossome, epsilon=1e-08):
+    '''
+    Uncorrelated One Step Mutation
+
+    Args:
+        chromossome (float array): chromossome to be mutated. Last gene is the sigma value
+        epsilon (float): minimum value sigma can have
+
+    Returns:
+        mutated chromossome
+    '''
     tau = 1.0 / np.sqrt(chromossome.size - 1)
     sigma = sigma_check(chromossome[-1] * np.exp(tau * np.random.normal()), epsilon)
 
@@ -137,8 +147,19 @@ def uncorrelated_one_step_mutation(chromossome, epsilon=1e-08):
 
     return offspring
 
-# TODO: this operator seems to be buggy. requires investigation
+
 def uncorrelated_n_steps_mutation(chromossome, epsilon=1e-08):
+    '''
+    Uncorrelated N Steps Mutation
+
+    Args:
+        chromossome (float array): chromossome to be mutated. 
+        First half is the problem, second half sigma values
+        epsilon (float): minimum value sigma can have
+
+    Returns:
+        mutated chromossome
+    '''
     n = int(chromossome.size / 2)
     tau1 = (1.0 / np.sqrt(2.0 * n)) * np.random.normal()
     tau2 = 1.0 / np.sqrt(2.0 * np.sqrt(n))
