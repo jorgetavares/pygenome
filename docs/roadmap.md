@@ -5,11 +5,11 @@ Last update 2017/03/21.
 
 * version 0.01
 
-  + Include some of the main evolutionary paradigms: GA, ES, GP and GE.
+  + Include some of the main evolutionary paradigms: <s>GA, ES</s>, GP and GE.
   + Representation: single chromossome only
-  + Representation: binary, integer, permutation, floats, parse trees
-  + Replacement: generational and steady-state, basic elitism
-  + Selection: roulette-wheel and tournament
+  + Representation: <s>binary, integer, permutation, floats,</s> parse trees
+  + Replacement: <s>generational, steady-state, basic elitism, mu,lambda, mu+lambda</s>
+  + Selection: <s>roulette-wheel and tournament</s>
   + Selection: minimization only (maximization problems must convert)
   + Crossover and mutation: only minimum required set to have main EAs working
   + Fitness: single objective
