@@ -1,7 +1,7 @@
 # Roadmap
 
 This is an intial roadmap/wish list for pygenome.
-Last update 2017/03/21.
+Last update 2017/03/26.
 
 * version 0.01
 
@@ -19,9 +19,10 @@ Last update 2017/03/21.
 
 * version 0.02
 
-  + Fitness: multi-objective (NSGA-2)
+  + Fitness: multi-objective (NSGA-2, SPEAR)
   + ES: add CMA-ES
   + GP: add strongly-typed 
+  + Paradigm: DE
 
 * version 0.03
 
