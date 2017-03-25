@@ -110,11 +110,21 @@ def apply_global_mutation(pop, pool_size, mt_op, **kargs):
     return new_pop
 
 
-def sigma_check(value, epsilon):
-    return epsilon if value < epsilon else value
+def sigma_check(sigma, epsilon=1e-08):
+    '''
+    Sigma Check
+
+    Args:
+        sigma (float): sigma value to be bounded
+        epsilon (flota): minimum vale for sigma
+    
+    Returns:
+        bounded sigma
+    '''
+    return epsilon if sigma < epsilon else sigma
 
 
-def uncorrelated_one_step_mutation(chromossome, epsilon):
+def uncorrelated_one_step_mutation(chromossome, epsilon=1e-08):
     tau = 1.0 / np.sqrt(chromossome.size - 1)
     sigma = sigma_check(chromossome[-1] * np.exp(tau * np.random.normal()), epsilon)
 
@@ -128,7 +138,7 @@ def uncorrelated_one_step_mutation(chromossome, epsilon):
     return offspring
 
 # TODO: this operator seems to be buggy. requires investigation
-def uncorrelated_n_steps_mutation(chromossome, epsilon):
+def uncorrelated_n_steps_mutation(chromossome, epsilon=1e-08):
     n = int(chromossome.size / 2)
     tau1 = (1.0 / np.sqrt(2.0 * n)) * np.random.normal()
     tau2 = 1.0 / np.sqrt(2.0 * np.sqrt(n))
