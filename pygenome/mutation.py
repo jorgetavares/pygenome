@@ -79,6 +79,7 @@ def uniform_mutation(chromossome, gene_rate=None, **kargs):
     Returns:
         mutated chromossome
     '''
+    rate = 1. / chromossome.size if gene_rate is None else gene_rate
     for i in range(0, chromossome.size):
         if np.random.uniform() < rate:
             chromossome[i] = np.random.uniform()
