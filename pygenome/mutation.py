@@ -1,6 +1,5 @@
 import numpy as np
-import pygenome.individual as individual
-import pygenome.population as population
+import pygenome as pg
 
 
 def apply_mutation(pop, rate, mt_op, **kargs):

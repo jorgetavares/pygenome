@@ -1,5 +1,5 @@
 import numpy as np
-import pygenome.individual as individual
+import pygenome as pg
 
 
 class Population(object):
@@ -9,7 +9,7 @@ class Population(object):
 
     def __init__(self, individuals=None):
         self.individuals = individuals
-        self.size = individuals.size if individual is not None else 0
+        self.size = individuals.size if individuals is not None else 0
 
     def clone(self):
         return deepcopy(self)
@@ -25,7 +25,7 @@ def make_empty_population(size):
     Returns:
         empty population of fixed size to store new individuals
     '''
-    return Population(individuals=np.empty(size, dtype=individual.Individual))
+    return Population(individuals=np.empty(size, dtype=pg.Individual))
 
 
 def make_generic_population(size, make_individual_fn, *args, **kargs):
@@ -42,7 +42,7 @@ def make_generic_population(size, make_individual_fn, *args, **kargs):
     pop = make_empty_population(size)
 
     for i in range(size):
-        pop.individuals[i] = individual.Individual()
+        pop.individuals[i] = pg.Individual()
         pop.individuals[i].genome = make_individual_fn(*args, **kargs)
        
     return pop
@@ -63,10 +63,10 @@ def make_integer_population(size, ind_size, low=0, high=1):
         if low and high are None, it generates a permutation from 0 to ind_size - 1
     '''
     if low is None and high is None:
-        individual_type = individual.permutation_chromossome
+        individual_type = pg.permutation_chromossome
         pop = make_generic_population(size, individual_type, ind_size)
     else: 
-        individual_type = individual.integer_chromossome
+        individual_type = pg.integer_chromossome
         pop = make_generic_population(size, individual_type, ind_size, low=low, high=high)
 
     return pop
@@ -85,7 +85,7 @@ def make_uniform_population(size, ind_size, low=0.0, high=1.0):
     Returns:
         array of individuals randomly initialized with a uniform distribution
     '''
-    return make_generic_population(size, individual.uniform_chromossome, ind_size, low=low, high=high)
+    return make_generic_population(size, pg.uniform_chromossome, ind_size, low=low, high=high)
 
 
 def make_normal_population(size, ind_size, mean=0.0, sigma=1.0):
@@ -101,4 +101,4 @@ def make_normal_population(size, ind_size, mean=0.0, sigma=1.0):
     Returns:
         array of individuals randomly initialized with a normal distribution
     '''
-    return make_generic_population(size, individual.normal_chromossome, ind_size, mean=mean, sigma=sigma)  
+    return make_generic_population(size, pg.normal_chromossome, ind_size, mean=mean, sigma=sigma)  

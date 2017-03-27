@@ -2,12 +2,7 @@ import sys
 sys.path.append('../')
 
 import numpy as np
-
-import pygenome.algorithms as algo
-import pygenome.individual as individual
-import pygenome.fitness as fitness
-import pygenome.selection as selection
-
+import pygenome as pg
 
 # fitness function: measures the sortness of a permutation
 def sorted_permutation(vector):
@@ -22,15 +17,15 @@ permutation_size = 10
 # GA 1
 def generational_no_elitism():
     np.random.seed(42)
-    pop = algo.genetic_algorithm_permutation(sorted_permutation, permutation_size, total_generations=25)
-    best = selection.best_individual(pop)
+    pop = pg.genetic_algorithm_permutation(sorted_permutation, permutation_size, total_generations=25)
+    best = pg.best_individual(pop)
     print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genome))
 
 # GA 2
 def generational_with_elitism():
     np.random.seed(42)
-    pop = algo.genetic_algorithm_permutation(sorted_permutation, permutation_size, total_generations=25, elitism=True)
-    best = selection.best_individual(pop)
+    pop = pg.genetic_algorithm_permutation(sorted_permutation, permutation_size, total_generations=25, elitism=True)
+    best = pg.best_individual(pop)
     print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genome))
 
 # entry point

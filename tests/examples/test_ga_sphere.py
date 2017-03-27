@@ -1,7 +1,7 @@
 import sys
 sys.path.append('../../')
 
-from examples.ga_sphere import *
+from  examples.ga_sphere import *
 
 stdout = """0	167.494019384	255.105414164	36.7647086254
 1	155.867199569	230.002133389	33.7283523862

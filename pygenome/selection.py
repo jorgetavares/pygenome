@@ -1,8 +1,5 @@
 import numpy as np
-
-import pygenome.individual as individual
-import pygenome.population as population
-import pygenome.fitness as fitness
+import pygenome as pg
 
 
 def select_population(pop, selection_fn, **kargs):
@@ -17,7 +14,7 @@ def select_population(pop, selection_fn, **kargs):
     Returns:
         selected population for mating 
     '''
-    new_pop = population.make_empty_population(pop.size)
+    new_pop = pg.make_empty_population(pop.size)
 
     for i in range(new_pop.size):
         new_pop.individuals[i] = selection_fn(pop, **kargs)
@@ -38,7 +35,7 @@ def select_steadystate_population(pop, selection_fn, steady_state_size=2, **karg
     Returns:
         selected  individuals for steady state mating 
     '''
-    new_pop = population.make_empty_population(steady_state_size)
+    new_pop = pg.make_empty_population(steady_state_size)
 
     for i in range(steady_state_size):
         new_pop.individuals[i] = selection_fn(pop, **kargs)

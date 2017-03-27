@@ -1,6 +1,5 @@
 import numpy as np
-import pygenome.population as population
-import pygenome.fitness as fitness
+import pygenome as pg
 
 
 def evolution_progress(generation, pop, msg=None):
