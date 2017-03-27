@@ -68,7 +68,7 @@ def swap_mutation(chromossome, gene_rate=None, **kargs):
     return chromossome
 
 
-def uniform_mutation(chromossome, gene_rate=None, **kargs):
+def uniform_mutation(chromossome, gene_rate=None, low=0.0, high=1.0, **kargs):
     '''
     Uniform Mutation
 
@@ -82,7 +82,7 @@ def uniform_mutation(chromossome, gene_rate=None, **kargs):
     rate = 1. / chromossome.size if gene_rate is None else gene_rate
     for i in range(0, chromossome.size):
         if np.random.uniform() < rate:
-            chromossome[i] = np.random.uniform()
+            chromossome[i] = np.random.uniform(low=low, high=high)
 
     return chromossome
 

@@ -41,7 +41,11 @@ def genetic_algorithm(fitness_fn, chr_size, low, high, pop_size=100, total_gener
                       select_fn=selection.tournament_selection, 
                       elitism=False, generational=True):
     # config ga components
-    make_pop = lambda : population.make_integer_population(pop_size, chr_size, low=low, high=high)
+    if type(low) is float and type(high) is float:
+        make_pop_type = population.make_uniform_population
+    else:
+        make_pop_type = population.make_integer_population
+    make_pop = lambda : make_pop_type(pop_size, chr_size, low=low, high=high)
     eval_pop = lambda p : fitness.evaluate_population(p, fitness_fn)
     
     # config selection/replacement strategy
