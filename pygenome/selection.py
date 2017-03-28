@@ -64,6 +64,27 @@ def best_individual(pop):
     return pop.individuals[best_idx].clone()
 
 
+def worst_individual(pop):
+    '''
+    Worst individual
+
+    Args:
+        pop (Population): population of individuals
+
+    Returns:
+        return a clone of the worst individual in the population
+    '''
+    worst_idx = 0
+    worst_fit = pop.individuals[worst_idx].fitness.value
+
+    for i in range(1, pop.size):
+        if pop.individuals[i].fitness.value > pop.individuals[worst_idx].fitness.value:
+            worst_idx = i
+            worst_fit = pop.individuals[i].fitness.value
+    
+    return pop.individuals[worst_idx].clone()
+
+
 def tournament_selection(pop, size=3):
     '''
     Tournament Selection (minimization)
