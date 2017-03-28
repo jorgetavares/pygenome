@@ -1,2 +1,1 @@
-from algorithms import *
-from replacement import *
+__all__ = ["algorithms"]

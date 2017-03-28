@@ -1,2 +1,1 @@
-from individual import *
-from population import *
+__all__ = ["individual", "population"]

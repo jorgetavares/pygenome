@@ -1,3 +1,1 @@
-from crossover import *
-from mutation import *
-from selection import *
+__all__ = ["crossover", "mutation", "selection", "replacement"]
