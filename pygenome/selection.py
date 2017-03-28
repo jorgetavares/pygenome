@@ -85,6 +85,19 @@ def worst_individual(pop):
     return pop.individuals[worst_idx].clone()
 
 
+def random_selection(pop):
+    '''
+    Random Selection
+
+    Args:
+        pop (population): population of individuals
+
+    Returns:
+        random cloned individual 
+    '''
+    return pop.individuals[np.random.randint(pop.size)].clone()
+
+
 def tournament_selection(pop, size=3):
     '''
     Tournament Selection (minimization)
