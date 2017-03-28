@@ -53,13 +53,21 @@ def genetic_algorithm(fitness_fn, chr_size, low, high, pop_size=100,
         make_pop_type = pg.make_uniform_population
     else:
         make_pop_type = pg.make_integer_population
-    make_pop = lambda: make_pop_type(pop_size, chr_size, low=low, high=high)
-    eval_pop = lambda p: pg.evaluate_population(p, fitness_fn)
+
+    def make_pop():
+        return make_pop_type(pop_size, chr_size, low=low, high=high)
+
+    def eval_pop(p):
+        return pg.evaluate_population(p, fitness_fn)
 
     # config selection/replacement strategy
     replace = pg.generational if generational else pg.steady_state
-    select = pg.select_population if generational else pg.select_steadystate_population
-    select_pop = lambda p: select(p, select_fn)
+    if generational:
+        select = pg.select_population
+    else:
+        select = pg.select_steadystate_population
+
+    def select_pop(p): return select(p, select_fn)
 
     if elitism:
         def replace_pop(p, o):
@@ -71,8 +79,12 @@ def genetic_algorithm(fitness_fn, chr_size, low, high, pop_size=100,
             return replace(p, o)
 
     # operators and selection
-    apply_cx = lambda p: pg.apply_crossover(p, cx_rate, cx)
-    apply_mt = lambda p: pg.apply_mutation(p, ind_mt_rate, mt, gene_rate=op_mt_rate, low=low, high=high)
+    def apply_cx(p):
+        return pg.apply_crossover(p, cx_rate, cx)
+
+    def apply_mt(p):
+        return pg.apply_mutation(
+            p, ind_mt_rate, mt, gene_rate=op_mt_rate, low=low, high=high)
 
     # run ga
     pop = generic_ea(total_generations, make_pop, eval_pop,
@@ -111,18 +123,29 @@ def evolutionary_strategy(fitness_fn, chr_size, low, high, pop_size=30,
                           make_pop='uniform'):
     # chromossome size is extended to have self-adaptive mutation rates
     # according to the chosen operator: one_step (+1) or n_steps (*2)
-    ext_chr = chr_size + 1 if mt == pg.uncorrelated_one_step_mutation else chr_size * 2
+    if mt == pg.uncorrelated_one_step_mutation:
+        ext_chr = chr_size + 1
+    else:
+        ext_chr = chr_size * 2
 
     if make_pop == 'uniform':
-        make_pop = lambda: pg.make_uniform_population(pop_size, ext_chr, low=low, high=high)
+        def make_pop():
+            return pg.make_uniform_population(
+                pop_size, ext_chr, low=low, high=high)
     else:
-        make_pop = lambda: pg.make_normal_population(pop_size, ext_chr, mean=low, sigma=high)
+        def make_pop():
+            return pg.make_normal_population(
+                pop_size, ext_chr, mean=low, sigma=high)
 
-    eval_pop = lambda p: pg.evaluate_population(p, fitness_fn)
+    def eval_pop(p):
+        return pg.evaluate_population(p, fitness_fn)
 
     # operators and selection
-    apply_mt = lambda p: pg.apply_global_mutation(p, pool_size, mt, epsilon=epsilon)
-    apply_cx = lambda p: pg.apply_global_crossover(p, cx)
+    def apply_mt(p):
+        return pg.apply_global_mutation(p, pool_size, mt, epsilon=epsilon)
+
+    def apply_cx(p):
+        return pg.apply_global_crossover(p, cx)
 
     # run es
     pop = generic_es(total_generations, make_pop,
