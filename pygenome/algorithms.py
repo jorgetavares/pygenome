@@ -1,72 +1,89 @@
 import numpy as np
 import pygenome as pg
 
-# framework calls
 
 # standard binary GA
-def genetic_algorithm_binary(fitness_fn, chr_size, pop_size=100, total_generations=20, 
-                             cx=pg.uniform_crossover, cx_rate=0.7, 
-                             mt=pg.flip_mutation, ind_mt_rate=1.0, op_mt_rate=0.01, 
-                             select_fn=pg.tournament_selection, 
+def genetic_algorithm_binary(fitness_fn, chr_size, pop_size=100,
+                             total_generations=20,
+                             cx=pg.uniform_crossover, cx_rate=0.7,
+                             mt=pg.flip_mutation, ind_mt_rate=1.0,
+                             op_mt_rate=0.01,
+                             select_fn=pg.tournament_selection,
                              elitism=False, generational=True):
     # run ga
-    pop = genetic_algorithm(fitness_fn, chr_size, 0, 1, pop_size=pop_size, total_generations=total_generations,
-                            cx=cx, cx_rate=cx_rate, mt=mt, ind_mt_rate=ind_mt_rate, op_mt_rate=op_mt_rate,
-                            select_fn=select_fn, elitism=elitism, generational=generational)
+    pop = genetic_algorithm(fitness_fn, chr_size, 0, 1, pop_size=pop_size,
+                            total_generations=total_generations,
+                            cx=cx, cx_rate=cx_rate, mt=mt,
+                            ind_mt_rate=ind_mt_rate,
+                            op_mt_rate=op_mt_rate,
+                            select_fn=select_fn, elitism=elitism,
+                            generational=generational)
     return pop
+
 
 # standard permutation GA
-def genetic_algorithm_permutation(fitness_fn, chr_size, pop_size=100, total_generations=20, 
-                                  cx=pg.partially_match_crossover, cx_rate=0.7, 
-                                  mt=pg.swap_mutation, ind_mt_rate=1.0, op_mt_rate=None, 
-                                  select_fn=pg.tournament_selection, 
+def genetic_algorithm_permutation(fitness_fn, chr_size, pop_size=100,
+                                  total_generations=20,
+                                  cx=pg.partially_match_crossover, cx_rate=0.7,
+                                  mt=pg.swap_mutation, ind_mt_rate=1.0,
+                                  op_mt_rate=None,
+                                  select_fn=pg.tournament_selection,
                                   elitism=False, generational=True):
     # run ga
-    pop = genetic_algorithm(fitness_fn, chr_size, None, None, pop_size=pop_size, total_generations=total_generations,
-                            cx=cx, cx_rate=cx_rate, mt=mt, ind_mt_rate=ind_mt_rate, op_mt_rate=op_mt_rate,
-                            select_fn=select_fn, elitism=elitism, generational=generational)
+    pop = genetic_algorithm(fitness_fn, chr_size, None, None,
+                            pop_size=pop_size,
+                            total_generations=total_generations,
+                            cx=cx, cx_rate=cx_rate, mt=mt,
+                            ind_mt_rate=ind_mt_rate,
+                            op_mt_rate=op_mt_rate,
+                            select_fn=select_fn, elitism=elitism,
+                            generational=generational)
     return pop
 
+
 # standard integer GA
-def genetic_algorithm(fitness_fn, chr_size, low, high, pop_size=100, total_generations=20, 
-                      cx=pg.uniform_crossover, cx_rate=0.7, 
-                      mt=pg.flip_mutation, ind_mt_rate=1.0, op_mt_rate=0.01, 
-                      select_fn=pg.tournament_selection, 
+def genetic_algorithm(fitness_fn, chr_size, low, high, pop_size=100,
+                      total_generations=20,
+                      cx=pg.uniform_crossover, cx_rate=0.7,
+                      mt=pg.flip_mutation, ind_mt_rate=1.0, op_mt_rate=0.01,
+                      select_fn=pg.tournament_selection,
                       elitism=False, generational=True):
     # config ga components
     if type(low) is float and type(high) is float:
         make_pop_type = pg.make_uniform_population
     else:
         make_pop_type = pg.make_integer_population
-    make_pop = lambda : make_pop_type(pop_size, chr_size, low=low, high=high)
-    eval_pop = lambda p : pg.evaluate_population(p, fitness_fn)
-    
+    make_pop = lambda: make_pop_type(pop_size, chr_size, low=low, high=high)
+    eval_pop = lambda p: pg.evaluate_population(p, fitness_fn)
+
     # config selection/replacement strategy
     replace = pg.generational if generational else pg.steady_state
     select = pg.select_population if generational else pg.select_steadystate_population
-    select_pop = lambda p : select(p, select_fn)
+    select_pop = lambda p: select(p, select_fn)
 
     if elitism:
         def replace_pop(p, o):
-           b = pg.best_individual(p)
-           p2 = replace(p, o)
-           return pg.elite_strategy(p2, b)
+            b = pg.best_individual(p)
+            p2 = replace(p, o)
+            return pg.elite_strategy(p2, b)
     else:
         def replace_pop(p, o):
-           return replace(p, o)
+            return replace(p, o)
 
     # operators and selection
-    apply_cx = lambda p : pg.apply_crossover(p, cx_rate, cx)
-    apply_mt = lambda p : pg.apply_mutation(p, ind_mt_rate, mt, gene_rate=op_mt_rate, low=low, high=high)
-    
+    apply_cx = lambda p: pg.apply_crossover(p, cx_rate, cx)
+    apply_mt = lambda p: pg.apply_mutation(p, ind_mt_rate, mt, gene_rate=op_mt_rate, low=low, high=high)
+
     # run ga
-    pop = generic_ea(total_generations, make_pop, eval_pop, select_pop, apply_cx, apply_mt, replace_pop)
+    pop = generic_ea(total_generations, make_pop, eval_pop,
+                     select_pop, apply_cx, apply_mt, replace_pop)
 
     return pop
 
 
 # generic EA framework
-def generic_ea(total_generations, make_pop, eval_pop, select_pop, apply_cx, apply_mt, replace_pop):
+def generic_ea(total_generations, make_pop, eval_pop,
+               select_pop, apply_cx, apply_mt, replace_pop):
     # build population
     pop = make_pop()
     pop = eval_pop(pop)
@@ -80,45 +97,48 @@ def generic_ea(total_generations, make_pop, eval_pop, select_pop, apply_cx, appl
         pop = replace_pop(pop, offsprings)
         pop = eval_pop(pop)
         pg.evolution_progress(i, pop)
-    
+
     # return final population
     return pop
 
 
-def evolutionary_strategy(fitness_fn, chr_size, low, high, pop_size=30, total_generations=100, 
-                          mt=pg.uncorrelated_one_step_mutation,  
-                          cx=pg.intermediary_crossover, pool_size=100, epsilon=1e-08, 
+def evolutionary_strategy(fitness_fn, chr_size, low, high, pop_size=30,
+                          total_generations=100,
+                          mt=pg.uncorrelated_one_step_mutation,
+                          cx=pg.intermediary_crossover, pool_size=100,
+                          epsilon=1e-08,
                           replace_pop=pg.mu_comma_lambda_replacement,
                           make_pop='uniform'):
-    
     # chromossome size is extended to have self-adaptive mutation rates
     # according to the chosen operator: one_step (+1) or n_steps (*2)
     ext_chr = chr_size + 1 if mt == pg.uncorrelated_one_step_mutation else chr_size * 2
 
     if make_pop == 'uniform':
-        make_pop = lambda : pg.make_uniform_population(pop_size, ext_chr, low=low, high=high) 
+        make_pop = lambda: pg.make_uniform_population(pop_size, ext_chr, low=low, high=high)
     else:
-        make_pop = lambda : pg.make_normal_population(pop_size, ext_chr, mean=low, sigma=high)
-    
-    eval_pop = lambda p : pg.evaluate_population(p, fitness_fn)
-    
-    # operators and selection
-    apply_mt = lambda p : pg.apply_global_mutation(p, pool_size, mt, epsilon=epsilon)
-    apply_cx = lambda p : pg.apply_global_crossover(p, cx)
-    
-    # run es
-    pop = generic_es(total_generations, make_pop, eval_pop, apply_mt, apply_cx, replace_pop)
+        make_pop = lambda: pg.make_normal_population(pop_size, ext_chr, mean=low, sigma=high)
 
-    return pop    
-   
+    eval_pop = lambda p: pg.evaluate_population(p, fitness_fn)
+
+    # operators and selection
+    apply_mt = lambda p: pg.apply_global_mutation(p, pool_size, mt, epsilon=epsilon)
+    apply_cx = lambda p: pg.apply_global_crossover(p, cx)
+
+    # run es
+    pop = generic_es(total_generations, make_pop,
+                     eval_pop, apply_mt, apply_cx, replace_pop)
+
+    return pop
+
 
 # generic ES framework
-def generic_es(total_generations, make_pop, eval_pop, apply_mt, apply_cx, replace_pop):
+def generic_es(total_generations, make_pop, eval_pop,
+               apply_mt, apply_cx, replace_pop):
     # build population
     pop = make_pop()
     pop = eval_pop(pop)
     pg.evolution_progress(0, pop)
-    
+
     # evolutionary loop
     for i in range(1, total_generations):
         offsprings = apply_mt(pop)
@@ -126,7 +146,6 @@ def generic_es(total_generations, make_pop, eval_pop, apply_mt, apply_cx, replac
         offsprings = eval_pop(offsprings)
         pop = replace_pop(pop, offsprings)
         pg.evolution_progress(i, pop)
-        
+
     # return final population
     return pop
-    
