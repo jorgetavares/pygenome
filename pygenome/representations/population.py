@@ -1,5 +1,6 @@
 import numpy as np
 import pygenome as pg
+from copy import deepcopy
 
 
 class Population(object):
@@ -13,7 +14,7 @@ class Population(object):
 
     def clone(self):
         return deepcopy(self)
-        
+
 
 def make_empty_population(size):
     '''

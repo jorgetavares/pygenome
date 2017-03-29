@@ -6,6 +6,7 @@ __version__ = 0.01
 
 from .representations.individual import *
 from .representations.population import *
+from .representations.linear import *
 from .fitness.evaluation import *
 from .fitness.functions import *
 from .operators.crossover import *

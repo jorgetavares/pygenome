@@ -1,1 +1,1 @@
-__all__ = ["individual", "population"]
+__all__ = ["individual", "population", "linear"]
