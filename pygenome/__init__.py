@@ -12,4 +12,5 @@ from .operators.mutation import *
 from .operators.selection import *
 from .operators.replacement import *
 from .utilities.logging import *
-from .engines.algorithms import *
+from .engines.ga import *
+from .engines.es import *

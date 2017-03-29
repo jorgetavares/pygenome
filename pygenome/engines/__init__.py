@@ -1,1 +1,1 @@
-__all__ = ["algorithms"]
+__all__ = ["ga", "es"]
