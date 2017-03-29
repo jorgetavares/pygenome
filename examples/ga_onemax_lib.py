@@ -22,9 +22,9 @@ def genetic_algorithm_binary(fitness_fn, chr_size, pop_size=100, total_generatio
         offsprings = pg.apply_crossover(pop, cx_rate, pg.uniform_crossover)
         offsprings = pg.apply_mutation(offsprings, ind_mt_rate, pg.flip_mutation, gene_rate=op_mt_rate)
         if elitism:
-            pop = pg.elite_strategy(pg.generational(pop, offsprings), pg.best_individual(pop))
+            pop = pg.elite_strategy(pg.generational_replacement(pop, offsprings), pg.best_individual(pop))
         else:   
-            pop = pg.generational(pop, offsprings)
+            pop = pg.generational_replacement(pop, offsprings)
         pop = pg.evaluate_population(pop, fitness_fn)
         pg.evolution_progress(i, pop)
 

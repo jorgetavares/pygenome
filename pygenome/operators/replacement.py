@@ -2,7 +2,7 @@ import numpy as np
 import pygenome as pg
 
 
-def generational(pop, offsprings):
+def generational_replacement(pop, offsprings):
     '''
     Generational replacement
 
@@ -22,7 +22,7 @@ def generational(pop, offsprings):
     return pop
 
 
-def steady_state(pop, offsprings):
+def steady_state_replacement(pop, offsprings):
     '''
     Steady State replacement
 
