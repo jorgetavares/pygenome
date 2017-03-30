@@ -118,6 +118,26 @@ def tournament_selection(pop, size=3):
     return best.clone()
 
 
+def negative_tournament_selection(pop, size=3):
+    '''
+    Negative Tournament Selection (minimization)
+
+    Args:
+        pop (Population): population to select from
+        size (int): the tournament size
+    
+    Returns:
+        cloned selected individual
+    '''
+    worst = pop.individuals[np.random.randint(pop.size)]
+
+    for step in range(2, size):
+        current = pop.individuals[np.random.randint(pop.size)]
+        worst = current if current.fitness.value > worst.fitness.value else worst
+
+    return worst.clone()
+
+
 def roulette_wheel_selection(pop):
     '''
     Roulette Wheel Selection
