@@ -68,3 +68,15 @@ def interpreter(pset, tree, run=False, vars_inputs=None):
     run_tree.position = 0
     result = run_tree(tree)
     return result
+
+
+def grow_tree(pset, max_depth):
+
+    def grow(tree):
+
+        return ##
+
+    grow.depth = 0
+    tree = []
+    result = grow(tree)
+    return tree
