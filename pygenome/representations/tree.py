@@ -38,37 +38,24 @@ class PrimitiveSet(object):
         self.terminals[self.num_primitives] = primitive
 
 
-def run_linear_tree(pset, tree):
+def run_tree(pset, tree, code=False):
 
-    def run_tree(array_tree):
+    def _run_tree(array_tree):
         element = array_tree[run_tree.position]
         run_tree.position +=1
 
         if element in pset.terminals:
             terminal, _ = pset.terminals[element]
-            return terminal
+            return str(terminal) if code else terminal
         elif element in pset.functions:
             fn, arity = pset.functions[element]
             args = []
             for i in range(arity):
-                args.append(run_tree(array_tree))
-            return fn(*args)
+                args.append(_run_tree(array_tree))
+            return fn.__name__ + "(" + ", ".join(args) + ")" if code else fn(*args)
         else:
             raise AttributeError('Primitive not found in Primitive Set!')
     
     run_tree.position = 0
-    result = run_tree(tree)
+    result = _run_tree(tree)
     return result
-
-
-# TODO:
-# create function + terminal sets
-
-# create tree initializers
-
-# -> operators
-
-# -> eval
-
-# -> example
-
