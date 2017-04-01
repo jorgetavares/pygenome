@@ -4,6 +4,8 @@ PyGenome - Evolutionary Algorithms in Python
 
 __version__ = 0.01
 
+from .representations.linear import *
+from .representations.tree import *
 from .representations.individual import *
 from .representations.population import *
 from .representations.linear import *
