@@ -1,6 +1,6 @@
 import numpy as np
 import operator as op
-import pygenome as pg
+#import pygenome as pg
 
 # container for the functiona and terminal set
 class PrimitiveSet(object):
@@ -70,13 +70,47 @@ def interpreter(pset, tree, run=False, vars_inputs=None):
     return result
 
 
-def grow_tree(pset, max_depth):
+def grow_tree(pset, max_depth, max_size):
+    '''
+    Grow Tree 
+        
+    Args:
+        pset (PrimitivSet): set of functions, terminals and variables
+        max_depth (int): initialization max depth
+        max_size (int): the max size of the array that contains the tree
+    Returns:
+        random tree in an array using the grow method
+    '''
+    functions_idx = np.array(list(pset.functions.keys()))
+    terminals_idx = np.array(list(pset.terminals.keys()))
+    variables_idx = np.array(list(pset.variables.keys()))
+    all_terminals_idx = np.concatenate([terminals_idx, variables_idx])
+    all_primitives_idx = np.concatenate([functions_idx, all_terminals_idx])
 
-    def grow(tree):
+    def grow(depth):
+        if depth == 0:
+            # return a terminal/variable since it's maximum tree depth
+            idx = all_terminals_idx[np.random.randint(all_terminals_idx.size)]
+            print('depth=%s, term=%s ' % (depth, idx))
+            grow.tree[grow.position] = idx
+        else:
+            # return a function or a terminal/variable
+            
+            idx = all_primitives_idx[np.random.randint(all_primitives_idx.size)]
+            if idx in pset.terminals or idx in pset.variables:
+                print('depth=%s, term=%s ' % (depth, idx))
+                grow.tree[grow.position] = idx
+            else:
+                fn, arity, types = pset.functions[idx]
+                grow.tree[grow.position] = idx
+                print('depth=%s, func=%s ' % (depth, idx))
+                depth -= 1
+                for a in range(arity):
+                    grow.position += 1
+                    grow(depth)
+        
+    grow.position = 0
+    grow.tree = np.zeros(max_size, dtype=np.int64)
+    grow(max_depth)
 
-        return ##
-
-    grow.depth = 0
-    tree = []
-    result = grow(tree)
-    return tree
+    return grow.tree
