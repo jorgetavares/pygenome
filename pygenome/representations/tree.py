@@ -91,19 +91,15 @@ def grow_tree(pset, max_depth, max_size):
         if depth == 0:
             # return a terminal/variable since it's maximum tree depth
             idx = all_terminals_idx[np.random.randint(all_terminals_idx.size)]
-            print('depth=%s, term=%s ' % (depth, idx))
             grow.tree[grow.position] = idx
         else:
             # return a function or a terminal/variable
-            
             idx = all_primitives_idx[np.random.randint(all_primitives_idx.size)]
             if idx in pset.terminals or idx in pset.variables:
-                print('depth=%s, term=%s ' % (depth, idx))
                 grow.tree[grow.position] = idx
             else:
                 fn, arity, types = pset.functions[idx]
                 grow.tree[grow.position] = idx
-                print('depth=%s, func=%s ' % (depth, idx))
                 depth -= 1
                 for a in range(arity):
                     grow.position += 1
@@ -114,3 +110,41 @@ def grow_tree(pset, max_depth, max_size):
     grow(max_depth)
 
     return grow.tree
+
+
+def full_tree(pset, max_depth, max_size):
+    '''
+    Full Tree 
+        
+    Args:
+        pset (PrimitivSet): set of functions, terminals and variables
+        max_depth (int): initialization max depth
+        max_size (int): the max size of the array that contains the tree
+    Returns:
+        random tree in an array using the full method
+    '''
+    functions_idx = np.array(list(pset.functions.keys()))
+    terminals_idx = np.array(list(pset.terminals.keys()))
+    variables_idx = np.array(list(pset.variables.keys()))
+    all_terminals_idx = np.concatenate([terminals_idx, variables_idx])
+    
+    def full(depth):
+        if depth == 0:
+            # return a terminal/variable since it's maximum tree depth
+            idx = all_terminals_idx[np.random.randint(all_terminals_idx.size)]
+            full.tree[full.position] = idx
+        else:
+            # return a function
+            idx = functions_idx[np.random.randint(functions_idx.size)]
+            fn, arity, types = pset.functions[idx]
+            full.tree[full.position] = idx
+            depth -= 1
+            for a in range(arity):
+                full.position += 1
+                full(depth)
+    
+    full.position = 0
+    full.tree = np.zeros(max_size, dtype=np.int64)
+    full(max_depth)
+
+    return full.tree
