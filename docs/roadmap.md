@@ -1,13 +1,13 @@
 # Roadmap
 
 This is an intial roadmap/wish list for pygenome.
-Last update 2017/03/29.
+Last update 2017/04/02.
 
 * version 0.01
 
-  + Include some of the main evolutionary paradigms: <s>GA, ES</s>, GP, GE and NEAT.
+  + Main evolutionary paradigms: <s>GA, ES</s>, GP (+ STGP), GE and NEAT.
   + Representation: single chromossome only
-  + Representation: <s>binary, integer, permutation, floats,</s> parse trees
+  + Representation: <s>binary, integer, permutation, floats, parse trees</s>
   + Replacement: <s>generational, steady-state, basic elitism, mu,lambda, mu+lambda</s>
   + Selection: <s>roulette-wheel and tournament</s>
   + Selection: minimization only (maximization problems must convert)
