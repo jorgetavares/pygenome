@@ -148,3 +148,24 @@ def full_tree(pset, max_depth, max_size):
     full(max_depth)
 
     return full.tree
+
+
+def ramped_half_and_half_tree(pset, min_depth, max_depth, max_size):
+    '''
+    Ramped Half and Half
+
+    Args:
+        pset (PrimitivSet): set of functions, terminals and variables
+        min_depth (int): initialization min depth
+        max_depth (int): initialization max depth
+        max_size (int): the max size of the array that contains the tree
+
+    Returns:
+        random generated tree
+    '''
+    depth = np.random.randint(min_depth, high=max_depth)
+
+    if np.random.uniform() < 0.5:
+        return full_tree(pset, depth, max_size)
+    else:
+        return grow_tree(pset, depth, max_size)
