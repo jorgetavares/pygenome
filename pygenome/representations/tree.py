@@ -11,29 +11,51 @@ class PrimitiveSet(object):
         self.variables = {}
         self.num_primitives = 0
         self.typed = typed
+        self.functions_types = {}    # key=type, value=list of functions that return the type
+        self.terminals_types = {}    
+        self.variables_types = {}
+
+    def _addTypesCache(primitive_key, types, types_cache):
+        return_type = types[0]
+        if return_type in types_cache:
+            types_cache[return_type].append(primitive_id)
+        else:
+            types_cache[return_type] = [return_type]
 
     def addFunction(self, fn, arity, types=None):
         if self.typed and types is None:
             raise AttributeError('This is a typed primitive set so types are required!')
+        
         primitive = (fn, arity, types)
         self.num_primitives += 1
         self.functions[self.num_primitives] = primitive
+        
+        if self.typed:
+            _addTypesCache(self.num_primitives, types, self.functions_type)
 
     def addTerminal(self, term, types=None):
         if self.typed and types is None:
             raise AttributeError('This is a typed primitive set so types are required!')
+        
         primitive = (term, types)
         self.num_primitives += 1
         self.terminals[self.num_primitives] = primitive
 
+        if self.typed:
+            _addTypesCache(self.num_primitives, types, self.primitives_type)
+
     def addVariable(self, var, types=None):
         if self.typed and types is None:
             raise AttributeError('This is a typed variable set so types are required!')   
+        
         variable = (var, types)
         self.num_primitives += 1
         self.variables[self.num_primitives] = variable
 
+        if self.typed:
+            _addTypesCache(self.num_primitives, types, self.variables_type)
 
+        
 def interpreter(pset, tree, run=False, vars_inputs=None):
     '''
     interpreter
