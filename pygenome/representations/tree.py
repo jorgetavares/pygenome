@@ -15,12 +15,12 @@ class PrimitiveSet(object):
         self.terminals_types = {}    
         self.variables_types = {}
 
-    def _addTypesCache(primitive_key, types, types_cache):
+    def _addTypesCache(self, primitive_key, types, types_cache):
         return_type = types[0]
         if return_type in types_cache:
-            types_cache[return_type].append(primitive_id)
+            types_cache[return_type].append(primitive_key)
         else:
-            types_cache[return_type] = [return_type]
+            types_cache[return_type] = [primitive_key]
 
     def addFunction(self, fn, arity, types=None):
         if self.typed and types is None:
@@ -31,7 +31,7 @@ class PrimitiveSet(object):
         self.functions[self.num_primitives] = primitive
         
         if self.typed:
-            _addTypesCache(self.num_primitives, types, self.functions_type)
+            self._addTypesCache(self.num_primitives, types, self.functions_types)
 
     def addTerminal(self, term, types=None):
         if self.typed and types is None:
@@ -42,7 +42,7 @@ class PrimitiveSet(object):
         self.terminals[self.num_primitives] = primitive
 
         if self.typed:
-            _addTypesCache(self.num_primitives, types, self.primitives_type)
+            self._addTypesCache(self.num_primitives, types, self.terminals_types)
 
     def addVariable(self, var, types=None):
         if self.typed and types is None:
@@ -53,7 +53,7 @@ class PrimitiveSet(object):
         self.variables[self.num_primitives] = variable
 
         if self.typed:
-            _addTypesCache(self.num_primitives, types, self.variables_type)
+            self._addTypesCache(self.num_primitives, types, self.variables_types)
 
         
 def interpreter(pset, tree, run=False, vars_inputs=None):
@@ -134,7 +134,7 @@ def grow_tree(pset, max_depth, max_size, initial_type=None):
             else:
                 valid_set = []
                 if arg_type in pset.functions_types:
-                    valid_set = valid_set + pset.functioins_types[arg_type]  
+                    valid_set = valid_set + pset.functions_types[arg_type]  
                 if arg_type in pset.terminals_types:
                     valid_set = valid_set + pset.terminals_types[arg_type]
                 if arg_type in pset.variables_types:
@@ -144,23 +144,23 @@ def grow_tree(pset, max_depth, max_size, initial_type=None):
                     AttributeError('Typed Primitive not found in Terminal/Variable Set!')  
                 
                 idx = valid_set[np.random.randint(len(valid_set))]
-
-                if idx in pset.terminals or idx in pset.variables:
-                    grow.tree[grow.position] = idx
-                else:
-                    fn, arity, types = pset.functions[idx]
-                    grow.tree[grow.position] = idx
-                    depth -= 1
-                    for a in range(arity):
-                        grow.position += 1
-                        if pset.typed:
-                            grow(depth, types[a + 1])   # only cares about the arguments types
-                        else:
-                            grow(depth)
+                
+            if idx in pset.terminals or idx in pset.variables:
+                grow.tree[grow.position] = idx
+            else:
+                fn, arity, types = pset.functions[idx]
+                grow.tree[grow.position] = idx
+                depth -= 1
+                for a in range(arity):
+                    grow.position += 1
+                    if pset.typed:
+                        grow(depth, types[a + 1])   # only cares about the arguments types
+                    else:
+                        grow(depth)
         
     grow.position = 0
     grow.tree = np.zeros(max_size, dtype=np.int64)
-    grow(max_depth, initial_depth)
+    grow(max_depth, arg_type=initial_type)
 
     return grow.tree
 
@@ -189,9 +189,9 @@ def full_tree(pset, max_depth, max_size, initial_type=None):
             else:
                 valid_terminals = []
                 if arg_type in pset.terminals_types:
-                    valid_terminals + pset.terminals_types[arg_type]
+                    valid_terminals = valid_terminals + pset.terminals_types[arg_type]
                 if arg_type in pset.variables_types:
-                    valid_terminals + pset.variables_types[arg_type]  
+                     valid_terminals = valid_terminals + pset.variables_types[arg_type]  
 
                 if len(valid_terminals) == 0:
                     AttributeError('Typed Primitive not found in Terminal/Variable Set!')    
@@ -210,7 +210,7 @@ def full_tree(pset, max_depth, max_size, initial_type=None):
                     
                 valid_functions = pset.functions_types[arg_type]
                 idx = valid_functions[np.random.randint(len(valid_functions))]
-
+            
             fn, arity, types = pset.functions[idx]
             full.tree[full.position] = idx
             depth -= 1
