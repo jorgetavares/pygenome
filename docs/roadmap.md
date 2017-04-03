@@ -1,7 +1,7 @@
 # Roadmap
 
 This is an intial roadmap/wish list for pygenome.
-Last update 2017/04/02.
+Last update 2017/04/03.
 
 * version 0.01
 
@@ -9,13 +9,13 @@ Last update 2017/04/02.
   + Representation: single chromossome only
   + Representation: binary, integer, permutation, floats, parse trees
   + Replacement: generational, steady-state, basic elitism, mu,lambda, mu+lambda
-  + Selection: oulette-wheel and tournament
+  + Selection: roulette-wheel and tournament
   + Selection: minimization only (maximization problems must convert)
   + Crossover and mutation: only minimum required set to have main EAs working
   + Fitness: single objective
   + Examples for all EAs (framework and library)
   + Basic logging and population statistics
-  + Unit tests
+  + Basic Unit tests
 
 * version 0.02
 
@@ -30,6 +30,8 @@ Last update 2017/04/02.
 
   + Add other Neuroevolution methods
   + Bridge to DL toolkits
+  + Create documentation pages
+  + Create tutorial jupyter notebooks
 
 * version 0.04
 
