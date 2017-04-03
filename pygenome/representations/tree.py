@@ -149,21 +149,46 @@ def full_tree(pset, max_depth, max_size):
     terminals_idx = np.array(list(pset.terminals.keys()))
     variables_idx = np.array(list(pset.variables.keys()))
     all_terminals_idx = np.concatenate([terminals_idx, variables_idx])
-    
-    def full(depth):
+
+    def full(depth, arg_type=None):
         if depth == 0:
             # return a terminal/variable since it's maximum tree depth
-            idx = all_terminals_idx[np.random.randint(all_terminals_idx.size)]
+            if arg_type is None:
+                idx = all_terminals_idx[np.random.randint(all_terminals_idx.size)]
+            else:
+                valid_terminals = []
+                if arg_type in pset.terminals_types:
+                    valid_terminals + pset.terminals_types[arg_type]
+                if arg_type in pset.variables_types:
+                    valid_terminals + pset.variables_types[arg_type]  
+
+                if len(valid_terminals) == 0:
+                    AttributeError('Typed Primitive not found in Terminal/Variable Set!')    
+
+                idx = valid_terminals[np.random.randint(len(valid_terminals))]
+            
             full.tree[full.position] = idx
+
         else:
             # return a function
-            idx = functions_idx[np.random.randint(functions_idx.size)]
+            if arg_type is None:
+                idx = functions_idx[np.random.randint(functions_idx.size)]
+            else:
+                if arg_type not in pset.functions_types:
+                    AttributeError('Typed Primitive not found in Terminal/Variable Set!')    
+                    
+                valid_functions = pset.functions_types[arg_type]
+                idx = valid_functions[np.random.randint(len(valid_functions))]
+
             fn, arity, types = pset.functions[idx]
             full.tree[full.position] = idx
             depth -= 1
             for a in range(arity):
                 full.position += 1
-                full(depth)
+                if pset.typed:
+                    full(depth, types[a + 1])   # only cares about the arguments types
+                else:
+                    full(depth)
     
     full.position = 0
     full.tree = np.zeros(max_size, dtype=np.int64)
