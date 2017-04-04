@@ -12,3 +12,14 @@ class Individual(object):
 
     def clone(self):
         return deepcopy(self)
+
+
+class TreeIndividual(Individual):
+    '''
+    Class for GP based individuals
+    '''
+
+    def __init__(self, fitness=None, tree=None, depth=None, nodes=None):
+        super(Individual, self).__init__(fitness=fitness, genome=tree)
+        self.depth = depth
+        self.nodes = nodes
