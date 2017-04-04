@@ -55,7 +55,15 @@ class PrimitiveSet(object):
         if self.typed:
             self._addTypesCache(self.num_primitives, types, self.variables_types)
 
-        
+
+def count_tree_depth(tree):
+    return 0
+
+
+def count_tree_nodes(tree):
+    return 0
+
+
 def interpreter(pset, tree, run=False, vars_inputs=None):
     '''
     interpreter
