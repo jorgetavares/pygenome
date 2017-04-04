@@ -1,10 +1,9 @@
 # Roadmap
 
 This is an intial roadmap/wish list for pygenome.
-Last update 2017/04/03.
+Last update 2017/04/04.
 
 * version 0.01
-
   + Main evolutionary paradigms: GA, ES, GP (+ STGP), GE and NEAT.
   + Representation: single chromossome only
   + Representation: binary, integer, permutation, floats, parse trees
@@ -18,21 +17,19 @@ Last update 2017/04/03.
   + Basic Unit tests
 
 * version 0.02
-
   + Fitness: multi-objective (NSGA-2, SPEAR)
-  + ES: add CMA-ES, NES
-  + Paradigm: DE
+  + Paradigms: DE, Stack-GP, SGE, CFGGP, CMA-ES, NES
   + Memetic Algorithms: allow the use of local search
   + Representation: dual chromossomes (problem + parameters)
-  + Grammar-based approaches: add SGE, CFGGP
 
 * version 0.03
-
-  + Add other Neuroevolution methods
-  + Bridge to DL toolkits
+  + Master-slave distribution
   + Create documentation pages
   + Create tutorial jupyter notebooks
 
 * version 0.04
+  + Add other Neuroevolution methods
+  + Bridge to DL toolkits
 
+* version 0.05
   + TBD
