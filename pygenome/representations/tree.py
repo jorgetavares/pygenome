@@ -56,12 +56,41 @@ class PrimitiveSet(object):
             self._addTypesCache(self.num_primitives, types, self.variables_types)
 
 
-def count_tree_depth(tree):
-    return 0
+def count_tree_internals(pset, tree):
+    '''
+    Count Tree Internals
 
+    Args:
+        pset (PrimitiveSet): set of functions, terminals and variables
+        tree (array): tree encoded as an array
 
-def count_tree_nodes(tree):
-    return 0
+    Returns:
+        tuple with the tree depth and the number of nodes
+    '''
+    def run_tree(array_tree, depth):
+        element = array_tree[run_tree.position]
+        run_tree.position += 1
+        run_tree.total_nodes += 1
+        depth += 1
+
+        if element in pset.terminals:
+            return [depth]
+        elif element in pset.variables:
+            return [depth]
+        elif element in pset.functions:
+            fn, arity, _ = pset.functions[element]
+            results = []
+            for i in range(arity):
+                results = results + run_tree(array_tree, depth)
+            return results
+        else:
+            raise AttributeError('Primitive not found in Primitive Set!')   
+    
+    run_tree.total_nodes = 0
+    run_tree.position = 0
+    depth = max(run_tree(tree, 0))
+
+    return depth, run_tree.total_nodes
 
 
 def interpreter(pset, tree, run=False, vars_inputs=None):

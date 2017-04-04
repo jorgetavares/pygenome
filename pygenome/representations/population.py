@@ -127,7 +127,8 @@ def make_tree_population(size, pset, max_depth, max_size, initial_type=None, ini
     for i in range(size):
         pop.individuals[i] = pg.TreeIndividual()
         pop.individuals[i].genome = init_method(pset, max_depth, max_size, initial_type=initial_type)
-        pop.individuals[i].depth = pg.count_tree_depth(pop.individuals[i].genome)
-        pop.individuals[i].nodes = pg.count_tree_nodes(pop.individuals[i].genome)
+        depth, nodes = pg.count_tree_internals(pset, pop.individuals[i].genome)
+        pop.individuals[i].depth = depth
+        pop.individuals[i].nodes = nodes
                
     return pop
