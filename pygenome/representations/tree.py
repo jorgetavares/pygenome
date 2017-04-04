@@ -1,6 +1,6 @@
 import numpy as np
 import operator as op
-#import pygenome as pg
+import pygenome as pg
 
 # container for the functiona and terminal set
 class PrimitiveSet(object):

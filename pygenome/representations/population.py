@@ -103,3 +103,7 @@ def make_normal_population(size, ind_size, mean=0.0, sigma=1.0):
         array of individuals randomly initialized with a normal distribution
     '''
     return make_generic_population(size, pg.normal_chromossome, ind_size, mean=mean, sigma=sigma)  
+
+
+def make_tree_population(size, init_method):
+    return None
