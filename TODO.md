@@ -5,6 +5,9 @@
     + evolution engine
     + fitness evaluator
     + unit tests
+    + bloat control
+* Generic:
+    + cache fitness evaluation
 * Use logging
     + for standard output
     + for file output
