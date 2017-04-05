@@ -18,7 +18,7 @@ Last update 2017/04/04.
 
 * version 0.02
   + Fitness: multi-objective (NSGA-2, SPEAR)
-  + Paradigms: DE, Stack-GP, SGE, CFGGP, CMA-ES, NES
+  + Paradigms: DE, Stack-GP (or PushGP), SGE, CFGGP, CMA-ES, NES
   + Memetic Algorithms: allow the use of local search
   + Representation: dual chromossomes (problem + parameters)
 
