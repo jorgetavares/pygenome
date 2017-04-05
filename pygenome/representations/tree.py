@@ -129,12 +129,13 @@ def interpreter(pset, tree, run=False, vars_inputs=None):
     return result
 
 
-def grow_tree(pset, max_depth, max_size, initial_type=None):
+def grow_tree(pset, min_depth, max_depth, max_size, initial_type=None):
     '''
     Grow Tree 
         
     Args:
         pset (PrimitivSet): set of functions, terminals and variables
+        min_depth (int): initialization min depth
         max_depth (int): initialization max depth
         max_size (int): the max size of the array that contains the tree
     Returns:
@@ -147,7 +148,7 @@ def grow_tree(pset, max_depth, max_size, initial_type=None):
     all_primitives_idx = np.concatenate([functions_idx, all_terminals_idx])
 
     def grow(depth, arg_type=None):
-        if depth == 0:
+        if depth == min_depth:
             # return a terminal/variable since it's maximum tree depth
             if arg_type is None:
                 idx = all_terminals_idx[np.random.randint(all_terminals_idx.size)]
@@ -202,12 +203,13 @@ def grow_tree(pset, max_depth, max_size, initial_type=None):
     return grow.tree
 
 
-def full_tree(pset, max_depth, max_size, initial_type=None):
+def full_tree(pset, min_depth, max_depth, max_size, initial_type=None):
     '''
     Full Tree 
         
     Args:
         pset (PrimitivSet): set of functions, terminals and variables
+        min_depth (int): initialization min depth
         max_depth (int): initialization max depth
         max_size (int): the max size of the array that contains the tree
     Returns:
@@ -219,7 +221,7 @@ def full_tree(pset, max_depth, max_size, initial_type=None):
     all_terminals_idx = np.concatenate([terminals_idx, variables_idx])
 
     def full(depth, arg_type=None):
-        if depth == 0:
+        if depth == min_depth:
             # return a terminal/variable since it's maximum tree depth
             if arg_type is None:
                 idx = all_terminals_idx[np.random.randint(all_terminals_idx.size)]
@@ -281,6 +283,6 @@ def ramped_half_and_half_tree(pset, min_depth, max_depth, max_size, initial_type
     depth = np.random.randint(min_depth, high=max_depth)
 
     if np.random.uniform() < 0.5:
-        return full_tree(pset, depth, max_size, initial_type=initial_type)
+        return full_tree(pset, min_depth, depth, max_size, initial_type=initial_type)
     else:
-        return grow_tree(pset, depth, max_size, initial_type=initial_type)
+        return grow_tree(pset, min_depth, depth, max_size, initial_type=initial_type)
