@@ -107,7 +107,7 @@ def make_normal_population(size, ind_size, mean=0.0, sigma=1.0):
     return make_generic_population(size, pg.normal_chromossome, ind_size, mean=mean, sigma=sigma)  
 
 
-def make_tree_population(size, pset, max_depth, max_size, initial_type=None, init_method=grow_tree):
+def make_tree_population(size, pset, min_depth, max_depth, max_size, initial_type=None, init_method=grow_tree):
     '''
     Make Tree Population
 
@@ -126,7 +126,7 @@ def make_tree_population(size, pset, max_depth, max_size, initial_type=None, ini
 
     for i in range(size):
         pop.individuals[i] = pg.TreeIndividual()
-        pop.individuals[i].genome = init_method(pset, max_depth, max_size, initial_type=initial_type)
+        pop.individuals[i].genome = init_method(pset, min_depth, max_depth, max_size, initial_type=initial_type)
         depth, nodes = pg.count_tree_internals(pset, pop.individuals[i].genome)
         pop.individuals[i].depth = depth
         pop.individuals[i].nodes = nodes

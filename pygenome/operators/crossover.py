@@ -179,5 +179,5 @@ def discrete_crossover(g1, g2):
     return o1
 
 
-def tree_crossover(t1, t2):
+def tree_crossover(t1, t2, pset=None):
     return None

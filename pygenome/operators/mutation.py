@@ -175,5 +175,5 @@ def uncorrelated_n_steps_mutation(chromossome, epsilon=1e-08):
     return np.concatenate((values, sigmas))
     
 
-def subtree_mutation(t1):
+def subtree_mutation(t1, pset=None):
     return None
