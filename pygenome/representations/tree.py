@@ -280,9 +280,7 @@ def ramped_half_and_half_tree(pset, min_depth, max_depth, max_size, initial_type
     Returns:
         random generated tree
     '''
-    depth = np.random.randint(min_depth, high=max_depth)
-
     if np.random.uniform() < 0.5:
-        return full_tree(pset, min_depth, depth, max_size, initial_type=initial_type)
+        return full_tree(pset, min_depth, max_depth, max_size, initial_type=initial_type)
     else:
-        return grow_tree(pset, min_depth, depth, max_size, initial_type=initial_type)
+        return grow_tree(pset, min_depth, max_depth, max_size, initial_type=initial_type)
