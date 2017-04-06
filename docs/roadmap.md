@@ -1,7 +1,7 @@
 # Roadmap
 
 This is an intial roadmap/wish list for pygenome.
-Last update 2017/04/04.
+Last update 2017/04/06.
 
 * version 0.01
   + Main evolutionary paradigms: GA, ES, GP (+ STGP), GE and NEAT.
@@ -18,12 +18,14 @@ Last update 2017/04/04.
 
 * version 0.02
   + Fitness: multi-objective (NSGA-2, SPEAR)
-  + Paradigms: DE, Stack-GP (or PushGP), SGE, CFGGP, CMA-ES, NES
+  + Paradigms: Stack-GP (or PushGP), SGE, CFGGP, CMA-ES
   + Memetic Algorithms: allow the use of local search
   + Representation: dual chromossomes (problem + parameters)
 
 * version 0.03
   + Master-slave distribution
+  + Paradigms: DE, NES
+  + fitness scaling
   + Create documentation pages
   + Create tutorial jupyter notebooks
 
