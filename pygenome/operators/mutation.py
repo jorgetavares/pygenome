@@ -176,4 +176,4 @@ def uncorrelated_n_steps_mutation(chromossome, epsilon=1e-08):
     
 
 def subtree_mutation(t1, pset=None):
-    return None
+    return t1.clone()
