@@ -37,18 +37,17 @@ from math import sqrt
 
 def fitness_regression():
     num_fitness_cases = 10
-    x_points = [x for x in range(num_fitness_cases)]
-    y_points = [fn(x) for x in x_points]
+    x_points = np.asarray([x for x in range(num_fitness_cases)])
+    y_points = np.asarray([fn(x) for x in x_points])
     
     def regression(solution):
         vars_inputs = {}
-        total = 0
+        x_evals = np.empty(num_fitness_cases)
         for i in range(num_fitness_cases)
             vars_inputs["x"] = x_points[i]
-            result = pg.interpreter(pset, solution, run=True, vars_inputs=vars_inputs)
-            total += sqrt(result ** 2 - y_points[i] ** 2)
+            x_evals[i] = pg.interpreter(pset, solution, run=True, vars_inputs=vars_inputs)
         
-        return total
+        return pg.mean_squared_error(x_evals, y_points)
 
     return regression
 
