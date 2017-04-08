@@ -11,6 +11,7 @@ from .representations.population import *
 from .representations.linear import *
 from .fitness.evaluation import *
 from .fitness.functions import *
+from .fitness.loss import *
 from .operators.crossover import *
 from .operators.mutation import *
 from .operators.selection import *
