@@ -51,3 +51,20 @@ def evaluate_tree_population(pop, fitness_fn, pset, **kargs):
         ind.nodes = nodes
 
     return pop
+
+
+def make_fitness_regression(pset, fn, num_fitness_cases, loss=pg.mean_squared_error):
+    
+    x_points = np.asarray([x for x in range(num_fitness_cases)])
+    y_points = np.asarray([fn(x) for x in x_points])
+    
+    def regression(solution):
+        vars_inputs = {}
+        x_evals = np.empty(num_fitness_cases)
+        for i in range(num_fitness_cases)
+            vars_inputs["x"] = x_points[i]
+            x_evals[i] = pg.interpreter(pset, solution, run=True, vars_inputs=vars_inputs)
+        
+        return loss(x_evals, y_points)
+
+    return regression

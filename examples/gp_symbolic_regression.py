@@ -33,25 +33,8 @@ pset.addVariable("x")
 def fn(x):
     return protected_div(op.mul(x, x), 2.0)
 
-from math import sqrt
-
-def fitness_regression():
-    num_fitness_cases = 10
-    x_points = np.asarray([x for x in range(num_fitness_cases)])
-    y_points = np.asarray([fn(x) for x in x_points])
-    
-    def regression(solution):
-        vars_inputs = {}
-        x_evals = np.empty(num_fitness_cases)
-        for i in range(num_fitness_cases)
-            vars_inputs["x"] = x_points[i]
-            x_evals[i] = pg.interpreter(pset, solution, run=True, vars_inputs=vars_inputs)
-        
-        return pg.mean_squared_error(x_evals, y_points)
-
-    return regression
-
-fitness_fn = fitness_regression()
+num_fitness_cases = 10
+fitness_fn = make_fitness_regression(pset, fn, num_fitness_cases)
 
 
 # GP
