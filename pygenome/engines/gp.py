@@ -1,5 +1,8 @@
 import numpy as np
 
+from pygenome.representations.tree import (
+    grow_tree
+)
 from pygenome.representations.population import make_tree_population
 from pygenome.fitness.evaluation import evaluate_tree_population
 from pygenome.utilities.logging import evolution_progress
@@ -28,7 +31,7 @@ from pygenome.engines.ga import generic_ea
 def genetic_programming(fitness_fn, pset, min_depth, max_depth, chr_size, pop_size=100,
                         total_generations=20,
                         cx=tree_crossover, cx_rate=0.7,
-                        mt=subtreemutation, ind_mt_rate=1.0, op_mt_rate=0.01,
+                        mt=subtree_mutation, ind_mt_rate=1.0, op_mt_rate=0.01,
                         select_fn=tournament_selection,
                         elitism=False, generational=True, initial_type=None, init_method=grow_tree):
    

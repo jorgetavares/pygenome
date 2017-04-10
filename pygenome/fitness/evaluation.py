@@ -1,6 +1,7 @@
 import numpy as np
 import pygenome as pg
 
+from pygenome.fitness.loss import mean_squared_error
 
 class Fitness(object):
     '''
@@ -53,7 +54,7 @@ def evaluate_tree_population(pop, fitness_fn, pset, **kargs):
     return pop
 
 
-def make_fitness_regression(pset, fn, num_fitness_cases, loss=pg.mean_squared_error):
+def make_fitness_regression(pset, fn, num_fitness_cases, loss=mean_squared_error):
     
     x_points = np.asarray([x for x in range(num_fitness_cases)])
     y_points = np.asarray([fn(x) for x in x_points])
@@ -61,7 +62,7 @@ def make_fitness_regression(pset, fn, num_fitness_cases, loss=pg.mean_squared_er
     def regression(solution):
         vars_inputs = {}
         x_evals = np.empty(num_fitness_cases)
-        for i in range(num_fitness_cases)
+        for i in range(num_fitness_cases):
             vars_inputs["x"] = x_points[i]
             x_evals[i] = pg.interpreter(pset, solution, run=True, vars_inputs=vars_inputs)
         
