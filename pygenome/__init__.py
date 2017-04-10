@@ -9,9 +9,9 @@ from .representations.tree import *
 from .representations.individual import *
 from .representations.population import *
 from .representations.linear import *
-from .fitness.evaluation import *
 from .fitness.functions import *
 from .fitness.loss import *
+from .fitness.evaluation import *
 from .operators.crossover import *
 from .operators.mutation import *
 from .operators.selection import *

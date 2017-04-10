@@ -20,6 +20,6 @@ class TreeIndividual(Individual):
     '''
 
     def __init__(self, fitness=None, tree=None, depth=None, nodes=None):
-        super(Individual, self).__init__(fitness=fitness, genome=tree)
+        super().__init__(fitness=fitness, genome=tree)
         self.depth = depth
         self.nodes = nodes

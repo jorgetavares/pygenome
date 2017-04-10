@@ -180,4 +180,4 @@ def discrete_crossover(g1, g2):
 
 
 def tree_crossover(t1, t2, pset=None):
-    return t1.clone(), t2.clone()
+    return np.copy(t1), np.copy(t2)

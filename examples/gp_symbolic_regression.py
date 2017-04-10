@@ -34,13 +34,16 @@ def fn(x):
     return protected_div(op.mul(x, x), 2.0)
 
 num_fitness_cases = 10
-fitness_fn = make_fitness_regression(pset, fn, num_fitness_cases)
+fitness_fn = pg.make_fitness_regression(pset, fn, num_fitness_cases)
 
 
 # GP
 def gp_with_elitism():
     np.random.seed(42)
-    pop = pg.genetic_programming(fitness_fn, pset, min_depth, max_depth. max_size, elitism=True, total_generations=20)
+    min_depth = 1
+    max_depth = 4
+    max_size = 200
+    pop = pg.genetic_programming(fitness_fn, pset, min_depth, max_depth, max_size, elitism=True, total_generations=20, pop_size=1000)
     best = pg.best_individual(pop)
     print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genome))
 

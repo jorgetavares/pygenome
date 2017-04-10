@@ -39,7 +39,7 @@ def genetic_programming(fitness_fn, pset, min_depth, max_depth, chr_size, pop_si
         return make_tree_population(pop_size, pset, min_depth, max_depth, chr_size, initial_type=initial_type, init_method=init_method)
 
     def eval_pop(p):
-        return evaluate_tree_population(p, fitness_fn)
+        return evaluate_tree_population(p, fitness_fn, pset)
 
     # config selection/replacement strategy
     if generational:
