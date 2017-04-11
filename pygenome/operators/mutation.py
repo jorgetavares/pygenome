@@ -22,6 +22,26 @@ def apply_mutation(pop, rate, mt_op, **kargs):
     return pop
 
 
+def apply_tree_mutation(pop, rate, mt_op, **kargs):
+    '''
+    Apply Mutation
+
+    Args:
+        pop (Population): individuals to apply mutation
+        rate (float): mutation rate
+        mt_op (function): mutation operator for 1 genome
+
+    Return:
+        population of individuals after mutation being applied in-place
+    '''
+    for i in range(0, pop.size):
+        if np.random.uniform() < rate:
+            offspring = mt_op(pop.individuals[i].genome, pop.individuals[i].depth, pop.individuals[i].nodes, **kargs)
+            pop.individuals[i].genome = offspring
+    
+    return pop
+
+
 def flip_mutation(chromossome, gene_rate=None, low=0, high=1, **kargs):
     '''
     Flip Mutation
@@ -175,5 +195,5 @@ def uncorrelated_n_steps_mutation(chromossome, epsilon=1e-08):
     return np.concatenate((values, sigmas))
     
 
-def subtree_mutation(t1, pset=None, **kargs):
+def subtree_mutation(t1, t1_depth, t1_nodes, pset=None, **kargs):
     return np.copy(t1)

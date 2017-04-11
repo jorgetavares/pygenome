@@ -11,7 +11,7 @@ from pygenome.operators.crossover import (
     tree_crossover
 )
 from pygenome.operators.mutation import (
-    apply_mutation,
+    apply_tree_mutation,
     subtree_mutation
 )
 from pygenome.operators.selection import (
@@ -65,7 +65,7 @@ def genetic_programming(fitness_fn, pset, min_depth, max_depth, chr_size, pop_si
         return apply_crossover(p, cx_rate, cx, pset=pset)
 
     def apply_mt(p):
-        return apply_mutation(
+        return apply_tree_mutation(
             p, ind_mt_rate, mt, gene_rate=op_mt_rate, pset=pset)
 
     # run ga
