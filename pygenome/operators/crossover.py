@@ -24,6 +24,28 @@ def apply_crossover(pop, rate, cx_op, **kargs):
     return pop
 
 
+def apply_tree_crossover(pop, rate, cx_op, **kargs):
+    '''
+    Apply Tree Crossover
+
+    Args:
+        pop (Population): individuals to apply crossover, 2 by 2
+        rate (float): crossover rate
+        cx_op (function): crossover operator for 2 tree individuals
+        **kargs: keyword arguments for the crossover oeprator
+
+    Return:
+        population of individuals after crossover being applied in-place
+    '''
+    for i in range(0, pop.size - 1, 2):
+        if np.random.uniform() < rate:
+            o1, o2 = cx_op(pop.individuals[i], pop.individuals[i+1], **kargs)
+            pop.individuals[i] = o1
+            pop.individuals[i+1] = o2
+    
+    return pop
+
+
 def one_point_crossover(g1, g2):
     '''
     One Point Crossover
@@ -179,5 +201,5 @@ def discrete_crossover(g1, g2):
     return o1
 
 
-def tree_crossover(t1, t2, pset=None):
-    return np.copy(t1), np.copy(t2)
+def tree_crossover(i1, i2, pset=None):
+    return i1.clone(), i2.clone()

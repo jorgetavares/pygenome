@@ -7,7 +7,7 @@ from pygenome.representations.population import make_tree_population
 from pygenome.fitness.evaluation import evaluate_tree_population
 from pygenome.utilities.logging import evolution_progress
 from pygenome.operators.crossover import (
-    apply_crossover,
+    apply_tree_crossover,
     tree_crossover
 )
 from pygenome.operators.mutation import (
@@ -62,7 +62,7 @@ def genetic_programming(fitness_fn, pset, min_depth, max_depth, chr_size, pop_si
 
     # operators and selection
     def apply_cx(p):
-        return apply_crossover(p, cx_rate, cx, pset=pset)
+        return apply_tree_crossover(p, cx_rate, cx, pset=pset)
 
     def apply_mt(p):
         return apply_tree_mutation(
