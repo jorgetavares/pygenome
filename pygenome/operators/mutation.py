@@ -36,8 +36,8 @@ def apply_tree_mutation(pop, rate, mt_op, **kargs):
     '''
     for i in range(0, pop.size):
         if np.random.uniform() < rate:
-            offspring = mt_op(pop.individuals[i].genome, pop.individuals[i].depth, pop.individuals[i].nodes, **kargs)
-            pop.individuals[i].genome = offspring
+            offspring = mt_op(pop.individuals[i], **kargs)
+            pop.individuals[i] = offspring
     
     return pop
 
@@ -195,5 +195,5 @@ def uncorrelated_n_steps_mutation(chromossome, epsilon=1e-08):
     return np.concatenate((values, sigmas))
     
 
-def subtree_mutation(t1, t1_depth, t1_nodes, pset=None, **kargs):
-    return np.copy(t1)
+def subtree_mutation(i1, pset=None, **kargs):
+    return i1.clone()
