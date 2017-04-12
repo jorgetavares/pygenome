@@ -14,7 +14,7 @@ def es_mu_comma_lambda_one_step():
     np.random.seed(42)
     pop = pg.evolutionary_strategy(fitness_fn, sphere_model_size, -5.0, 5.0)
     best = pg.best_individual(pop)
-    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genome))
+    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genotype))
 
 # ES 2
 def es_mu_plus_lambda_one_step():
@@ -22,7 +22,7 @@ def es_mu_plus_lambda_one_step():
     pop = pg.evolutionary_strategy(fitness_fn, sphere_model_size, -5.0, 5.0, 
                                    replace_pop=pg.mu_plus_lambda_replacement)
     best = pg.best_individual(pop)
-    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genome))
+    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genotype))
 
 # ES 3
 def es_mu_comma_lambda_n_step():
@@ -30,7 +30,7 @@ def es_mu_comma_lambda_n_step():
     pop = pg.evolutionary_strategy(fitness_fn, sphere_model_size, -5.0, 5.0,
                                    mt=pg.uncorrelated_n_steps_mutation)
     best = pg.best_individual(pop)
-    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genome))
+    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genotype))
 
 # ES 4
 def es_mu_plus_lambda_n_step():
@@ -39,7 +39,7 @@ def es_mu_plus_lambda_n_step():
                                    replace_pop=pg.mu_plus_lambda_replacement,
                                    mt=pg.uncorrelated_n_steps_mutation)
     best = pg.best_individual(pop)
-    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genome))
+    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genotype))
 
 
 # entry point

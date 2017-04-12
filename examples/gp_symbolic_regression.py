@@ -45,7 +45,7 @@ def gp_with_elitism():
     max_size = 200
     pop = pg.genetic_programming(fitness_fn, pset, min_depth, max_depth, max_size, elitism=True, total_generations=20, pop_size=1000)
     best = pg.best_individual(pop)
-    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genome))
+    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genotype))
 
 # entry point
 if __name__ == "__main__":

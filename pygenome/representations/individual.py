@@ -6,9 +6,9 @@ class Individual(object):
     Base class for all type of individuals
     '''
 
-    def __init__(self, fitness=None, genome=None):
+    def __init__(self, fitness=None, genotype=None):
         self.fitness = fitness # this should be an object since fitness can be more than a simple value
-        self.genome = genome   # this should be an object that can be of any type 
+        self.genotype = genotype   # this should be an object that can be of any type 
 
     def clone(self):
         return deepcopy(self)
@@ -20,6 +20,6 @@ class TreeIndividual(Individual):
     '''
 
     def __init__(self, fitness=None, tree=None, depth=None, nodes=None):
-        super().__init__(fitness=fitness, genome=tree)
+        super().__init__(fitness=fitness, genotype=tree)
         self.depth = depth
         self.nodes = nodes

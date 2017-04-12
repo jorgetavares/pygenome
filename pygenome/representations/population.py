@@ -46,7 +46,7 @@ def make_generic_population(size, make_individual_fn, *args, **kargs):
 
     for i in range(size):
         pop.individuals[i] = pg.Individual()
-        pop.individuals[i].genome = make_individual_fn(*args, **kargs)
+        pop.individuals[i].genotype = make_individual_fn(*args, **kargs)
        
     return pop
 
@@ -126,7 +126,7 @@ def make_tree_population(size, pset, min_depth, max_depth, max_size, initial_typ
 
     for i in range(size):
         pop.individuals[i] = pg.TreeIndividual()
-        pop.individuals[i].genome = init_method(pset, min_depth, max_depth, max_size, initial_type=initial_type)
+        pop.individuals[i].genotype = init_method(pset, min_depth, max_depth, max_size, initial_type=initial_type)
         depth, nodes = pg.count_tree_internals(pset, pop.individuals[i].genome)
         pop.individuals[i].depth = depth
         pop.individuals[i].nodes = nodes

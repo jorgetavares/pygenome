@@ -16,8 +16,8 @@ def apply_mutation(pop, rate, mt_op, **kargs):
     '''
     for i in range(0, pop.size):
         if np.random.uniform() < rate:
-            offspring = mt_op(pop.individuals[i].genome, **kargs)
-            pop.individuals[i].genome = offspring
+            offspring = mt_op(pop.individuals[i].genotype, **kargs)
+            pop.individuals[i].genotype = offspring
     
     return pop
 
@@ -125,7 +125,7 @@ def apply_global_mutation(pop, pool_size, mt_op, **kargs):
     for i in range(0, pool_size):
         index = np.random.randint(pop.size)
         new_pop.individuals[i] = individual.Individual()
-        new_pop.individuals[i].genome = mt_op(pop.individuals[index].genome, **kargs)
+        new_pop.individuals[i].genotype = mt_op(pop.individuals[index].genotype, **kargs)
     
     return new_pop
 
