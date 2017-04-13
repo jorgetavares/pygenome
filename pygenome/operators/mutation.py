@@ -195,5 +195,56 @@ def uncorrelated_n_steps_mutation(chromossome, epsilon=1e-08):
     return np.concatenate((values, sigmas))
     
 
+def tree_point_mutation(i1, pset=None, gene_rate=None, **kargs):
+    '''
+    Tree Point Mutation
+
+    Args:
+        i1 (TreeIndividual): the individual to be mutated
+        pset (PrimitiveSet): the set primitives allowed to be used
+
+    Returns:
+        mutated individual
+    '''
+    terminals_idx = np.array(list(pset.terminals.keys()))
+    variables_idx = np.array(list(pset.variables.keys()))
+    all_terminals_idx = np.concatenate([terminals_idx, variables_idx])
+                
+    new_genotype = np.copy(i1.genotype)
+
+    position = 0
+    while position < new_genotype.size and new_genotype[i] != 0:
+        
+        if np.random.uniform() < gene_rate:
+            primitive = new_genotype[i]
+
+            # replace terminal/variable with another one 
+            if primitive in pset.terminals or primitive in pset.variables:
+                new_genotype[i] = all_terminals_idx[np.random.randint(all_terminals_idx.size)]          
+            # replace function with another one of the same arity
+            elif primitive in pset.functions:
+                # only functions of the same arity are valid to be used
+                _, arity, _ = pset[primitive]
+                valid_functions_idx = np.asarry(pset.arity_cache[arity])
+                new_genotype[i] = valid_functions_idx[np.random.randint(valid_functions_idx.size)]
+
+        position +=1
+    
+    new_individual = TreeIndividual(tree=new_genotype, depth=i1.depth, nodes=i1.nodes)
+    return new_individual
+
+
 def subtree_mutation(i1, pset=None, **kargs):
+    '''
+    SubTree Mutation
+
+    Args:
+        i1 (TreeIndividual): the individual to be mutated
+        pset (PrimitiveSet): the set primitives allowed to be used
+
+    Returns:
+        mutated individual
+    '''
+    
+    
     return i1.clone()
