@@ -14,6 +14,7 @@ class PrimitiveSet(object):
         self.functions_types = {}    # key=type, value=list of functions that return the type
         self.terminals_types = {}    
         self.variables_types = {}
+        self.arity_cache = {}
 
     def _addTypesCache(self, primitive_key, types, types_cache):
         return_type = types[0]
@@ -22,6 +23,12 @@ class PrimitiveSet(object):
         else:
             types_cache[return_type] = [primitive_key]
 
+    def _addArityCache(self, primitive_key, arity):
+        if arity in arity_cache:
+            self.arity_cache[arity].append(primitive_key)
+        else:
+            self.arity_cache[arity] = [primitive_key]
+
     def addFunction(self, fn, arity, types=None):
         if self.typed and types is None:
             raise AttributeError('This is a typed primitive set so types are required!')
@@ -29,7 +36,8 @@ class PrimitiveSet(object):
         primitive = (fn, arity, types)
         self.num_primitives += 1
         self.functions[self.num_primitives] = primitive
-        
+        self._addArityCache(self.num_primitives, arity)
+
         if self.typed:
             self._addTypesCache(self.num_primitives, types, self.functions_types)
 
