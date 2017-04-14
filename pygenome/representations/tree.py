@@ -24,7 +24,7 @@ class PrimitiveSet(object):
             types_cache[return_type] = [primitive_key]
 
     def _addArityCache(self, primitive_key, arity):
-        if arity in arity_cache:
+        if arity in self.arity_cache:
             self.arity_cache[arity].append(primitive_key)
         else:
             self.arity_cache[arity] = [primitive_key]
