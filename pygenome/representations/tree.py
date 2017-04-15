@@ -15,6 +15,7 @@ class PrimitiveSet(object):
         self.terminals_types = {}    
         self.variables_types = {}
         self.arity_cache = {}
+        self.primitives = set() # to verify duplicates
 
     def _addTypesCache(self, primitive_key, types, types_cache):
         return_type = types[0]
@@ -29,39 +30,49 @@ class PrimitiveSet(object):
         else:
             self.arity_cache[arity] = [primitive_key]
 
+    
     def addFunction(self, fn, arity, types=None):
         if self.typed and types is None:
             raise AttributeError('This is a typed primitive set so types are required!')
         
-        primitive = (fn, arity, types)
-        self.num_primitives += 1
-        self.functions[self.num_primitives] = primitive
-        self._addArityCache(self.num_primitives, arity)
+        if fn not in self.primitives:
+            self.primitives.add(fn)
 
-        if self.typed:
-            self._addTypesCache(self.num_primitives, types, self.functions_types)
+            primitive = (fn, arity, types)
+            self.num_primitives += 1
+            self.functions[self.num_primitives] = primitive
+            self._addArityCache(self.num_primitives, arity)
+
+            if self.typed:
+                self._addTypesCache(self.num_primitives, types, self.functions_types)
 
     def addTerminal(self, term, types=None):
         if self.typed and types is None:
             raise AttributeError('This is a typed primitive set so types are required!')
         
-        primitive = (term, types)
-        self.num_primitives += 1
-        self.terminals[self.num_primitives] = primitive
+        if term not in self.primitives:
+            self.primitives.add(term)
+            
+            primitive = (term, types)
+            self.num_primitives += 1
+            self.terminals[self.num_primitives] = primitive
 
-        if self.typed:
-            self._addTypesCache(self.num_primitives, types, self.terminals_types)
+            if self.typed:
+                self._addTypesCache(self.num_primitives, types, self.terminals_types)
 
     def addVariable(self, var, types=None):
         if self.typed and types is None:
             raise AttributeError('This is a typed variable set so types are required!')   
         
-        variable = (var, types)
-        self.num_primitives += 1
-        self.variables[self.num_primitives] = variable
+        if var not in self.primitives:
+            self.primitives.add(var)
+            
+            variable = (var, types)
+            self.num_primitives += 1
+            self.variables[self.num_primitives] = variable
 
-        if self.typed:
-            self._addTypesCache(self.num_primitives, types, self.variables_types)
+            if self.typed:
+                self._addTypesCache(self.num_primitives, types, self.variables_types)
 
 
 def count_tree_internals(pset, tree):
