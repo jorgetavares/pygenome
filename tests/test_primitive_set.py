@@ -46,4 +46,4 @@ def test_duplicate_entries():
     assert list(pset.terminals.keys()) == [2]
     assert list(pset.variables.keys()) == [3]
     assert pset.arity_cache == {2: [1]}
-    
+    assert pset.primitives == set([op.add, 2, "x"])
