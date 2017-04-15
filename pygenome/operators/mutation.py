@@ -220,13 +220,37 @@ def tree_point_mutation(i1, pset=None, gene_rate=None, **kargs):
 
             # replace terminal/variable with another one 
             if primitive in pset.terminals or primitive in pset.variables:
-                new_genotype[i] = all_terminals_idx[np.random.randint(all_terminals_idx.size)]          
+            
+                if pset.typed:
+                    _, types = pset.terminal[primitive]
+                    typed_terminals = pset.terminals_types[types]
+                    new_genotype[i] = typed_terminals[np.random.randint(len(typed_terminals))]
+                else:
+                    new_genotype[i] = all_terminals_idx[np.random.randint(all_terminals_idx.size)]          
+            
             # replace function with another one of the same arity
             elif primitive in pset.functions:
+            
                 # only functions of the same arity are valid to be used
-                _, arity, _ = pset[primitive]
+                _, arity, types = pset[primitive]
                 valid_functions_idx = np.asarry(pset.arity_cache[arity])
-                new_genotype[i] = valid_functions_idx[np.random.randint(valid_functions_idx.size)]
+            
+                if pset.typed:
+                    typed_functions = pset.functions_types[types[0]] # only cache by return type
+                    # compute intersection of arity and typed functions
+                    # and if result is not null, check if all arguments are equivalent
+                    # otherwise, does not mutate
+                    candidate_functions = valid_functions_idx - typed_functions #TODO: check  proper function!
+                    final_candidates = []
+                    for fn in candidate_functions:
+                        _, _, candidate_types = pset.functions[fn]
+                        if candidate_types == types:
+                            final_candidates.append(fn)
+                    if final_candidates not []:
+                        new_genotype[i] = final_candidates[np.random.randint(len(final_candidates))]
+                        
+                else:
+                    new_genotype[i] = valid_functions_idx[np.random.randint(valid_functions_idx.size)]
 
         position +=1
     
