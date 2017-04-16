@@ -212,23 +212,28 @@ def tree_point_mutation(i1, pset=None, gene_rate=None, **kargs):
                 
     new_genotype = np.copy(i1.genotype)
 
-    position = 0
-    while position < new_genotype.size and new_genotype[i] != 0:
+    i = 0
+    while i < new_genotype.size and new_genotype[i] != 0:
         
         if np.random.uniform() < gene_rate:
             primitive = new_genotype[i]
             # replace terminal/variable with another one 
             if primitive in pset.terminals or primitive in pset.variables:
                 if pset.typed:
-                    _, types = pset.terminal[primitive]
-                    typed_terminals = pset.terminals_types[types]
-                    new_genotype[i] = typed_terminals[np.random.randint(len(typed_terminals))]
+                    _, term_types = pset.terminals[primitive] if primitive in pset.terminals else (None, None) 
+                    _, vars_types = pset.variables[primitive] if primitive in pset.variables else (None, None)
+
+                    typed_terminals = pset.terminals_types[term_types] if term_types is not None else [] 
+                    typed_variables = pset.variables_types[vars_types] if vars_types is not None else []
+
+                    valid_terminals = np.concatenate([np.array(typed_terminals, dtype=int), np.array(typed_variables, dtype=int)])
+                    new_genotype[i] = valid_terminals[np.random.randint(valid_terminals.size)]
                 else:
                     new_genotype[i] = all_terminals_idx[np.random.randint(all_terminals_idx.size)]                 
             # replace function with another one of the same arity
             elif primitive in pset.functions:
                 # only functions of the same arity are valid to be used
-                _, arity, types = pset[primitive]
+                _, arity, types = pset.functions[primitive]
                     
                 if pset.typed:
                     arity_functions = set(pset.arity_cache[arity])
@@ -244,15 +249,15 @@ def tree_point_mutation(i1, pset=None, gene_rate=None, **kargs):
                             final_candidates.append(fn_key)
 
                     if final_candidates != []:
-                        valid_functions_idx = np.asarry(final_candidates)
+                        valid_functions_idx = np.array(final_candidates)
                         new_genotype[i] = valid_functions_idx[np.random.randint(valid_functions_idx.size)]                 
                 else:
-                    valid_functions_idx = np.asarry(pset.arity_cache[arity])
+                    valid_functions_idx = np.array(pset.arity_cache[arity])
                     new_genotype[i] = valid_functions_idx[np.random.randint(valid_functions_idx.size)]
 
-        position +=1
+        i +=1
     
-    new_individual = TreeIndividual(tree=new_genotype, depth=i1.depth, nodes=i1.nodes)
+    new_individual = pg.TreeIndividual(tree=new_genotype, depth=i1.depth, nodes=i1.nodes)
     return new_individual
 
 
