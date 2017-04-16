@@ -217,39 +217,37 @@ def tree_point_mutation(i1, pset=None, gene_rate=None, **kargs):
         
         if np.random.uniform() < gene_rate:
             primitive = new_genotype[i]
-
             # replace terminal/variable with another one 
             if primitive in pset.terminals or primitive in pset.variables:
-            
                 if pset.typed:
                     _, types = pset.terminal[primitive]
                     typed_terminals = pset.terminals_types[types]
                     new_genotype[i] = typed_terminals[np.random.randint(len(typed_terminals))]
                 else:
-                    new_genotype[i] = all_terminals_idx[np.random.randint(all_terminals_idx.size)]          
-            
+                    new_genotype[i] = all_terminals_idx[np.random.randint(all_terminals_idx.size)]                 
             # replace function with another one of the same arity
             elif primitive in pset.functions:
-            
                 # only functions of the same arity are valid to be used
                 _, arity, types = pset[primitive]
-                valid_functions_idx = np.asarry(pset.arity_cache[arity])
-            
+                    
                 if pset.typed:
-                    typed_functions = pset.functions_types[types[0]] # only cache by return type
+                    arity_functions = set(pset.arity_cache[arity])
+                    typed_functions = set(pset.functions_types[types[0]]) # only cache by return type
                     # compute intersection of arity and typed functions
                     # and if result is not null, check if all arguments are equivalent
                     # otherwise, does not mutate
-                    candidate_functions = valid_functions_idx - typed_functions #TODO: check  proper function!
                     final_candidates = []
-                    for fn in candidate_functions:
-                        _, _, candidate_types = pset.functions[fn]
+
+                    for fn_key in set.intersection(arity_functions, typed_functions):
+                        _, _, candidate_types = pset.functions[fn_key]
                         if candidate_types == types:
-                            final_candidates.append(fn)
+                            final_candidates.append(fn_key)
+                            
                     if final_candidates not []:
-                        new_genotype[i] = final_candidates[np.random.randint(len(final_candidates))]
-                        
+                        valid_functions_idx = np.asarry(final_candidates)
+                        new_genotype[i] = valid_functions_idx[np.random.randint(valid_functions_idx.size)]                 
                 else:
+                    valid_functions_idx = np.asarry(pset.arity_cache[arity])
                     new_genotype[i] = valid_functions_idx[np.random.randint(valid_functions_idx.size)]
 
         position +=1
