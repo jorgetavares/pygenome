@@ -242,8 +242,8 @@ def tree_point_mutation(i1, pset=None, gene_rate=None, **kargs):
                         _, _, candidate_types = pset.functions[fn_key]
                         if candidate_types == types:
                             final_candidates.append(fn_key)
-                            
-                    if final_candidates not []:
+
+                    if final_candidates != []:
                         valid_functions_idx = np.asarry(final_candidates)
                         new_genotype[i] = valid_functions_idx[np.random.randint(valid_functions_idx.size)]                 
                 else:
