@@ -222,9 +222,16 @@ def tree_point_mutation(i1, pset=None, gene_rate=None, **kargs):
                 if pset.typed:
                     _, term_types = pset.terminals[primitive] if primitive in pset.terminals else (None, None) 
                     _, vars_types = pset.variables[primitive] if primitive in pset.variables else (None, None)
-
-                    typed_terminals = pset.terminals_types[term_types] if term_types is not None else [] 
-                    typed_variables = pset.variables_types[vars_types] if vars_types is not None else []
+                    
+                    if term_types is not None:
+                        typed_terminals = pset.terminals_types[term_types[0]]
+                    else:
+                        typed_terminals = [] 
+                    
+                    if vars_types is not None:
+                        typed_variables = pset.variables_types[vars_types[0]] 
+                    else:
+                        typed_variables = []
 
                     valid_terminals = np.concatenate([np.array(typed_terminals, dtype=int), np.array(typed_variables, dtype=int)])
                     new_genotype[i] = valid_terminals[np.random.randint(valid_terminals.size)]
