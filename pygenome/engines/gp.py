@@ -12,7 +12,7 @@ from pygenome.operators.crossover import (
 )
 from pygenome.operators.mutation import (
     apply_tree_mutation,
-    subtree_mutation
+    tree_point_mutation
 )
 from pygenome.operators.selection import (
     best_individual,
@@ -31,7 +31,7 @@ from pygenome.engines.ga import generic_ea
 def genetic_programming(fitness_fn, pset, min_depth, max_depth, chr_size, pop_size=100,
                         total_generations=20,
                         cx=tree_crossover, cx_rate=0.7,
-                        mt=subtree_mutation, ind_mt_rate=1.0, op_mt_rate=0.01,
+                        mt=tree_point_mutation, ind_mt_rate=1.0, op_mt_rate=0.05,
                         select_fn=tournament_selection,
                         elitism=False, generational=True, initial_type=None, init_method=grow_tree):
    
