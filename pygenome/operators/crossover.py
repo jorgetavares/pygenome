@@ -201,5 +201,29 @@ def discrete_crossover(g1, g2):
     return o1
 
 
-def tree_crossover(i1, i2, pset=None):
-    return i1.clone(), i2.clone()
+def tree_crossover(parent1, parent2, pset=None):
+        '''
+    Tree Crossover
+
+    Args:
+        parent1 (TreeIndividual): first parent
+        parent2 (TreeIndividual): second parent
+        pset (PrimitiveSet): the set primitives allowed to be used
+
+    Returns:
+        offsprings from the two parents
+    '''      
+    offspring1 = parent1.clone()
+    offspring2 = parent2.clone()
+
+    cut_point1 = np.random.randint(parent1.nodes)
+    cut_point2 = np.random.randint(parent2.nodes)
+
+    # return subtree from parent1
+    # return subtree from parent2
+
+    # create new tree where copies everything from parent, 
+    # and when it reaches cut-point, copies that subtree from 
+    # parent2. Then do the same for the other offspring
+
+    return offspring1, offspring2
