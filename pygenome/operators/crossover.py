@@ -202,7 +202,7 @@ def discrete_crossover(g1, g2):
 
 
 def tree_crossover(parent1, parent2, pset=None):
-        '''
+    '''
     Tree Crossover
 
     Args:
@@ -212,18 +212,40 @@ def tree_crossover(parent1, parent2, pset=None):
 
     Returns:
         offsprings from the two parents
-    '''      
-    offspring1 = parent1.clone()
-    offspring2 = parent2.clone()
+    '''     
+    def arraycopy(src, src_pos, dest, dest_pos, length):
+        dest[dest_pos:dest_pos + length] = src[src_pos:src_pos + length]
 
-    cut_point1 = np.random.randint(parent1.nodes)
-    cut_point2 = np.random.randint(parent2.nodes)
+    # create offsprings
+    offspring1 = pg.TreeIndividual(tree=np.zeros(parent1.genotype.size, dtype=parent1.genotype.dtype))
+    offspring2 = pg.TreeIndividual(tree=np.zeros(parent2.genotype.size, dtype=parent2.genotype.dtype))
 
-    # return subtree from parent1
-    # return subtree from parent2
-
-    # create new tree where copies everything from parent, 
-    # and when it reaches cut-point, copies that subtree from 
-    # parent2. Then do the same for the other offspring
+    # define tree cut points for subtree swap
+    start1 = np.random.randint(parent1.nodes)
+    end1 = pg.transverse_tree(pset, parent1.genotype, start1)
+    start2 = np.random.randint(parent2.nodes)
+    end2 = pg.transverse_tree(pset, parent2.genotype, start2)
+    
+    # define length of offspring trees
+    len1 = start1 + (end2 - start2) + (parent1.nodes - end1)
+    len2 = start2 + (end1 - start1) + (parent2.nodes - end2)
+    
+    # produce offpsring 1
+    arraycopy(parent1.genotype, 0, offspring1.genotype, 0, start1)
+    num_elements = (end2 - start2) if (end2 - start2) > 0 else 0
+    arraycopy(parent2.genotype, start2, offspring1.genotype, start1, num_elements)
+    num_elements = (len1 - end1) if (len1 - end1) > 0 else 0
+    arraycopy(parent1.genotype, end1, offspring1.genotype, start1 + (end2 - start2), num_elements)
+    
+    # produce offspring 2
+    arraycopy(parent2.genotype, 0, offspring2.genotype, 0, start2)
+    num_elements = (end1 - start1) if (end1 - start1) > 0 else 0
+    arraycopy(parent1.genotype, start1, offspring2.genotype, start2, num_elements)
+    num_elements = (len2 - end2) if (len2 - end2) > 0 else 0
+    arraycopy(parent2.genotype, end2, offspring2.genotype, start2 + (end1 - start1), num_elements)
+    
+    # update tree metrics
+    offspring1.depth, offspring1.nodes = pg.count_tree_internals(pset, offspring1.genotype)
+    offspring2.depth, offspring2.nodes = pg.count_tree_internals(pset, offspring2.genotype)
 
     return offspring1, offspring2
