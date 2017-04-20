@@ -1,7 +1,9 @@
 # TODO
 * GP/STGP: 
-    + establish automatically max array size for tree, given max allowed depth
     + crossover operator
+        + fix bug on transverse tree
+        + add checks for typed sets
+    + establish automatically max array size for tree, given max allowed depth
     + subtree mutation
     + unit tests
     + bloat control
@@ -12,4 +14,4 @@
 * Use logging
     + for standard output
     + for file output
-* Explore the sue of an http server to plot evolution statistics
+* Explore the use of an http server to plot evolution statistics
