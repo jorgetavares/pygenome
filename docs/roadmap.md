@@ -1,7 +1,7 @@
 # Roadmap
 
 This is an intial roadmap/wish list for pygenome.
-Last update 2017/04/20.
+Last update 2017/04/22.
 
 * version 0.01
   + Main evolutionary paradigms: GA, ES, GP (+ STGP) and GE
