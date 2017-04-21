@@ -4,6 +4,7 @@
         + add checks for typed sets
     + establish automatically max array size for tree, given max allowed depth
     + subtree mutation
+    + add ephemeral constants
     + unit tests
     + bloat control
 * Generic:
