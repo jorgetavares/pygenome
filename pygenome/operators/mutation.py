@@ -282,15 +282,35 @@ def subtree_mutation(parent, pset=None, **kargs):
     def arraycopy(src, src_pos, dest, dest_pos, length):
         dest[dest_pos:dest_pos + length] = src[src_pos:src_pos + length]
     
+    def get_primitive_type(primitive):
+        if primitive in pset.terminals:
+            _, p_type = pset.terminals[primitive]
+        elif primitive in pset.variables:
+            _, p_type = pset.variables[primitive]
+        elif primitive in pset.functions:
+            _, _, p_type = pset.functions[primitive]
+        else:
+            p_type = None
+            raise AttributeError('This is a typed primitive set so types are required!')
+        return p_type[0]
+        
     offspring = pg.TreeIndividual(tree=np.zeros(parent.genotype.size, dtype=parent.genotype.dtype))
    
     # define tree cut points for subtree replacement
     start1 = np.random.randint(parent.nodes)
     end1 = pg.transverse_tree(pset, parent.genotype, start1)
 
-    # TODO: the default values to set the size of the generated  tree must be revised
+    # if typed subtree must return the appropriate type
+    if pset.typed:
+        primitive = parent.genotype[start1]
+        parent_type = get_primitive_type(primitive)
+    else:
+        parent_type = None
+    
+     # TODO: the default values to set the size of the generated  tree must be revised
     # and a proper mechanism to set these values on a per-problem case must be available
-    subtree = pg.grow_tree(pset, 0, parent.depth - 1, parent.depth, initial_type=None)
+    # if typed set, start2 must be of the same type as start1
+    subtree = pg.grow_tree(pset, 0, parent.depth - 1, parent.depth, initial_type=parent_type)
     start2 = 0
     end2 = pg.transverse_tree(pset, subtree, start2)
 
