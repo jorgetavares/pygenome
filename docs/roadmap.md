@@ -19,6 +19,7 @@ Last update 2017/04/20.
 * version 0.02
   + Fitness: multi-objective (NSGA-2, SPEAR)
   + Paradigms: NEAT, SGE, CFGGP, CMA-ES
+  + GP: add bloat control methods
   + Memetic Algorithms: allow the use of local search
   + Visualization of evolution statistics
   + Full Units tests

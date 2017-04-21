@@ -2,7 +2,6 @@
 * GP/STGP: 
     + subtree mutation
     + add ephemeral constants
-    + bloat control
 * Generic:
     + change operators to deal with individuals and not genotypes
     + cache fitness evaluation (especially for GP)
