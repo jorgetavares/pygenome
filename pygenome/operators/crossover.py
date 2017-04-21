@@ -9,8 +9,8 @@ def apply_crossover(pop, rate, cx_op, **kargs):
     Args:
         pop (Population): individuals to apply crossover, 2 by 2
         rate (float): crossover rate
-        cx_op (function): crossover operator for 2 genomes
-        **kargs: keyword arguments for the crossover oeprator
+        cx_op (function): crossover operator for 2 individuals
+        **kargs: keyword arguments for the crossover operator
 
     Return:
         population of individuals after crossover being applied in-place
@@ -32,7 +32,7 @@ def apply_tree_crossover(pop, rate, cx_op, **kargs):
         pop (Population): individuals to apply crossover, 2 by 2
         rate (float): crossover rate
         cx_op (function): crossover operator for 2 tree individuals
-        **kargs: keyword arguments for the crossover oeprator
+        **kargs: keyword arguments for the crossover operator
 
     Return:
         population of individuals after crossover being applied in-place
@@ -55,13 +55,15 @@ def one_point_crossover(i1, i2):
         i2 (Individual): indivdiual 2 fixed genome
     
     Returns:
-        tuple with resulting offsprings genomes
+        tuple with resulting offsprings
     '''
     cut_point = np.random.randint(g1.size)
     o1 = np.concatenate(i1.genotype[0:cut_point], i2.genotype[cut_point:])
     o2 = np.concatenate(i2.genotype[0:cut_point], i1.genotype[cut_point:])
+    
     i1.genotype = o1
     i2.genotype = o2
+
     return (i1, i2)
 
 
@@ -74,7 +76,7 @@ def partially_match_crossover(i1, i2):
         i2 (Individual): indivdiual 2 fixed genome
     
     Returns:
-        tuple with resulting offsprings genomes
+        tuple with resulting offsprings
     '''
     g1 = i1.genotype
     g2 = i2.genotype
@@ -129,7 +131,7 @@ def uniform_crossover(i1, i2, rate=0.5):
         i2 (Individual): indivdiual 2 fixed genome
     
     Returns:
-        tuple with resulting offsprings genomes
+        tuple with resulting offsprings
     '''
     g1 = i1.genotype
     g2 = i2.genotype
@@ -158,37 +160,42 @@ def apply_global_crossover(pop, cx_op, **kargs):
 
     Args:
         pop (Population): individuals to apply crossover, 1 by 1, where parent 2 is randomly picked
-        cx_op (function): crossover operator for 2 genomes
-        **kargs: keyword arguments for the crossover oeprator
+        cx_op (function): crossover operator for 2 individuals
+        **kargs: keyword arguments for the crossover operator
 
     Return:
         population of individuals after crossover being applied in-place
     '''
     for i in range(0, pop.size):
-        pop.individuals[i].genotype = cx_op(pop.individuals[i].genotype, 
-                                          pop.individuals[np.random.randint(pop.size)].genotype, 
-                                          **kargs)
+        pop.individuals[i] = cx_op(pop.individuals[i], 
+                                   pop.individuals[np.random.randint(pop.size)], 
+                                   **kargs)
     
     return pop
 
 
-def intermediary_crossover(g1, g2):
+def intermediary_crossover(i1, i2):
     '''
     Intermediary Crossover
 
     Args:
-        g1 (array): indivdiual 1 fixed genome
-        g2 (array): indivdiual 2 fixed genome
+        i1 (Individual): indivdiual 1 fixed genome
+        i2 (Individual): indivdiual 2 fixed genome
     
     Returns:
         single offspring from 2 parents
     '''
+    g1 = i1.genotype
+    g2 = i2.genotype
+
     o1 = np.empty(g1.size, dtype=g1.dtype)
 
     for i in range(g1.size):
         o1[i] = (g1[i] + g2[i]) / 2.0
 
-    return o1
+    i1.genotype = o1
+
+    return i1
 
 
 def discrete_crossover(g1, g2):
@@ -196,12 +203,15 @@ def discrete_crossover(g1, g2):
     Discrete Crossover
 
     Args:
-        g1 (array): indivdiual 1 fixed genome
-        g2 (array): indivdiual 2 fixed genome
+        i1 (Individual): indivdiual 1 fixed genome
+        i2 (Individual): indivdiual 2 fixed genome
     
     Returns:
         single offspring from 2 parents
     '''
+    g1 = i1.genotype
+    g2 = i2.genotype
+
     o1 = np.empty(g1.size, dtype=g1.dtype)
 
     for i in range(g1.size):
@@ -209,8 +219,10 @@ def discrete_crossover(g1, g2):
             o1[i] = g1[i]
         else:
             o1[i] = g2[i]
+    
+    i1.genotype = o1
 
-    return o1
+    return i1
 
 
 def tree_crossover(parent1, parent2, pset=None):

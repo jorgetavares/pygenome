@@ -115,17 +115,17 @@ def apply_global_mutation(pop, pool_size, mt_op, **kargs):
         pop (Population): individuals to apply mutation, randomly picked until pool_size
         pool_size (int): number of individuals that will be applied mutation
         mt_op (function): mutation operator
-        **kargs: keyword arguments for the crossover oeprator
+        **kargs: keyword arguments for the mutation oeprator
 
     Return:
         population of mutated individuals 
     '''
-    new_pop = population.make_empty_population(pool_size)
+    new_pop = pg.make_empty_population(pool_size)
     
     for i in range(0, pool_size):
         index = np.random.randint(pop.size)
-        new_pop.individuals[i] = individual.Individual()
-        new_pop.individuals[i].genotype = mt_op(pop.individuals[index].genotype, **kargs)
+        new_pop.individuals[i] = pg.Individual()
+        new_pop.individuals[i] = mt_op(pop.individuals[index], **kargs)
     
     return new_pop
 
@@ -144,17 +144,19 @@ def sigma_check(sigma, epsilon=1e-08):
     return epsilon if sigma < epsilon else sigma
 
 
-def uncorrelated_one_step_mutation(chromossome, epsilon=1e-08):
+def uncorrelated_one_step_mutation(ind, epsilon=1e-08):
     '''
     Uncorrelated One Step Mutation
 
     Args:
-        chromossome (float array): chromossome to be mutated. Last gene is the sigma value
+        ind (Individual): individual to be mutated. Last gene is the sigma value
         epsilon (float): minimum value sigma can have
 
     Returns:
-        mutated chromossome
+        mutated individual
     '''
+    chromossome = ind.genotype
+
     tau = 1.0 / np.sqrt(chromossome.size - 1)
     sigma = sigma_check(chromossome[-1] * np.exp(tau * np.random.normal()), epsilon)
 
@@ -165,21 +167,25 @@ def uncorrelated_one_step_mutation(chromossome, epsilon=1e-08):
 
     offspring[-1] = sigma # last is the self-adaptive rate, not part of the solution
 
-    return offspring
+    ind.genotype = offspring
+
+    return ind
 
 
-def uncorrelated_n_steps_mutation(chromossome, epsilon=1e-08):
+def uncorrelated_n_steps_mutation(ind, epsilon=1e-08):
     '''
     Uncorrelated N Steps Mutation
 
     Args:
-        chromossome (float array): chromossome to be mutated. 
+        ind (Individual): individual to be mutated.  
         First half is the problem, second half sigma values
         epsilon (float): minimum value sigma can have
 
     Returns:
-        mutated chromossome
+        mutated individual
     '''
+    chromossome = ind.genotype
+
     n = int(chromossome.size / 2)
     tau1 = (1.0 / np.sqrt(2.0 * n)) * np.random.normal()
     tau2 = 1.0 / np.sqrt(2.0 * np.sqrt(n))
@@ -192,7 +198,9 @@ def uncorrelated_n_steps_mutation(chromossome, epsilon=1e-08):
     for i in range(values.size):
         values[i] = values[i] + sigmas[i] * np.random.normal()
 
-    return np.concatenate((values, sigmas))
+    ind.genotype = np.concatenate((values, sigmas))
+
+    return ind
     
 
 def tree_point_mutation(i1, pset=None, gene_rate=None, **kargs):
