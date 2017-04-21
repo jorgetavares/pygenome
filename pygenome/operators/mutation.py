@@ -16,8 +16,8 @@ def apply_mutation(pop, rate, mt_op, **kargs):
     '''
     for i in range(0, pop.size):
         if np.random.uniform() < rate:
-            offspring = mt_op(pop.individuals[i].genotype, **kargs)
-            pop.individuals[i].genotype = offspring
+            offspring = mt_op(pop.individuals[i], **kargs)
+            pop.individuals[i] = offspring
     
     return pop
 
@@ -42,41 +42,47 @@ def apply_tree_mutation(pop, rate, mt_op, **kargs):
     return pop
 
 
-def flip_mutation(chromossome, gene_rate=None, low=0, high=1, **kargs):
+def flip_mutation(ind, gene_rate=None, low=0, high=1, **kargs):
     '''
     Flip Mutation
 
     Args:
-        chromossome (array): integer chromossome to be mutated
+        ind (Individual): individual with integer chromossome to be mutated
         rate (float): per gene mutation rate
         low (int): low value the chromossome can have
         hight (int): high value (inclusive) the chromossome can have
 
     Returns:
-        mutated chromossome
+        mutated individual
     '''
+    chromossome = ind.genotype
     rate = 1. / chromossome.size if gene_rate is None else gene_rate
+
     for i in range(0, chromossome.size):
         high_value = high + 1 # to be inclusive
         if np.random.uniform() < rate:
             chromossome[i] = np.random.randint(low, high=high_value)
+    
+    ind.genotype = chromossome
 
-    return chromossome
+    return ind
 
 
-def swap_mutation(chromossome, gene_rate=None, **kargs):
+def swap_mutation(ind, gene_rate=None, **kargs):
     '''
     Swap Mutation
 
     Args:
-        chromossome (array): integer chromossome to be mutated
+        ind (Individual): individual with integer chromossome to be mutated
         rate (float): per gene mutation rate
 
     Returns:
-        mutated chromossome where each gene can be swapped with 
-        another one so that permutations can be preserved 
+        mutated individual with chromossome where each gene can be 
+        swapped with another one so that permutations can be preserved 
     '''
+    chromossome = ind.genotype
     rate = 1. / chromossome.size if gene_rate is None else gene_rate
+
     for i in range(0, chromossome.size):
         if np.random.uniform() < rate:
             j = np.random.randint(chromossome.size)
@@ -84,26 +90,32 @@ def swap_mutation(chromossome, gene_rate=None, **kargs):
             chromossome[i] = chromossome[j]
             chromossome[j] = temp
 
-    return chromossome
+    ind.genotype = chromossome
+
+    return ind
 
 
-def uniform_mutation(chromossome, gene_rate=None, low=0.0, high=1.0, **kargs):
+def uniform_mutation(ind, gene_rate=None, low=0.0, high=1.0, **kargs):
     '''
     Uniform Mutation
 
     Args:
-        chromossome (array): float chromossome to be mutated
+        ind (Individual): individual with integer chromossome to be mutated
         rate (float): per gene mutation rate
 
     Returns:
-        mutated chromossome
+        mutated individual
     '''
+    chromossome = ind.genotype
     rate = 1. / chromossome.size if gene_rate is None else gene_rate
+
     for i in range(0, chromossome.size):
         if np.random.uniform() < rate:
             chromossome[i] = np.random.uniform(low=low, high=high)
 
-    return chromossome
+    ind.genotype = chromossome
+
+    return ind
 
 
 # ES functions
