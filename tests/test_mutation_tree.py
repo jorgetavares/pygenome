@@ -89,3 +89,26 @@ def test_tree_point_mutation_st2():
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
         0,  0,  0,  0,  0,  0,  0,  0,  0]))
     assert i1m_str == 'mul(sub(mul(sub(4.0, 6.0), sub(6.0, x)), mul(sub(5.0, 6.0), sub(5.0, 6.0))), sub(add(sub(4.0, 6.0), sub(x, 6.0)), mul(sub(x, x), sub(5.0, 5.0))))'
+
+def test_subtree_mutation():
+    np.random.seed(42)
+    pset = pg.PrimitiveSet()
+    pset.addFunction(op.add, 2)
+    pset.addFunction(op.sub, 2)
+    pset.addTerminal(1)
+    pset.addTerminal(2)
+    pset.addTerminal(3)
+    pset.addVariable("x")
+    pop = pg.make_tree_population(1, pset, 2, 7, 8, init_method=pg.full_tree)
+    i1m = pg.subtree_mutation(pop.individuals[0], pset=pset)
+    i1m_str = pg.interpreter(pset, i1m.genotype)
+
+    assert i1m.depth == 8
+    assert i1m.nodes == 67
+    assert np.array_equal(i1m.genotype, np.array([1, 2, 1, 1, 1, 6, 3, 1, 2, 4, 1, 4, 6, 4, 1, 1, 5, 5, 2, 3, 6, 2, 2,
+       1, 4, 3, 2, 6, 6, 2, 2, 4, 6, 2, 3, 3, 2, 2, 2, 1, 6, 3, 1, 5, 5, 1,
+       2, 6, 6, 2, 6, 5, 2, 2, 1, 4, 5, 2, 5, 6, 2, 1, 5, 3, 1, 5, 3, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
+    assert i1m_str == 'add(sub(add(add(add(x, 1), add(sub(2, add(2, x)), 2)), add(add(3, 3), sub(1, x))), sub(sub(add(2, 1), sub(x, x)), sub(sub(2, x), sub(1, 1)))), sub(sub(sub(add(x, 1), add(3, 3)), add(sub(x, x), sub(x, 3))), sub(sub(add(2, 3), sub(3, x)), sub(add(3, 1), add(3, 1)))))'
