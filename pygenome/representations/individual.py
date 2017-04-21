@@ -9,6 +9,7 @@ class Individual(object):
     def __init__(self, fitness=None, genotype=None):
         self.fitness = fitness # this should be an object since fitness can be more than a simple value
         self.genotype = genotype   # this should be an object that can be of any type 
+        self.run_eval = True # the individual requires evaluation
 
     def clone(self):
         return deepcopy(self)

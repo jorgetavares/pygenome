@@ -26,7 +26,9 @@ def evaluate_population(pop, fitness_fn, **kargs):
     '''
     for i in range(pop.size):
         ind = pop.individuals[i]
-        ind.fitness = Fitness(fitness_fn(ind.genotype, **kargs))
+        if ind.run_eval:
+            ind.fitness = Fitness(fitness_fn(ind.genotype, **kargs))
+            ind.run_eval = False
     
     return pop
 
@@ -46,10 +48,12 @@ def evaluate_tree_population(pop, fitness_fn, pset, **kargs):
     '''
     for i in range(pop.size):
         ind = pop.individuals[i]
-        ind.fitness = Fitness(fitness_fn(ind.genotype, **kargs))
-        depth, nodes = pg.count_tree_internals(pset, ind.genotype)
-        ind.depth = depth
-        ind.nodes = nodes
+        if ind.run_eval:
+            ind.fitness = Fitness(fitness_fn(ind.genotype, **kargs))
+            depth, nodes = pg.count_tree_internals(pset, ind.genotype)
+            ind.depth = depth
+            ind.nodes = nodes
+            ind.run_eval = False
 
     return pop
 

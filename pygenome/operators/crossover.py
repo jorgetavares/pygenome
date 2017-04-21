@@ -20,6 +20,8 @@ def apply_crossover(pop, rate, cx_op, **kargs):
             o1, o2 = cx_op(pop.individuals[i], pop.individuals[i+1], **kargs)
             pop.individuals[i] = o1
             pop.individuals[i+1] = o2
+            pop.individuals[i].run_eval = True
+            pop.individuals[i+1].run_eval = True
     
     return pop
 
@@ -42,6 +44,8 @@ def apply_tree_crossover(pop, rate, cx_op, **kargs):
             o1, o2 = cx_op(pop.individuals[i], pop.individuals[i+1], **kargs)
             pop.individuals[i] = o1
             pop.individuals[i+1] = o2
+            pop.individuals[i].run_eval = True
+            pop.individuals[i+1].run_eval = True
 
     return pop
 
@@ -170,6 +174,7 @@ def apply_global_crossover(pop, cx_op, **kargs):
         pop.individuals[i] = cx_op(pop.individuals[i], 
                                    pop.individuals[np.random.randint(pop.size)], 
                                    **kargs)
+        pop.individuals[i].run_eval = True
     
     return pop
 

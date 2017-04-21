@@ -18,6 +18,7 @@ def apply_mutation(pop, rate, mt_op, **kargs):
         if np.random.uniform() < rate:
             offspring = mt_op(pop.individuals[i], **kargs)
             pop.individuals[i] = offspring
+            pop.individuals[i].run_eval = True
     
     return pop
 
@@ -38,6 +39,7 @@ def apply_tree_mutation(pop, rate, mt_op, **kargs):
         if np.random.uniform() < rate:
             offspring = mt_op(pop.individuals[i], **kargs)
             pop.individuals[i] = offspring
+            pop.individuals[i].run_eval = True
     
     return pop
 
@@ -138,6 +140,7 @@ def apply_global_mutation(pop, pool_size, mt_op, **kargs):
         index = np.random.randint(pop.size)
         new_pop.individuals[i] = pg.Individual()
         new_pop.individuals[i] = mt_op(pop.individuals[index], **kargs)
+        new_pop.individuals[i].run_eval = True
     
     return new_pop
 
