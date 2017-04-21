@@ -1,6 +1,14 @@
 # TODO
 * GP/STGP: 
     + add ephemeral constants
+    + improve fitness regression evaluator
+    + add STGP example
+* GE:
+    + add grammar reader and data structure for grammars
+    + add genotype to phenotype mapping function
+    + add evaluator
+    + add example
+    + add unit tests
 * Generic:
     + change ES representation to dual chromossomes (problem + parameters)
 * Use logging
