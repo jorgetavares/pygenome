@@ -1,9 +1,7 @@
 # TODO
 * GP/STGP: 
-    + establish automatically max array size for tree, given max allowed depth
     + subtree mutation
     + add ephemeral constants
-    + unit tests
     + bloat control
 * Generic:
     + change operators to deal with individuals and not genotypes
@@ -12,4 +10,5 @@
 * Use logging
     + for standard output
     + for file output
+* Unit tests
 * Explore the use of an http server to plot evolution statistics
