@@ -216,6 +216,18 @@ def tree_crossover(parent1, parent2, pset=None):
     def arraycopy(src, src_pos, dest, dest_pos, length):
         dest[dest_pos:dest_pos + length] = src[src_pos:src_pos + length]
 
+    def get_primitive_type(primitive):
+        if primitive in pset.terminals:
+            _, p_type = pset.terminals[primitive]
+        elif primitive in pset.variables:
+            _, p_type = pset.variables[primitive]
+        elif primitive in pset.functions:
+            _, _, p_type = pset.functions[primitive]
+        else:
+            p_type = None
+            raise AttributeError('This is a typed primitive set so types are required!')
+        return p_type[0]
+
     # create offsprings
     offspring1 = pg.TreeIndividual(tree=np.zeros(parent1.genotype.size, dtype=parent1.genotype.dtype))
     offspring2 = pg.TreeIndividual(tree=np.zeros(parent2.genotype.size, dtype=parent2.genotype.dtype))
@@ -223,9 +235,24 @@ def tree_crossover(parent1, parent2, pset=None):
     # define tree cut points for subtree swap
     start1 = np.random.randint(parent1.nodes)
     end1 = pg.transverse_tree(pset, parent1.genotype, start1)
-    start2 = np.random.randint(parent2.nodes)
-    end2 = pg.transverse_tree(pset, parent2.genotype, start2)
     
+    # if typed set, start2 must be of the same type as start1
+    if pset.typed:
+        p1_primitive = parent1.genotype[start1]
+        p1_type = get_primitive_type(p1_primitive)
+        valid_gene_pos = []
+        pos = 0
+        while pos < parent2.nodes:
+            if p1_type == get_primitive_type(parent2.genotype[pos]):
+                valid_gene_pos.append(pos)
+            pos += 1
+
+        valid_pos = np.array(valid_gene_pos)
+        start2 = valid_pos[np.random.randint(valid_pos.size)]
+    else:
+        start2 = np.random.randint(parent2.nodes)
+    end2 = pg.transverse_tree(pset, parent2.genotype, start2)
+ 
     # define length of offspring trees
     len1 = start1 + (end2 - start2) + (parent1.nodes - end1)
     len2 = start2 + (end1 - start1) + (parent2.nodes - end2)
