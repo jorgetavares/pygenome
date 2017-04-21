@@ -268,17 +268,42 @@ def tree_point_mutation(i1, pset=None, gene_rate=None, **kargs):
     return new_individual
 
 
-def subtree_mutation(i1, pset=None, **kargs):
+def subtree_mutation(parent, pset=None, **kargs):
     '''
     SubTree Mutation
 
     Args:
-        i1 (TreeIndividual): the individual to be mutated
+        parent (TreeIndividual): the individual to be mutated
         pset (PrimitiveSet): the set primitives allowed to be used
 
     Returns:
         mutated individual
     '''
+    def arraycopy(src, src_pos, dest, dest_pos, length):
+        dest[dest_pos:dest_pos + length] = src[src_pos:src_pos + length]
     
+    offspring = pg.TreeIndividual(tree=np.zeros(parent.genotype.size, dtype=parent.genotype.dtype))
+   
+    # define tree cut points for subtree replacement
+    start1 = np.random.randint(parent.nodes)
+    end1 = pg.transverse_tree(pset, parent.genotype, start1)
+
+    # TODO: the default values to set the size of the generated  tree must be revised
+    # and a proper mechanism to set these values on a per-problem case must be available
+    subtree = pg.grow_tree(pset, 0, parent.depth - 1, parent.depth, initial_type=None)
+    start2 = 0
+    end2 = pg.transverse_tree(pset, subtree, start2)
+
+    len1 = start1 + (end2 - start2) + (parent.nodes - end1)
+
+    # produce offpsring 1
+    arraycopy(parent.genotype, 0, offspring.genotype, 0, start1)
+    num_elements = (end2 - start2)
+    arraycopy(subtree, start2, offspring.genotype, start1, num_elements)
+    num_elements = (parent.nodes - end1)
+    arraycopy(parent.genotype, end1, offspring.genotype, start1 + (end2 - start2), num_elements)
+
+    # update tree metrics
+    offspring.depth, offspring.nodes = pg.count_tree_internals(pset, offspring.genotype) 
     
-    return i1.clone()
+    return offspring
