@@ -17,9 +17,9 @@ def apply_crossover(pop, rate, cx_op, **kargs):
     '''
     for i in range(0, pop.size - 1, 2):
         if np.random.uniform() < rate:
-            o1, o2 = cx_op(pop.individuals[i].genotype, pop.individuals[i+1].genotype, **kargs)
-            pop.individuals[i].genotype = o1
-            pop.individuals[i+1].genotype = o2
+            o1, o2 = cx_op(pop.individuals[i], pop.individuals[i+1], **kargs)
+            pop.individuals[i] = o1
+            pop.individuals[i+1] = o2
     
     return pop
 
@@ -46,35 +46,39 @@ def apply_tree_crossover(pop, rate, cx_op, **kargs):
     return pop
 
 
-def one_point_crossover(g1, g2):
+def one_point_crossover(i1, i2):
     '''
     One Point Crossover
 
     Args:
-        g1 (array): indivdiual 1 fixed genome
-        g2 (array): indivdiual 2 fixed genome
+        i1 (Individual): indivdiual 1 fixed genome
+        i2 (Individual): indivdiual 2 fixed genome
     
     Returns:
         tuple with resulting offsprings genomes
     '''
     cut_point = np.random.randint(g1.size)
-    o1 = np.concatenate(g1[0:cut_point], g2[cut_point:])
-    o2 = np.concatenate(g2[0:cut_point], g1[cut_point:])
-    
-    return (o1, o2)
+    o1 = np.concatenate(i1.genotype[0:cut_point], i2.genotype[cut_point:])
+    o2 = np.concatenate(i2.genotype[0:cut_point], i1.genotype[cut_point:])
+    i1.genotype = o1
+    i2.genotype = o2
+    return (i1, i2)
 
 
-def partially_match_crossover(g1, g2):
+def partially_match_crossover(i1, i2):
     '''
     One Point Order Crossover
 
     Args:
-        g1 (array): indivdiual 1 fixed genome
-        g2 (array): indivdiual 2 fixed genome
+        i1 (Individual): indivdiual 1 fixed genome
+        i2 (Individual): indivdiual 2 fixed genome
     
     Returns:
         tuple with resulting offsprings genomes
     '''
+    g1 = i1.genotype
+    g2 = i2.genotype
+
     # compute start and end cut points
     point1 = np.random.randint(g1.size)
     point2 = np.random.randint(g1.size)
@@ -110,20 +114,25 @@ def partially_match_crossover(g1, g2):
         if o2[i] == -1 and genes2:
             o2[i] = genes2.pop(0)
 
-    return (o1, o2)
+    i1.genotype = o1
+    i2.genotype = o2
+    
+    return (i1, i2)
 
 
-def uniform_crossover(g1, g2, rate=0.5):
+def uniform_crossover(i1, i2, rate=0.5):
     '''
     Uniform Crossover
 
     Args:
-        g1 (array): indivdiual 1 fixed genome
-        g2 (array): indivdiual 2 fixed genome
+        i1 (Individual): indivdiual 1 fixed genome
+        i2 (Individual): indivdiual 2 fixed genome
     
     Returns:
         tuple with resulting offsprings genomes
     '''
+    g1 = i1.genotype
+    g2 = i2.genotype
 
     o1 = np.empty(g1.size, dtype=g1.dtype)
     o2 = np.empty(g2.size, dtype=g2.dtype)
@@ -135,8 +144,11 @@ def uniform_crossover(g1, g2, rate=0.5):
         else:
             o1[i] = g2[i]
             o2[i] = g1[i]
+    
+    i1.genotype = o1
+    i2.genotype = o2
 
-    return (o1, o2)
+    return (i1, i2)
 
 
 # ES functions
