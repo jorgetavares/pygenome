@@ -1,7 +1,6 @@
 # TODO
 * GP/STGP: 
     + crossover operator
-        + fix bug on transverse tree
         + add checks for typed sets
     + establish automatically max array size for tree, given max allowed depth
     + subtree mutation
