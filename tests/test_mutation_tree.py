@@ -112,3 +112,30 @@ def test_subtree_mutation():
        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
     assert i1m_str == 'add(sub(add(add(add(x, 1), add(sub(2, add(2, x)), 2)), add(add(3, 3), sub(1, x))), sub(sub(add(2, 1), sub(x, x)), sub(sub(2, x), sub(1, 1)))), sub(sub(sub(add(x, 1), add(3, 3)), add(sub(x, x), sub(x, 3))), sub(sub(add(2, 3), sub(3, x)), sub(add(3, 1), add(3, 1)))))'
+
+def test_subtree_mutation_typed():
+    np.random.seed(42)
+    pset = pg.PrimitiveSet(typed=True)
+    pset.addFunction(op.add, 2, [int, int, int])
+    pset.addFunction(op.sub, 2, [float, int, int])
+    pset.addFunction(op.mul, 2, [int, float, float])
+    pset.addFunction(op.truediv, 2, [float, float, float])
+    pset.addTerminal(1, [int])
+    pset.addTerminal(2, [int])
+    pset.addTerminal(3, [int])
+    pset.addTerminal(4.0, [float])
+    pset.addTerminal(5.0, [float])
+    pset.addTerminal(6.0, [float])
+    pset.addVariable("x", [float])
+    pset.addVariable("y", [int])
+    pop = pg.make_tree_population(1, pset, 2, 4, 7, init_method=pg.full_tree)
+    i1m = pg.subtree_mutation(pop.individuals[0], pset=pset)
+    i1m_str = pg.interpreter(pset, i1m.genotype)
+
+    assert i1m.depth == 3
+    assert i1m.nodes == 7
+    assert np.array_equal(i1m.genotype, np.array([ 3,  4,  8, 10,  4,  8,  8,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]))
+    assert i1m_str == 'mul(truediv(4.0, 6.0), truediv(4.0, 4.0))'
