@@ -42,7 +42,7 @@ def apply_tree_crossover(pop, rate, cx_op, **kargs):
             o1, o2 = cx_op(pop.individuals[i], pop.individuals[i+1], **kargs)
             pop.individuals[i] = o1
             pop.individuals[i+1] = o2
-    
+
     return pop
 
 
@@ -232,16 +232,16 @@ def tree_crossover(parent1, parent2, pset=None):
     
     # produce offpsring 1
     arraycopy(parent1.genotype, 0, offspring1.genotype, 0, start1)
-    num_elements = (end2 - start2) if (end2 - start2) > 0 else 0
+    num_elements = (end2 - start2)
     arraycopy(parent2.genotype, start2, offspring1.genotype, start1, num_elements)
-    num_elements = (len1 - end1) if (len1 - end1) > 0 else 0
+    num_elements = (parent1.nodes - end1)
     arraycopy(parent1.genotype, end1, offspring1.genotype, start1 + (end2 - start2), num_elements)
     
     # produce offspring 2
     arraycopy(parent2.genotype, 0, offspring2.genotype, 0, start2)
-    num_elements = (end1 - start1) if (end1 - start1) > 0 else 0
+    num_elements = (end1 - start1)
     arraycopy(parent1.genotype, start1, offspring2.genotype, start2, num_elements)
-    num_elements = (len2 - end2) if (len2 - end2) > 0 else 0
+    num_elements = (parent2.nodes - end2) 
     arraycopy(parent2.genotype, end2, offspring2.genotype, start2 + (end1 - start1), num_elements)
     
     # update tree metrics

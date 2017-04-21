@@ -119,6 +119,9 @@ def count_tree_internals(pset, tree):
                 results = results + run_tree(array_tree, depth)
             return results
         else:
+            print('primitive=', element)
+            print('position=', run_tree.position)
+            print('array_tree=', array_tree)
             raise AttributeError('Primitive not found in Primitive Set!')   
     
     run_tree.total_nodes = 0
