@@ -27,8 +27,9 @@ Last update 2017/04/20.
 
 * version 0.03
   + Master-slave distribution
+  + Add co-evolution (competitive and collaborative)
   + Paradigms: DE, NES, Stack-GP (or PushGP)
-  + fitness scaling
+  + Fitness scaling
   + Create documentation pages
   + Create tutorial jupyter notebooks
 
