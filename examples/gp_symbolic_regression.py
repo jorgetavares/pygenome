@@ -39,16 +39,16 @@ def fn(x):
 def gp_with_elitism():
     np.random.seed(42)
     
-    min_depth = 1
-    max_depth = 4
-    max_size = 100
+    init_min_depth = 1
+    init_max_depth = 4
+    max_tree_depth = 8
     
     pset = setup_primitive_set()
     
     num_fitness_cases = 10
     fitness_fn = pg.make_fitness_regression(pset, fn, num_fitness_cases)
     
-    pop = pg.genetic_programming(fitness_fn, pset, min_depth, max_depth, max_size, elitism=True, total_generations=20, pop_size=1000)
+    pop = pg.genetic_programming(fitness_fn, pset, init_min_depth, init_max_depth, max_tree_depth, elitism=True, total_generations=20, pop_size=1000)
     
     best = pg.best_individual(pop)
     print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genotype))
