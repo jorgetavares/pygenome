@@ -1,6 +1,5 @@
 # TODO
 * GP/STGP: 
-    + subtree mutation
     + add ephemeral constants
 * Generic:
     + change operators to deal with individuals and not genotypes
