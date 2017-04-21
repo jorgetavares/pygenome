@@ -181,7 +181,24 @@ def interpreter(pset, tree, run=False, vars_inputs=None):
     return result
 
 
-def grow_tree(pset, min_depth, max_depth, max_size, initial_type=None):
+def max_size_from_tree_max_depth(pset, tree_max_depth):
+    '''
+    Max size from Tree Max Depth
+
+    Args:
+        pset (PrimitiveSet): set of functions, terminals and variables
+        tree_max_depth (int): maximum tree depth allowed
+    Returns:
+        max total number of nodes possible given a tree depth 
+        and the largest arity in the function set
+    '''
+    # total number of nodes = (N^L-1) / (N-1)
+    # where N is the number of nodes and L is the tree depth
+    max_arity = max(pset.arity_cache.keys())
+    return  int(pow(max_arity, tree_max_depth - 1) / (max_arity - 1))
+
+
+def grow_tree(pset, min_depth, max_depth, total_max_depth, initial_type=None):
     '''
     Grow Tree 
         
@@ -189,10 +206,12 @@ def grow_tree(pset, min_depth, max_depth, max_size, initial_type=None):
         pset (PrimitivSet): set of functions, terminals and variables
         min_depth (int): initialization min depth
         max_depth (int): initialization max depth
-        max_size (int): the max size of the array that contains the tree
+        total_max_depth (int): max tree depth allowed
+        initial_type (type): if typed, the initial type
     Returns:
         random tree in an array using the grow method
     '''
+    max_size = max_size_from_tree_max_depth(pset, total_max_depth)
     functions_idx = np.array(list(pset.functions.keys()))
     terminals_idx = np.array(list(pset.terminals.keys()))
     variables_idx = np.array(list(pset.variables.keys()))
@@ -255,7 +274,7 @@ def grow_tree(pset, min_depth, max_depth, max_size, initial_type=None):
     return grow.tree
 
 
-def full_tree(pset, min_depth, max_depth, max_size, initial_type=None):
+def full_tree(pset, min_depth, max_depth, total_max_depth, initial_type=None):
     '''
     Full Tree 
         
@@ -263,10 +282,12 @@ def full_tree(pset, min_depth, max_depth, max_size, initial_type=None):
         pset (PrimitivSet): set of functions, terminals and variables
         min_depth (int): initialization min depth
         max_depth (int): initialization max depth
-        max_size (int): the max size of the array that contains the tree
+        total_max_depth (int): max tree depth allowed
+        initial_type (type): if typed, the initial type
     Returns:
         random tree in an array using the full method
     '''
+    max_size = max_size_from_tree_max_depth(pset, total_max_depth)
     functions_idx = np.array(list(pset.functions.keys()))
     terminals_idx = np.array(list(pset.terminals.keys()))
     variables_idx = np.array(list(pset.variables.keys()))
@@ -319,7 +340,7 @@ def full_tree(pset, min_depth, max_depth, max_size, initial_type=None):
     return full.tree
 
 
-def ramped_half_and_half_tree(pset, min_depth, max_depth, max_size, initial_type=None):
+def ramped_half_and_half_tree(pset, min_depth, max_depth, total_max_depth, initial_type=None):
     '''
     Ramped Half and Half
 
@@ -327,12 +348,12 @@ def ramped_half_and_half_tree(pset, min_depth, max_depth, max_size, initial_type
         pset (PrimitivSet): set of functions, terminals and variables
         min_depth (int): initialization min depth
         max_depth (int): initialization max depth
-        max_size (int): the max size of the array that contains the tree
-
+        total_max_depth (int): max tree depth allowed
+        initial_type (type): if typed, the initial type
     Returns:
         random generated tree
     '''
     if np.random.uniform() < 0.5:
-        return full_tree(pset, min_depth, max_depth, max_size, initial_type=initial_type)
+        return full_tree(pset, min_depth, max_depth, total_max_depth, initial_type=initial_type)
     else:
-        return grow_tree(pset, min_depth, max_depth, max_size, initial_type=initial_type)
+        return grow_tree(pset, min_depth, max_depth, total_max_depth, initial_type=initial_type)

@@ -107,15 +107,16 @@ def make_normal_population(size, ind_size, mean=0.0, sigma=1.0):
     return make_generic_population(size, pg.normal_chromossome, ind_size, mean=mean, sigma=sigma)  
 
 
-def make_tree_population(size, pset, min_depth, max_depth, max_size, initial_type=None, init_method=grow_tree):
+def make_tree_population(size, pset, init_min_depth, init_max_depth, max_depth, initial_type=None, init_method=grow_tree):
     '''
     Make Tree Population
 
     Args:
         size (int): number of individuals in the Population
         pset (PrimitiveSet): set of primitives to build a random tree
-        max_depth (int): initial max tree depth
-        max_size (int): max tree size that translates into max array size
+        init_min_depth (int): initial min tree depth
+        init_max_depth (int): initial max tree depth
+        max_depth (int): max tree depth that translates into max array size
         initial_type (type): when using types, this constraints the initial primitive ot be of this type
         init_method (function): function that generates random trees (grow_tree, full_tree)  
     
@@ -126,7 +127,7 @@ def make_tree_population(size, pset, min_depth, max_depth, max_size, initial_typ
 
     for i in range(size):
         pop.individuals[i] = pg.TreeIndividual()
-        pop.individuals[i].genotype = init_method(pset, min_depth, max_depth, max_size, initial_type=initial_type)
+        pop.individuals[i].genotype = init_method(pset, init_min_depth, init_max_depth, max_depth, initial_type=initial_type)
         depth, nodes = pg.count_tree_internals(pset, pop.individuals[i].genotype)
         pop.individuals[i].depth = depth
         pop.individuals[i].nodes = nodes
