@@ -74,21 +74,35 @@ class PrimitiveSet(object):
             if self.typed:
                 self._addTypesCache(self.num_primitives, types, self.variables_types)
 
-def transverse_tree(pset, array_tree, counter):
-        element = array_tree[counter]
-        counter += 1
 
-        if element in pset.terminals:
-            return counter
-        elif element in pset.variables:
-            return counter
-        elif element in pset.functions:
-            fn, arity, _ = pset.functions[element]
-            for i in range(arity):
-                counter = transverse_tree(pset, array_tree, counter)
-            return counter
-        else:
-            raise AttributeError('Primitive not found in Primitive Set!')
+def transverse_tree(pset, array_tree, counter):
+    '''
+    Transverse Tree
+
+    Args:
+        pset (PrimitiveSet): set of functions, terminals and variables
+        array_tree (array): tree encoded as an array
+        counter (int): the starting position to transverse the tree
+    Returns:
+        the length of the transversed tree (or subtree)
+    '''
+    element = array_tree[counter]
+    counter += 1
+
+    if element in pset.terminals:
+        return counter
+    elif element in pset.variables:
+        return counter
+    elif element in pset.functions:
+        fn, arity, _ = pset.functions[element]
+        for i in range(arity):
+            counter = transverse_tree(pset, array_tree, counter)
+        return counter
+    else:
+        print('primitive=', element)
+        print('counter=', counter)
+        print('array_tree=', array_tree)
+        raise AttributeError('Primitive not found in Primitive Set!')
 
     
 def count_tree_internals(pset, tree):
