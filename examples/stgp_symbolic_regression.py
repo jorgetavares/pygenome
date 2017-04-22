@@ -52,14 +52,14 @@ def stgp_with_elitism():
     
     init_min_depth = 2
     init_max_depth = 6
-    max_tree_depth = 12
+    max_tree_depth = 8
     
     pset = setup_primitive_set()
     
     num_fitness_cases = 10
     fitness_fn = pg.make_fitness_regression(pset, fn, num_fitness_cases)
     
-    pop = pg.genetic_programming(fitness_fn, pset, init_min_depth, init_max_depth, max_tree_depth, elitism=True, total_generations=100, pop_size=1000, cx_rate=0.9, op_mt_rate=0.25)
+    pop = pg.genetic_programming(fitness_fn, pset, init_min_depth, init_max_depth, max_tree_depth, elitism=True, total_generations=20, pop_size=1000, cx_rate=0.9, op_mt_rate=0.25)
     
     best = pg.best_individual(pop)
     print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genotype))
