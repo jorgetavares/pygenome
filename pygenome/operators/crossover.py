@@ -276,12 +276,15 @@ def tree_crossover(parent1, parent2, pset=None):
                 valid_gene_pos.append(pos)
             pos += 1
 
-        valid_pos = np.array(valid_gene_pos)
-        start2 = valid_pos[np.random.randint(valid_pos.size)]
+        if valid_gene_pos == []:
+            return parent1, parent2 # there is not valid point in the other, return original parents
+        else:
+            valid_pos = np.array(valid_gene_pos)
+            start2 = valid_pos[np.random.randint(valid_pos.size)]
     else:
         start2 = np.random.randint(parent2.nodes)
     end2 = pg.transverse_tree(pset, parent2.genotype, start2)
- 
+    
     # define length of offspring trees
     len1 = start1 + (end2 - start2) + (parent1.nodes - end1)
     len2 = start2 + (end1 - start1) + (parent2.nodes - end2)
