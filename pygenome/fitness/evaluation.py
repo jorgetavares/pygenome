@@ -58,16 +58,31 @@ def evaluate_tree_population(pop, fitness_fn, pset, **kargs):
     return pop
 
 
+# TODO: this should be refactored and generalized to allow better definition
+# of fitness fucntions for (ST)GP. Right now, it acts more of an example of
+# how to build an evaluator for the data/problem
 def make_fitness_regression(pset, fn, num_fitness_cases, loss=mean_squared_error):
-    
+    '''
+    Make Fitness Regression (1 variable)
+
+    Args:
+        pset (PrimitiveSet): set of functions, terminals and variables
+        fn (functions): objective functions
+        num_fitness_cases (int): number of features
+        loss (functions): loss function
+
+    Returns:
+        function that receives a GP solution and evaluates it for regression (1 variable)
+    '''
     x_points = np.asarray([x for x in range(num_fitness_cases)])
     y_points = np.asarray([fn(x) for x in x_points])
-    
+    variable, _ = (list(pset.variables.values()))[0]
+
     def regression(solution):
         vars_inputs = {}
         x_evals = np.empty(num_fitness_cases)
         for i in range(num_fitness_cases):
-            vars_inputs["x"] = x_points[i]
+            vars_inputs[variable] = x_points[i]
             x_evals[i] = pg.interpreter(pset, solution, run=True, vars_inputs=vars_inputs)
         
         return loss(x_evals, y_points)
