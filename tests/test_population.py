@@ -73,3 +73,18 @@ def test_make_permutation_population():
         for g in range(ind_size):
             assert pop.individuals[i].genotype[g] >= 0 and pop.individuals[i].genotype[g] < ind_size
         assert np.array_equal(np.sort(pop.individuals[i].genotype), np.array([g for g in range(ind_size)]))
+
+def test_make_uniform_population():
+    size = 10
+    ind_size = 20
+    low = 0.0
+    high = 1.0
+    pop = pg.make_uniform_population(size, ind_size, low=low, high=high)
+    assert type(pop) is pg.Population
+    assert pop.size == size
+    assert pop.individuals.size == size
+    for i in range(size):
+        assert type(pop.individuals[i]) is pg.Individual
+        assert pop.individuals[i].genotype.size == ind_size
+        for g in range(ind_size):
+            assert pop.individuals[i].genotype[g] >= low and pop.individuals[i].genotype[g] <= high
