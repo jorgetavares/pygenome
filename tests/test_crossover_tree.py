@@ -22,7 +22,7 @@ def test_tree_crossover1():
     pset.addTerminal(2)
     pset.addTerminal(3)
     pset.addVariable("x")
-    pop = pg.make_tree_population(2, pset, 1, 4, 6, init_method=pg.full_tree)
+    pop = pg.make_tree_population(2, pset, 4, 6, init_method=pg.full_tree)
     i1 = pop.individuals[0].clone()
     i2 = pop.individuals[1].clone()
     i1m, i2m = pg.tree_crossover(i1, i2, pset=pset)
@@ -86,7 +86,7 @@ def test_tree_crossover_typed1():
         pset.addTerminal(np.random.uniform(), types=[float])
     pset.addVariable("x", types=[int])
 
-    pop = pg.make_tree_population(2, pset, 1, 4, 6, init_method=pg.full_tree)
+    pop = pg.make_tree_population(2, pset, 4, 6, init_method=pg.full_tree)
     o1, o2 = pg.tree_crossover(pop.individuals[0], pop.individuals[1], pset=pset)
     o1_str = pg.interpreter(pset, o1.genotype)
     o2_str = pg.interpreter(pset, o2.genotype)
@@ -118,7 +118,7 @@ def test_tree_crossover_typed2():
         pset.addTerminal(np.random.uniform(), types=[float])
     pset.addVariable("x", types=[int])
 
-    pop = pg.make_tree_population(2, pset, 1, 4, 6, init_method=pg.full_tree)
+    pop = pg.make_tree_population(2, pset, 4, 6, init_method=pg.full_tree)
     o1, o2 = pg.tree_crossover(pop.individuals[0], pop.individuals[1], pset=pset)
     o1_str = pg.interpreter(pset, o1.genotype)
     o2_str = pg.interpreter(pset, o2.genotype)

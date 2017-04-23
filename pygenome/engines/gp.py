@@ -28,7 +28,7 @@ from pygenome.operators.replacement import (
 from pygenome.engines.ga import generic_ea
 
 # standard integer GA
-def genetic_programming(fitness_fn, pset, min_depth, max_depth, chr_size, pop_size=100,
+def genetic_programming(fitness_fn, pset, max_depth, chr_size, pop_size=100,
                         total_generations=20,
                         cx=tree_crossover, cx_rate=0.7,
                         mt=tree_point_mutation, ind_mt_rate=1.0, op_mt_rate=0.05,
@@ -36,7 +36,7 @@ def genetic_programming(fitness_fn, pset, min_depth, max_depth, chr_size, pop_si
                         elitism=False, generational=True, initial_type=None, init_method=grow_tree):
    
     def make_pop():
-        return make_tree_population(pop_size, pset, min_depth, max_depth, chr_size, initial_type=initial_type, init_method=init_method)
+        return make_tree_population(pop_size, pset, max_depth, chr_size, initial_type=initial_type, init_method=init_method)
 
     def eval_pop(p):
         return evaluate_tree_population(p, fitness_fn, pset)
