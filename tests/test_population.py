@@ -102,3 +102,31 @@ def test_make_normal_population():
         assert type(pop.individuals[i]) is pg.Individual
         assert pop.individuals[i].genotype.size == ind_size
         # TODO: add function to test normality of distribution?
+
+def test_make_tree_population():
+    import operator as op 
+    np.random.seed(42)
+    size = 10
+    pset = pg.PrimitiveSet()
+    pset.addFunction(op.add, 2)
+    pset.addFunction(op.sub, 2)
+    pset.addTerminal(1)
+    pset.addTerminal(2)
+    pset.addTerminal(3)
+    pset.addVariable("x")
+    initial_min_depth = 2
+    initial_max_depth = 6
+    max_depth = 8
+    pop = pg.make_tree_population(size, pset, initial_min_depth, initial_max_depth, max_depth, init_method=pg.full_tree)
+ 
+    assert type(pop) is pg.Population
+    assert pop.size == size
+    assert pop.individuals.size == size
+    for i in range(size):
+        assert type(pop.individuals[i]) is pg.TreeIndividual
+        assert pop.individuals[i].depth >= initial_min_depth and pop.individuals[i].depth <= initial_max_depth
+        pos = 0
+        while pos < pop.individuals[i].genotype.size and pop.individuals[i].genotype[pos] != 0:
+            node = pop.individuals[i].genotype[pos]
+            assert node in pset.functions or node in pset.terminals or node in pset.variables
+            pos += 1
