@@ -28,7 +28,7 @@ def make_empty_population(size):
     Returns:
         empty population of fixed size to store new individuals
     '''
-    return Population(individuals=np.empty(size, dtype=pg.Individual))
+    return Population(individuals=np.empty(size, dtype=object))
 
 
 def make_generic_population(size, make_individual_fn, *args, **kargs):

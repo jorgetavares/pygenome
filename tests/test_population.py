@@ -22,4 +22,12 @@ def test_clone_population():
     pop1.size = 3
     assert np.array_equal(pop1.individuals, pop2.individuals) is False
     assert pop2.size == 5
-    
+
+def test_make_empty_population():
+    size = 10
+    pop = pg.make_empty_population(size)
+    assert type(pop) is pg.Population
+    assert pop.size == size
+    assert pop.individuals.size == size
+    for i in range(size):
+        assert pop.individuals[i] is None
