@@ -7,7 +7,7 @@ import pygenome as pg
 def test_make_population():
     pop = pg.Population()
     assert type(pop) is pg.Population
-    assert pop.individuals == None
+    assert pop.individuals is None
     assert pop.size == 0
 
 def test_clone_population():
@@ -31,3 +31,33 @@ def test_make_empty_population():
     assert pop.individuals.size == size
     for i in range(size):
         assert pop.individuals[i] is None
+
+def test_make_binary_population():
+    size = 10
+    ind_size = 20
+    pop = pg.make_integer_population(size, ind_size)
+    assert type(pop) is pg.Population
+    assert pop.size == size
+    assert pop.individuals.size == size
+    for i in range(size):
+        assert type(pop.individuals[i]) is pg.Individual
+        assert pop.individuals[i].genotype.size == ind_size
+        for g in range(ind_size):
+            assert pop.individuals[i].genotype[g] >= 0 and pop.individuals[i].genotype[g] <= 1
+
+def test_make_integer_population():
+    size = 10
+    ind_size = 20
+    low = 0
+    high = 19
+    pop = pg.make_integer_population(size, ind_size, low=low, high=high)
+    assert type(pop) is pg.Population
+    assert pop.size == size
+    assert pop.individuals.size == size
+    for i in range(size):
+        assert type(pop.individuals[i]) is pg.Individual
+        assert pop.individuals[i].genotype.size == ind_size
+        for g in range(ind_size):
+            assert pop.individuals[i].genotype[g] >= low and pop.individuals[i].genotype[g] <= high
+
+
