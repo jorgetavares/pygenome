@@ -13,28 +13,28 @@ def generational_no_elitism():
     np.random.seed(42)
     pop = pg.genetic_algorithm_binary(fitness_fn, onemax_size)
     best = pg.best_individual(pop)
-    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genotype))
+    print('fitness: %s\tgenotype: %s' % (best.fitness.value, best.genotype))
 
 # GA 2
 def generational_with_elitism():
     np.random.seed(42)
     pop = pg.genetic_algorithm_binary(fitness_fn, onemax_size, elitism=True)
     best = pg.best_individual(pop)
-    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genotype))
+    print('fitness: %s\tgenotype: %s' % (best.fitness.value, best.genotype))
 
 # GA 3
 def steady_state_no_elitism():
     np.random.seed(42)
     pop = pg.genetic_algorithm_binary(fitness_fn, onemax_size, generational=False, total_generations=200)
     best = pg.best_individual(pop)
-    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genotype))
+    print('fitness: %s\tgenotype: %s' % (best.fitness.value, best.genotype))
 
 # GA 4
 def steady_state_with_elitism():
     np.random.seed(42)
     pop = pg.genetic_algorithm_binary(fitness_fn, onemax_size, generational=False, total_generations=200, elitism=True)
     best = pg.best_individual(pop)
-    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genotype))
+    print('fitness: %s\tgenotype: %s' % (best.fitness.value, best.genotype))
 
 # entry point
 if __name__ == "__main__":

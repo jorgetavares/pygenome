@@ -19,14 +19,14 @@ def generational_no_elitism():
     np.random.seed(42)
     pop = pg.genetic_algorithm_permutation(sorted_permutation, permutation_size, total_generations=25)
     best = pg.best_individual(pop)
-    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genotype))
+    print('fitness: %s\tgenotype: %s' % (best.fitness.value, best.genotype))
 
 # GA 2
 def generational_with_elitism():
     np.random.seed(42)
     pop = pg.genetic_algorithm_permutation(sorted_permutation, permutation_size, total_generations=25, elitism=True)
     best = pg.best_individual(pop)
-    print('fitness: %s\tgenome: %s' % (best.fitness.value, best.genotype))
+    print('fitness: %s\tgenotype: %s' % (best.fitness.value, best.genotype))
 
 # entry point
 if __name__ == "__main__":
