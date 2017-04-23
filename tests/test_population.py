@@ -88,3 +88,17 @@ def test_make_uniform_population():
         assert pop.individuals[i].genotype.size == ind_size
         for g in range(ind_size):
             assert pop.individuals[i].genotype[g] >= low and pop.individuals[i].genotype[g] <= high
+
+def test_make_normal_population():
+    size = 10
+    ind_size = 20
+    mean = 0.0
+    sigma = 1.0
+    pop = pg.make_normal_population(size, ind_size, mean=mean, sigma=sigma)
+    assert type(pop) is pg.Population
+    assert pop.size == size
+    assert pop.individuals.size == size
+    for i in range(size):
+        assert type(pop.individuals[i]) is pg.Individual
+        assert pop.individuals[i].genotype.size == ind_size
+        # TODO: add function to test normality of distribution?
