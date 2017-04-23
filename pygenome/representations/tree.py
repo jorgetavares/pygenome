@@ -198,13 +198,12 @@ def max_size_from_tree_max_depth(pset, tree_max_depth):
     return  int(pow(max_arity, tree_max_depth - 1) / (max_arity - 1))
 
 
-def grow_tree(pset, min_depth, max_depth, total_max_depth, initial_type=None):
+def grow_tree(pset, max_depth, total_max_depth, initial_type=None):
     '''
     Grow Tree 
         
     Args:
         pset (PrimitivSet): set of functions, terminals and variables
-        min_depth (int): initialization min depth
         max_depth (int): initialization max depth
         total_max_depth (int): max tree depth allowed
         initial_type (type): if typed, the initial type
@@ -219,7 +218,7 @@ def grow_tree(pset, min_depth, max_depth, total_max_depth, initial_type=None):
     all_primitives_idx = np.concatenate([functions_idx, all_terminals_idx])
 
     def grow(depth, arg_type=None):
-        if depth == min_depth:
+        if depth == 1:
             # return a terminal/variable since it's maximum tree depth
             if arg_type is None:
                 idx = all_terminals_idx[np.random.randint(all_terminals_idx.size)]
@@ -251,7 +250,6 @@ def grow_tree(pset, min_depth, max_depth, total_max_depth, initial_type=None):
 
                 if len(valid_set) == 0:
                     AttributeError('Typed Primitive not found in Terminal/Variable Set!')  
-                
                 idx = valid_set[np.random.randint(len(valid_set))]
                 
             if idx in pset.terminals or idx in pset.variables:
@@ -274,13 +272,12 @@ def grow_tree(pset, min_depth, max_depth, total_max_depth, initial_type=None):
     return grow.tree
 
 
-def full_tree(pset, min_depth, max_depth, total_max_depth, initial_type=None):
+def full_tree(pset, max_depth, total_max_depth, initial_type=None):
     '''
     Full Tree 
         
     Args:
         pset (PrimitivSet): set of functions, terminals and variables
-        min_depth (int): initialization min depth
         max_depth (int): initialization max depth
         total_max_depth (int): max tree depth allowed
         initial_type (type): if typed, the initial type
@@ -294,7 +291,7 @@ def full_tree(pset, min_depth, max_depth, total_max_depth, initial_type=None):
     all_terminals_idx = np.concatenate([terminals_idx, variables_idx])
 
     def full(depth, arg_type=None):
-        if depth == min_depth:
+        if depth == 1:
             # return a terminal/variable since it's maximum tree depth
             if arg_type is None:
                 idx = all_terminals_idx[np.random.randint(all_terminals_idx.size)]
@@ -340,13 +337,12 @@ def full_tree(pset, min_depth, max_depth, total_max_depth, initial_type=None):
     return full.tree
 
 
-def ramped_half_and_half_tree(pset, min_depth, max_depth, total_max_depth, initial_type=None):
+def ramped_half_and_half_tree(pset, max_depth, total_max_depth, initial_type=None):
     '''
     Ramped Half and Half
 
     Args:
         pset (PrimitivSet): set of functions, terminals and variables
-        min_depth (int): initialization min depth
         max_depth (int): initialization max depth
         total_max_depth (int): max tree depth allowed
         initial_type (type): if typed, the initial type
@@ -354,6 +350,6 @@ def ramped_half_and_half_tree(pset, min_depth, max_depth, total_max_depth, initi
         random generated tree
     '''
     if np.random.uniform() < 0.5:
-        return full_tree(pset, min_depth, max_depth, total_max_depth, initial_type=initial_type)
+        return full_tree(pset, max_depth, total_max_depth, initial_type=initial_type)
     else:
-        return grow_tree(pset, min_depth, max_depth, total_max_depth, initial_type=initial_type)
+        return grow_tree(pset, max_depth, total_max_depth, initial_type=initial_type)
