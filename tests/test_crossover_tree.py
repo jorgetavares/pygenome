@@ -172,3 +172,25 @@ def test_tree_crossover_typed2():
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
         0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]))
     assert o2_str == 'add(add(add(2, -2), sub(mul(-2, -1), 0.33370861113902184)), sub(mul(2, -1), mul(-1, 1)))'
+
+def test_tree_crossover_maxdepth():
+    np.random.seed(42)
+    pset = pg.PrimitiveSet()
+    pset.addFunction(op.add, 2)
+    pset.addFunction(op.sub, 2)
+    pset.addTerminal(1)
+    pset.addTerminal(2)
+    pset.addTerminal(3)
+    pset.addVariable("x")
+    pop = pg.make_tree_population(2, pset, 4, 4, init_method=pg.full_tree)
+    i1 = pop.individuals[0].clone()
+    i2 = pop.individuals[1].clone()
+    i1m, i2m = pg.tree_crossover(i1, i2, pset=pset)
+    # offpsring1 passes max depth, returns parent1
+    assert i1m.depth == i1.depth
+    assert i1m.nodes == i1.nodes
+    assert np.array_equal(i1.genotype, i1m.genotype)
+    # offspring 2 is legal
+    assert i2m.depth == 1
+    assert i2m.nodes == 1
+    assert np.array_equal(i2m.genotype, np.array([5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))

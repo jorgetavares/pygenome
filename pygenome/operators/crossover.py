@@ -265,22 +265,28 @@ def tree_crossover(parent1, parent2, pset=None):
     len1 = start1 + (end2 - start2) + (parent1.nodes - end1)
     len2 = start2 + (end1 - start1) + (parent2.nodes - end2)
     
-    # produce offpsring 1
-    arraycopy(parent1.genotype, 0, offspring1.genotype, 0, start1)
-    num_elements = (end2 - start2)
-    arraycopy(parent2.genotype, start2, offspring1.genotype, start1, num_elements)
-    num_elements = (parent1.nodes - end1)
-    arraycopy(parent1.genotype, end1, offspring1.genotype, start1 + (end2 - start2), num_elements)
+    if len1 > parent1.genotype.size:
+        # passes max depth, return parent
+        offspring1 = parent1
+    else:    
+        # produce offpsring 1
+        arraycopy(parent1.genotype, 0, offspring1.genotype, 0, start1)
+        num_elements = (end2 - start2)
+        arraycopy(parent2.genotype, start2, offspring1.genotype, start1, num_elements)
+        num_elements = (parent1.nodes - end1)
+        arraycopy(parent1.genotype, end1, offspring1.genotype, start1 + (end2 - start2), num_elements)
+        offspring1.depth, offspring1.nodes = pg.count_tree_internals(pset, offspring1.genotype)
     
-    # produce offspring 2
-    arraycopy(parent2.genotype, 0, offspring2.genotype, 0, start2)
-    num_elements = (end1 - start1)
-    arraycopy(parent1.genotype, start1, offspring2.genotype, start2, num_elements)
-    num_elements = (parent2.nodes - end2) 
-    arraycopy(parent2.genotype, end2, offspring2.genotype, start2 + (end1 - start1), num_elements)
-    
-    # update tree metrics
-    offspring1.depth, offspring1.nodes = pg.count_tree_internals(pset, offspring1.genotype)
-    offspring2.depth, offspring2.nodes = pg.count_tree_internals(pset, offspring2.genotype)
+    if len2 > parent2.genotype.size:
+        # passes max depth, return parent
+        offspring2 = parent2
+    else:    
+        # produce offspring 2
+        arraycopy(parent2.genotype, 0, offspring2.genotype, 0, start2)
+        num_elements = (end1 - start1)
+        arraycopy(parent1.genotype, start1, offspring2.genotype, start2, num_elements)
+        num_elements = (parent2.nodes - end2) 
+        arraycopy(parent2.genotype, end2, offspring2.genotype, start2 + (end1 - start1), num_elements)
+        offspring2.depth, offspring2.nodes = pg.count_tree_internals(pset, offspring2.genotype)
 
     return offspring1, offspring2

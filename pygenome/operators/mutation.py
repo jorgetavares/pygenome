@@ -349,4 +349,7 @@ def subtree_mutation(parent, pset=None, **kargs):
     # update tree metrics
     offspring.depth, offspring.nodes = pg.count_tree_internals(pset, offspring.genotype) 
     
-    return offspring
+    if offspring.nodes <= parent.genotype.size:
+        return offspring
+    else:
+        return parent

@@ -3,7 +3,6 @@
     + change ES representation to dual chromossomes (problem + parameters)
 * GP/STGP: 
     + add ephemeral constants
-    + check max tree depth in crossover and subtree mutation
 * GE:
     + add grammar reader and data structure for grammars
     + add genotype to phenotype mapping function
