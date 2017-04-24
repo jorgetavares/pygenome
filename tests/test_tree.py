@@ -207,3 +207,39 @@ def test_interpreter_run_typed_inputs():
        10,  1,  2, 10,  7,  2, 10,  9,  0])
     tree_run = pg.interpreter(pset, tree, run=True, vars_inputs=inputs)
     assert tree_run == 27.0
+
+def test_max_size_from_tree_max_depth_arity2():
+    pset = pg.PrimitiveSet()
+    pset.addFunction(op.add, 2)
+    pset.addFunction(op.sub, 2)
+    pset.addTerminal(1)
+    pset.addTerminal(2)
+    pset.addTerminal(3)
+    pset.addTerminal(4)
+    assert pg.max_size_from_tree_max_depth(pset, 4) == 8
+    assert pg.max_size_from_tree_max_depth(pset, 6) == 32
+    assert pg.max_size_from_tree_max_depth(pset, 8) == 128
+    assert pg.max_size_from_tree_max_depth(pset, 10) == 512
+    assert pg.max_size_from_tree_max_depth(pset, 12) == 2048
+    assert pg.max_size_from_tree_max_depth(pset, 14) == 8192
+    assert pg.max_size_from_tree_max_depth(pset, 16) == 32768
+    assert pg.max_size_from_tree_max_depth(pset, 18) == 131072
+    assert pg.max_size_from_tree_max_depth(pset, 20) == 524288
+
+def test_max_size_from_tree_max_depth_arity3():
+    pset = pg.PrimitiveSet()
+    pset.addFunction(op.add, 2)
+    pset.addFunction(op.sub, 3)
+    pset.addTerminal(1)
+    pset.addTerminal(2)
+    pset.addTerminal(3)
+    pset.addTerminal(4)
+    assert pg.max_size_from_tree_max_depth(pset, 4) == 13
+    assert pg.max_size_from_tree_max_depth(pset, 6) == 121
+    assert pg.max_size_from_tree_max_depth(pset, 8) == 1093
+    assert pg.max_size_from_tree_max_depth(pset, 10) == 9841
+    assert pg.max_size_from_tree_max_depth(pset, 12) == 88573
+    assert pg.max_size_from_tree_max_depth(pset, 14) == 797161
+    assert pg.max_size_from_tree_max_depth(pset, 16) == 7174453
+    assert pg.max_size_from_tree_max_depth(pset, 18) == 64570081
+    assert pg.max_size_from_tree_max_depth(pset, 20) == 581130733
