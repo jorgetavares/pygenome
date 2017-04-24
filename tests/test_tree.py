@@ -243,3 +243,90 @@ def test_max_size_from_tree_max_depth_arity3():
     assert pg.max_size_from_tree_max_depth(pset, 16) == 21523360
     assert pg.max_size_from_tree_max_depth(pset, 18) == 193710244
     assert pg.max_size_from_tree_max_depth(pset, 20) == 1743392200
+
+def test_full_tree1():
+    np.random.seed(42)
+    pset = pg.PrimitiveSet()
+    pset.addFunction(op.add, 2)
+    pset.addFunction(op.sub, 2)
+    pset.addTerminal(1)
+    pset.addTerminal(2)
+    pset.addTerminal(3)
+    pset.addVariable("x")
+    init_max_depth = 3
+    max_depth = 6
+    tree = pg.full_tree(pset, init_max_depth, max_depth)
+    assert np.array_equal(tree, np.array([1, 2, 3, 5, 1, 6, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
+
+def test_full_tree2():
+    np.random.seed(42)
+    pset = pg.PrimitiveSet()
+    pset.addFunction(op.add, 2)
+    pset.addFunction(op.sub, 2)
+    pset.addTerminal(1)
+    pset.addTerminal(2)
+    pset.addTerminal(3)
+    pset.addVariable("x")
+    init_max_depth = 8
+    max_depth = 8
+    tree = pg.full_tree(pset, init_max_depth, max_depth)
+    assert np.array_equal(tree, np.array([1, 2, 1, 1, 1, 2, 1, 3, 5, 2, 5, 5, 1, 1, 6, 3, 2, 6, 6, 1, 2, 1, 4,
+       6, 2, 4, 4, 2, 2, 6, 3, 1, 6, 4, 2, 1, 2, 1, 3, 5, 1, 5, 4, 2, 2, 6,
+       6, 1, 4, 4, 1, 2, 1, 6, 5, 2, 6, 3, 1, 1, 5, 5, 1, 3, 5, 2, 2, 1, 2,
+       2, 4, 4, 1, 4, 3, 2, 2, 6, 5, 2, 5, 6, 1, 2, 1, 5, 4, 1, 6, 4, 2, 2,
+       4, 4, 2, 4, 4, 2, 2, 1, 1, 4, 4, 2, 4, 4, 2, 2, 4, 5, 2, 5, 6, 2, 1,
+       2, 3, 4, 2, 3, 6, 1, 2, 5, 3, 2, 4, 3, 2, 2, 2, 1, 1, 1, 5, 3, 1, 3,
+       5, 1, 2, 3, 6, 2, 6, 5, 1, 1, 1, 6, 5, 1, 3, 5, 1, 2, 5, 4, 1, 6, 5,
+       1, 2, 2, 2, 3, 6, 1, 5, 4, 2, 1, 5, 6, 2, 4, 5, 1, 1, 1, 3, 5, 2, 5,
+       3, 1, 2, 5, 5, 2, 5, 5, 1, 1, 1, 2, 2, 6, 3, 1, 5, 6, 1, 1, 6, 3, 2,
+       6, 4, 1, 1, 1, 3, 5, 1, 3, 6, 1, 2, 5, 5, 1, 4, 6, 2, 2, 1, 2, 3, 3,
+       2, 6, 6, 2, 2, 6, 4, 2, 5, 6, 2, 1, 2, 3, 5, 2, 3, 3, 1, 1, 4, 3, 2,
+       3, 3, 0]))
+
+def test_grow_tree1():
+    np.random.seed(42)
+    pset = pg.PrimitiveSet()
+    pset.addFunction(op.add, 2)
+    pset.addFunction(op.sub, 2)
+    pset.addTerminal(1)
+    pset.addTerminal(2)
+    pset.addTerminal(3)
+    pset.addVariable("x")
+    init_max_depth = 3
+    max_depth = 6
+    tree = pg.grow_tree(pset, init_max_depth, max_depth)
+    assert np.array_equal(tree, np.array([4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
+
+def test_grow_tree2():
+    np.random.seed(45345)
+    pset = pg.PrimitiveSet()
+    pset.addFunction(op.add, 2)
+    pset.addFunction(op.sub, 2)
+    pset.addTerminal(1)
+    pset.addTerminal(2)
+    pset.addTerminal(3)
+    pset.addVariable("x")
+    init_max_depth = 3
+    max_depth = 6
+    tree = pg.grow_tree(pset, init_max_depth, max_depth)
+    assert np.array_equal(tree, np.array([1, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
+
+def test_grow_tree3():
+    np.random.seed(45345)
+    pset = pg.PrimitiveSet()
+    pset.addFunction(op.add, 2)
+    pset.addFunction(op.sub, 2)
+    pset.addTerminal(1)
+    pset.addTerminal(2)
+    pset.addTerminal(3)
+    pset.addVariable("x")
+    init_max_depth = 2
+    max_depth = 2
+    tree = pg.full_tree(pset, init_max_depth, max_depth)
+    assert np.array_equal(tree, np.array([1, 6, 5, 0]))
