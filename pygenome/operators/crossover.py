@@ -166,20 +166,15 @@ def intermediary_crossover(i1, i2):
     Returns:
         single offspring from 2 parents
     '''
-    g1 = i1.genotype
-    g2 = i2.genotype
+    o1 = pg.Individual(genotype=np.empty(i1.genotype.size, dtype=i1.genotype.dtype))
 
-    o1 = np.empty(g1.size, dtype=g1.dtype)
+    for i in range(o1.genotype.size):
+        o1.genotype[i] = (i1.genotype[i] + i2.genotype[i]) / 2.0
 
-    for i in range(g1.size):
-        o1[i] = (g1[i] + g2[i]) / 2.0
-
-    i1.genotype = o1
-
-    return i1
+    return o1
 
 
-def discrete_crossover(g1, g2):
+def discrete_crossover(i1, i2):
     '''
     Discrete Crossover
 
@@ -190,20 +185,15 @@ def discrete_crossover(g1, g2):
     Returns:
         single offspring from 2 parents
     '''
-    g1 = i1.genotype
-    g2 = i2.genotype
+    o1 = pg.Individual(genotype=np.empty(i1.genotype.size, dtype=i1.genotype.dtype))
 
-    o1 = np.empty(g1.size, dtype=g1.dtype)
-
-    for i in range(g1.size):
+    for i in range(o1.genotype.size):
         if np.random.uniform() < 0.5:
-            o1[i] = g1[i]
+            o1.genotype[i] = i1.genotype[i]
         else:
-            o1[i] = g2[i]
+            o1.genotype[i] = i2.genotype[i]
     
-    i1.genotype = o1
-
-    return i1
+    return o1
 
 
 def tree_crossover(parent1, parent2, pset=None):

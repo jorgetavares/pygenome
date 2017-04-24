@@ -65,3 +65,22 @@ def test_apply_global_crossover():
     pop = pg.apply_global_crossover(pop, operator)
     for i in range(pop.size):
         assert pop.individuals[i].run_eval == True
+
+def test_intermediary_crossover():
+    np.random.seed(42)
+    i1 = pg.Individual(genotype=np.array([ 0.61185289,  0.13949386,  0.29214465,  0.36636184,  0.45606998, 0.78517596,  0.19967378,  0.51423444,  0.59241457,  0.04645041]))
+    i2 = pg.Individual(genotype=np.array([ 0.60754485,  0.17052412,  0.06505159,  0.94888554,  0.96563203, 0.80839735,  0.30461377,  0.09767211,  0.68423303,  0.44015249]))
+    o1 = pg.intermediary_crossover(i1, i2)
+    assert np.isclose(o1.genotype.all(), np.array([ 0.60969887,  0.15500899,  0.17859812,  0.65762369,  0.710851  ,
+        0.79678666,  0.25214378,  0.30595327,  0.6383238 ,  0.24330145]).all()) 
+    
+def test_disrete_crossover():
+    np.random.seed(42)
+    i1 = pg.Individual(genotype=np.array([ 0.61185289,  0.13949386,  0.29214465,  0.36636184,  0.45606998,
+        0.78517596,  0.19967378,  0.51423444,  0.59241457,  0.04645041]))
+    i2 = pg.Individual(genotype=np.array([ 0.60754485,  0.17052412,  0.06505159,  0.94888554,  0.96563203,
+        0.80839735,  0.30461377,  0.09767211,  0.68423303,  0.44015249]))
+    o1 = pg.discrete_crossover(i1, i2)
+    assert np.isclose(o1.genotype.all(), np.array([ 0.61185289,  0.17052412,  0.06505159,  0.94888554,  0.45606998,
+        0.78517596,  0.19967378,  0.09767211,  0.68423303,  0.44015249]).all()) 
+   
