@@ -192,10 +192,10 @@ def max_size_from_tree_max_depth(pset, tree_max_depth):
         max total number of nodes possible given a tree depth 
         and the largest arity in the function set
     '''
-    # total number of nodes = (N^L-1) / (N-1)
-    # where N is the number of nodes and L is the tree depth
+    # total number of nodes = (N^L) / (N-1)
+    # where N is the number of nodes (arity) and L is the tree depth
     max_arity = max(pset.arity_cache.keys())
-    return  int(pow(max_arity, tree_max_depth - 1) / (max_arity - 1))
+    return int(pow(max_arity, tree_max_depth) / (max_arity - 1))
 
 
 def grow_tree(pset, max_depth, total_max_depth, initial_type=None):

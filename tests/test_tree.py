@@ -216,15 +216,15 @@ def test_max_size_from_tree_max_depth_arity2():
     pset.addTerminal(2)
     pset.addTerminal(3)
     pset.addTerminal(4)
-    assert pg.max_size_from_tree_max_depth(pset, 4) == 8
-    assert pg.max_size_from_tree_max_depth(pset, 6) == 32
-    assert pg.max_size_from_tree_max_depth(pset, 8) == 128
-    assert pg.max_size_from_tree_max_depth(pset, 10) == 512
-    assert pg.max_size_from_tree_max_depth(pset, 12) == 2048
-    assert pg.max_size_from_tree_max_depth(pset, 14) == 8192
-    assert pg.max_size_from_tree_max_depth(pset, 16) == 32768
-    assert pg.max_size_from_tree_max_depth(pset, 18) == 131072
-    assert pg.max_size_from_tree_max_depth(pset, 20) == 524288
+    assert pg.max_size_from_tree_max_depth(pset, 4) == 16
+    assert pg.max_size_from_tree_max_depth(pset, 6) == 64
+    assert pg.max_size_from_tree_max_depth(pset, 8) == 256
+    assert pg.max_size_from_tree_max_depth(pset, 10) == 1024
+    assert pg.max_size_from_tree_max_depth(pset, 12) == 4096
+    assert pg.max_size_from_tree_max_depth(pset, 14) == 16384
+    assert pg.max_size_from_tree_max_depth(pset, 16) == 65536
+    assert pg.max_size_from_tree_max_depth(pset, 18) == 262144
+    assert pg.max_size_from_tree_max_depth(pset, 20) == 1048576
 
 def test_max_size_from_tree_max_depth_arity3():
     pset = pg.PrimitiveSet()
@@ -234,12 +234,12 @@ def test_max_size_from_tree_max_depth_arity3():
     pset.addTerminal(2)
     pset.addTerminal(3)
     pset.addTerminal(4)
-    assert pg.max_size_from_tree_max_depth(pset, 4) == 13
-    assert pg.max_size_from_tree_max_depth(pset, 6) == 121
-    assert pg.max_size_from_tree_max_depth(pset, 8) == 1093
-    assert pg.max_size_from_tree_max_depth(pset, 10) == 9841
-    assert pg.max_size_from_tree_max_depth(pset, 12) == 88573
-    assert pg.max_size_from_tree_max_depth(pset, 14) == 797161
-    assert pg.max_size_from_tree_max_depth(pset, 16) == 7174453
-    assert pg.max_size_from_tree_max_depth(pset, 18) == 64570081
-    assert pg.max_size_from_tree_max_depth(pset, 20) == 581130733
+    assert pg.max_size_from_tree_max_depth(pset, 4) == 40
+    assert pg.max_size_from_tree_max_depth(pset, 6) == 364
+    assert pg.max_size_from_tree_max_depth(pset, 8) == 3280
+    assert pg.max_size_from_tree_max_depth(pset, 10) == 29524
+    assert pg.max_size_from_tree_max_depth(pset, 12) == 265720
+    assert pg.max_size_from_tree_max_depth(pset, 14) == 2391484
+    assert pg.max_size_from_tree_max_depth(pset, 16) == 21523360
+    assert pg.max_size_from_tree_max_depth(pset, 18) == 193710244
+    assert pg.max_size_from_tree_max_depth(pset, 20) == 1743392200
