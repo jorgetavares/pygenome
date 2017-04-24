@@ -12,6 +12,34 @@ def protected_div(a, b):
     else:
         return b
 
+def test_apply_crossover():
+    np.random.seed(42)
+    size = 50
+    rate = 1.0
+    operator = pg.tree_crossover
+    initial_max_depth = 6
+    max_depth = 12
+    pset = pg.PrimitiveSet()
+    pset.addFunction(op.add, 2)
+    pset.addFunction(op.sub, 2)
+    pset.addFunction(op.mul, 2)
+    pset.addFunction(protected_div, 2)
+    pset.addTerminal(1)
+    pset.addTerminal(2)
+    pset.addTerminal(3)
+    pset.addTerminal(4)
+    pset.addTerminal(5)
+    pset.addTerminal(6)
+    pset.addTerminal(7)
+    pset.addTerminal(8)
+    pset.addTerminal(9)
+    pset.addVariable("x")
+    pop = pg.make_tree_population(size, pset, initial_max_depth, max_depth, init_method=pg.full_tree)
+    original_pop = pop.clone()
+    pop = pg.apply_crossover(pop, rate, operator, pset=pset)
+    for i in range(pop.size):
+        assert pop.individuals[i].run_eval == True
+        assert np.array_equal(pop.individuals[i].genotype, original_pop.individuals[i].genotype) is not True
 
 def test_tree_crossover1():
     np.random.seed(42)

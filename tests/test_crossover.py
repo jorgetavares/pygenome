@@ -5,6 +5,32 @@ import numpy as np
 import pygenome as pg
 
 
+def test_apply_crossover1():
+    np.random.seed(42)
+    size = 1000
+    ind_size = 100
+    rate = 1.0
+    operator = pg.uniform_crossover
+    pop = pg.make_integer_population(size, ind_size)
+    original_pop = pop.clone()
+    pop = pg.apply_crossover(pop, rate, operator)
+    for i in range(pop.size):
+        assert pop.individuals[i].run_eval == True
+        assert np.array_equal(pop.individuals[i].genotype, original_pop.individuals[i].genotype) is not True
+
+def test_apply_crossover2():
+    np.random.seed(42)
+    size = 1000
+    ind_size = 100
+    rate = 0.0
+    operator = pg.uniform_crossover
+    pop = pg.make_integer_population(size, ind_size)
+    original_pop = pop.clone()
+    pop = pg.apply_crossover(pop, rate, operator)
+    for i in range(pop.size):
+        assert pop.individuals[i].run_eval == True
+        assert np.array_equal(pop.individuals[i].genotype, original_pop.individuals[i].genotype)
+        
 def test_partially_match_crossover():
     np.random.seed(42)
     i1 = pg.Individual(genotype=np.array([4, 3, 5, 7, 8, 1, 2, 0, 9, 6]))
