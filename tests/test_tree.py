@@ -82,3 +82,44 @@ def test_count_tree_internals_typed():
     depth, nodes = pg.count_tree_internals(pset, tree2)
     assert depth == 5
     assert nodes == 17
+
+def test_interpreter_str():
+    pset = pg.PrimitiveSet()
+    pset.addFunction(op.add, 2)
+    pset.addFunction(op.sub, 2)
+    pset.addTerminal(1)
+    pset.addTerminal(2)
+    pset.addTerminal(3)
+    pset.addVariable("x")
+    tree = np.array([1, 2, 1, 1, 1, 2, 3, 3, 1, 4, 5, 1, 1, 5, 6, 1, 6, 6, 2, 1, 2, 3, 4,
+       2, 6, 4, 2, 2, 6, 6, 1, 3, 6, 2, 2, 1, 2, 3, 3, 1, 5, 5, 2, 2, 6, 6,
+       2, 5, 4, 2, 1, 2, 5, 6, 1, 6, 6, 1, 1, 3, 5, 1, 3, 3, 1, 2, 2, 1, 2,
+       4, 4, 2, 3, 4, 1, 2, 6, 6, 1, 6, 5, 2, 1, 2, 5, 5, 2, 3, 4, 2, 2, 6,
+       4, 2, 4, 4, 2, 2, 2, 1, 5, 4, 2, 6, 4, 2, 2, 6, 4, 1, 6, 5, 2, 2, 1,
+       6, 3, 2, 6, 3, 2, 1, 4, 5, 1, 6, 4, 0])
+    tree_str = pg.interpreter(pset, tree)
+    assert tree_str == 'add(sub(add(add(add(sub(1, 1), add(2, 3)), add(add(3, x), add(x, x))), sub(add(sub(1, 2), sub(x, 2)), sub(sub(x, x), add(1, x)))), sub(sub(add(sub(1, 1), add(3, 3)), sub(sub(x, x), sub(3, 2))), sub(add(sub(3, x), add(x, x)), add(add(1, 3), add(1, 1))))), add(sub(sub(add(sub(2, 2), sub(1, 2)), add(sub(x, x), add(x, 3))), sub(add(sub(3, 3), sub(1, 2)), sub(sub(x, 2), sub(2, 2)))), sub(sub(sub(add(3, 2), sub(x, 2)), sub(sub(x, 2), add(x, 3))), sub(sub(add(x, 1), sub(x, 1)), sub(add(2, 3), add(x, 2))))))'
+
+def test_interpreter_str_typed():
+    pset = pg.PrimitiveSet(typed=True)
+    pset.addFunction(op.add, 2, [float, int, int])
+    pset.addFunction(op.sub, 2, [int, float, float])
+    pset.addFunction(op.mul, 2, [float, int, int])
+    pset.addTerminal(1, [int])
+    pset.addTerminal(2, [int])
+    pset.addTerminal(3, [int])
+    pset.addTerminal(4.0, [float])
+    pset.addTerminal(5.0, [float])
+    pset.addTerminal(6.0, [float])
+    pset.addVariable("x", [float])
+    pset.addVariable("y", [int])
+    tree = np.array([ 1,  2,  3,  2,  1,  2,  9,  9,  2, 10,  7,  1,  2,  9,  8,  2,  9,
+        9,  2,  1,  2,  9, 10,  2,  7, 10,  3,  2, 10,  9,  2,  8,  7,  1,
+        2,  3,  2, 10,  9,  2,  9,  8,  1,  2, 10,  7,  2,  7, 10,  2,  3,
+        2,  7,  9,  2, 10,  7,  1,  2,  9,  9,  2,  8,  8,  2,  3,  2,  3,
+        2, 10, 10,  2,  9,  9,  3,  2,  8,  8,  2,  9, 10,  2,  3,  2, 10,
+       10,  2,  7,  8,  1,  2,  9,  8,  2,  7,  7,  3,  2,  3,  2, 10,  7,
+        2, 10,  8,  3,  2,  7,  9,  2,  9,  8,  2,  3,  2, 10, 10,  2,  9,
+       10,  1,  2, 10,  7,  2, 10,  9,  0])
+    tree_str = pg.interpreter(pset, tree)
+    assert tree_str == 'add(sub(mul(sub(add(sub(6.0, 6.0), sub(x, 4.0)), add(sub(6.0, 5.0), sub(6.0, 6.0))), sub(add(sub(6.0, x), sub(4.0, x)), mul(sub(x, 6.0), sub(5.0, 4.0)))), add(sub(mul(sub(x, 6.0), sub(6.0, 5.0)), add(sub(x, 4.0), sub(4.0, x))), sub(mul(sub(4.0, 6.0), sub(x, 4.0)), add(sub(6.0, 6.0), sub(5.0, 5.0))))), sub(mul(sub(mul(sub(x, x), sub(6.0, 6.0)), mul(sub(5.0, 5.0), sub(6.0, x))), sub(mul(sub(x, x), sub(4.0, 5.0)), add(sub(6.0, 5.0), sub(4.0, 4.0)))), mul(sub(mul(sub(x, 4.0), sub(x, 5.0)), mul(sub(4.0, 6.0), sub(6.0, 5.0))), sub(mul(sub(x, x), sub(6.0, x)), add(sub(x, 4.0), sub(x, 6.0))))))'
