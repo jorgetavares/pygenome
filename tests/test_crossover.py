@@ -30,6 +30,14 @@ def test_apply_crossover2():
     for i in range(pop.size):
         assert pop.individuals[i].run_eval == True
         assert np.array_equal(pop.individuals[i].genotype, original_pop.individuals[i].genotype)
+
+def test_one_point_crossover():
+    np.random.seed(42)
+    i1 = pg.Individual(genotype=np.array([0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1]))
+    i2 = pg.Individual(genotype=np.array([1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1]))
+    o1, o2 = pg.one_point_crossover(i1, i2)
+    assert np.array_equal(o1.genotype, np.array([0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1])) 
+    assert np.array_equal(o2.genotype, np.array([1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1])) 
         
 def test_partially_match_crossover():
     np.random.seed(42)
