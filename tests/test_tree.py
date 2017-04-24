@@ -330,3 +330,103 @@ def test_grow_tree3():
     max_depth = 2
     tree = pg.full_tree(pset, init_max_depth, max_depth)
     assert np.array_equal(tree, np.array([1, 6, 5, 0]))
+
+#####
+def test_full_tree1_typed():
+    np.random.seed(42)
+    pset = pg.PrimitiveSet(typed=True)
+    pset.addFunction(op.add, 2, [int, int, int])
+    pset.addFunction(op.sub, 2, [int, int, int])
+    pset.addTerminal(1, [int])
+    pset.addTerminal(2, [int])
+    pset.addTerminal(3, [int])
+    pset.addVariable("x", [int])
+    init_max_depth = 3
+    max_depth = 6
+    tree = pg.full_tree(pset, init_max_depth, max_depth)
+    assert np.array_equal(tree, np.array([1, 2, 3, 5, 1, 6, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
+
+def test_full_tree2_typed():
+    np.random.seed(42)
+    pset = pg.PrimitiveSet(typed=True)
+    pset.addFunction(op.add, 2, [int, int, int])
+    pset.addFunction(op.sub, 2, [float, int, int])
+    pset.addFunction(op.mul, 2, [int, float, float])
+    pset.addFunction(op.truediv, 2, [float, float, float])
+    pset.addTerminal(1, [int])
+    pset.addTerminal(2, [int])
+    pset.addTerminal(3, [int])
+    pset.addTerminal(4.0, [float])
+    pset.addTerminal(5.0, [float])
+    pset.addTerminal(6.0, [float])
+    pset.addVariable("x", [float])
+    pset.addVariable("y", [int])
+    init_max_depth = 7
+    max_depth = 7
+    tree = pg.full_tree(pset, init_max_depth, max_depth)
+    assert np.array_equal(tree, np.array([ 3,  4,  2,  1,  1,  3,  8,  8,  1,  6,  7,  1,  1,  7, 12,  1, 12,
+       12,  3,  2,  3,  8,  9,  3, 11,  9,  4,  4, 11, 11,  2,  5, 12,  4,
+        4,  2,  3,  8,  8,  1,  7,  7,  4,  4, 11, 11,  4, 10,  9,  4,  2,
+        3, 10, 11,  1, 12, 12,  2,  1,  5,  7,  1,  5,  5,  2,  3,  4,  2,
+        3,  9,  9,  3,  8,  9,  2,  3, 11, 11,  1, 12,  7,  4,  2,  3, 10,
+       10,  3,  8, 11,  4,  4, 11,  9,  4,  9,  9,  3,  4,  4,  2,  7,  6,
+        4, 11,  9,  4,  4, 11,  9,  2, 12,  7,  4,  4,  2, 12,  5,  4, 11,
+        8,  4,  2,  6,  7,  2, 12,  6,  0]))
+
+def test_grow_tree1():
+    np.random.seed(45345)
+    pset = pg.PrimitiveSet(typed=True)
+    pset.addFunction(op.add, 2, [int, int, int])
+    pset.addFunction(op.sub, 2, [int, int, int])
+    pset.addTerminal(1, [int])
+    pset.addTerminal(2, [int])
+    pset.addTerminal(3, [int])
+    pset.addVariable("x", [int])
+    init_max_depth = 3
+    max_depth = 6
+    tree = pg.grow_tree(pset, init_max_depth, max_depth)
+    assert np.array_equal(tree, np.array([1, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
+
+def test_grow_tree2():
+    np.random.seed(12345)
+    pset = pg.PrimitiveSet(typed=True)
+    pset.addFunction(op.add, 2, [int, int, int])
+    pset.addFunction(op.sub, 2, [float, int, int])
+    pset.addFunction(op.mul, 2, [int, float, float])
+    pset.addFunction(op.truediv, 2, [float, float, float])
+    pset.addTerminal(1, [int])
+    pset.addTerminal(2, [int])
+    pset.addTerminal(3, [int])
+    pset.addTerminal(4.0, [float])
+    pset.addTerminal(5.0, [float])
+    pset.addTerminal(6.0, [float])
+    pset.addVariable("x", [float])
+    pset.addVariable("y", [int])
+    init_max_depth = 4
+    max_depth = 4
+    tree = pg.grow_tree(pset, init_max_depth, max_depth)
+    assert np.array_equal(tree, np.array([ 3, 11, 11,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]))
+
+def test_grow_tree3():
+    np.random.seed(12345)
+    pset = pg.PrimitiveSet(typed=True)
+    pset.addFunction(op.add, 2, [int, int, int])
+    pset.addFunction(op.sub, 2, [float, int, int])
+    pset.addFunction(op.mul, 2, [int, float, float])
+    pset.addFunction(op.truediv, 2, [float, float, float])
+    pset.addTerminal(1, [int])
+    pset.addTerminal(2, [int])
+    pset.addTerminal(3, [int])
+    pset.addTerminal(4.0, [float])
+    pset.addTerminal(5.0, [float])
+    pset.addTerminal(6.0, [float])
+    pset.addVariable("x", [float])
+    pset.addVariable("y", [int])
+    init_max_depth = 2
+    max_depth = 2
+    tree = pg.grow_tree(pset, init_max_depth, max_depth)
+    assert np.array_equal(tree, np.array([3, 9, 9, 0]))
