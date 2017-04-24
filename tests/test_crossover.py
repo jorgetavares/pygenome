@@ -38,7 +38,15 @@ def test_one_point_crossover():
     o1, o2 = pg.one_point_crossover(i1, i2)
     assert np.array_equal(o1.genotype, np.array([0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1])) 
     assert np.array_equal(o2.genotype, np.array([1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1])) 
-        
+
+def test_uniform_crossover():
+    np.random.seed(42)
+    i1 = pg.Individual(genotype=np.array([0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1]))
+    i2 = pg.Individual(genotype=np.array([1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1]))
+    o1, o2 = pg.uniform_crossover(i1, i2)
+    assert np.array_equal(o1.genotype, np.array([0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1])) 
+    assert np.array_equal(o2.genotype, np.array([1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 1])) 
+
 def test_partially_match_crossover():
     np.random.seed(42)
     i1 = pg.Individual(genotype=np.array([4, 3, 5, 7, 8, 1, 2, 0, 9, 6]))
