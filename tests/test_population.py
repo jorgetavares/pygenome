@@ -24,7 +24,7 @@ def test_clone_population():
     assert pop2.size == 5
 
 def test_make_empty_population():
-    size = 10
+    size = 1000
     pop = pg.make_empty_population(size)
     assert type(pop) is pg.Population
     assert pop.size == size
@@ -33,7 +33,7 @@ def test_make_empty_population():
         assert pop.individuals[i] is None
 
 def test_make_binary_population():
-    size = 10
+    size = 1000
     ind_size = 20
     pop = pg.make_integer_population(size, ind_size)
     assert type(pop) is pg.Population
@@ -46,7 +46,7 @@ def test_make_binary_population():
             assert pop.individuals[i].genotype[g] >= 0 and pop.individuals[i].genotype[g] <= 1
 
 def test_make_integer_population():
-    size = 10
+    size = 1000
     ind_size = 20
     low = 0
     high = 19
@@ -61,7 +61,7 @@ def test_make_integer_population():
             assert pop.individuals[i].genotype[g] >= low and pop.individuals[i].genotype[g] <= high
 
 def test_make_permutation_population():
-    size = 10
+    size = 1000
     ind_size = 20
     pop = pg.make_integer_population(size, ind_size, low=None, high=None)
     assert type(pop) is pg.Population
@@ -75,7 +75,7 @@ def test_make_permutation_population():
         assert np.array_equal(np.sort(pop.individuals[i].genotype), np.array([g for g in range(ind_size)]))
 
 def test_make_uniform_population():
-    size = 10
+    size = 1000
     ind_size = 20
     low = 0.0
     high = 1.0
@@ -90,7 +90,7 @@ def test_make_uniform_population():
             assert pop.individuals[i].genotype[g] >= low and pop.individuals[i].genotype[g] <= high
 
 def test_make_normal_population():
-    size = 10
+    size = 1000
     ind_size = 20
     mean = 0.0
     sigma = 1.0
@@ -106,7 +106,7 @@ def test_make_normal_population():
 def test_make_tree_population_full():
     import operator as op 
     np.random.seed(42)
-    size = 10
+    size = 1000
     pset = pg.PrimitiveSet()
     pset.addFunction(op.add, 2)
     pset.addFunction(op.sub, 2)
@@ -132,7 +132,7 @@ def test_make_tree_population_full():
 def test_make_tree_population_grow():
     import operator as op 
     np.random.seed(42)
-    size = 10
+    size = 1000
     pset = pg.PrimitiveSet()
     pset.addFunction(op.add, 2)
     pset.addFunction(op.sub, 2)
@@ -158,7 +158,7 @@ def test_make_tree_population_grow():
 def test_make_tree_population_ramped_half_and_half_tree():
     import operator as op 
     np.random.seed(42)
-    size = 10
+    size = 1000
     pset = pg.PrimitiveSet()
     pset.addFunction(op.add, 2)
     pset.addFunction(op.sub, 2)
@@ -184,7 +184,7 @@ def test_make_tree_population_ramped_half_and_half_tree():
 def test_make_tree_population_full_typed():
     import operator as op 
     np.random.seed(42)
-    size = 10
+    size = 1000
     pset = pg.PrimitiveSet(typed=True)
     pset.addFunction(op.add, 2, [int, int, int])
     pset.addFunction(op.sub, 2, [float, int, int])
@@ -216,7 +216,7 @@ def test_make_tree_population_full_typed():
 def test_make_tree_population_grow_typed():
     import operator as op 
     np.random.seed(42)
-    size = 10
+    size = 1000
     pset = pg.PrimitiveSet(typed=True)
     pset.addFunction(op.add, 2, [int, int, int])
     pset.addFunction(op.sub, 2, [float, int, int])
@@ -248,7 +248,7 @@ def test_make_tree_population_grow_typed():
 def test_make_tree_population_ramped_half_and_half_tree_typed():
     import operator as op 
     np.random.seed(42)
-    size = 10
+    size = 1000
     pset = pg.PrimitiveSet(typed=True)
     pset.addFunction(op.add, 2, [int, int, int])
     pset.addFunction(op.sub, 2, [float, int, int])
