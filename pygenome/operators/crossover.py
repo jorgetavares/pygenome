@@ -37,9 +37,9 @@ def one_point_crossover(i1, i2):
     Returns:
         tuple with resulting offsprings
     '''
-    cut_point = np.random.randint(g1.size)
-    o1 = np.concatenate(i1.genotype[0:cut_point], i2.genotype[cut_point:])
-    o2 = np.concatenate(i2.genotype[0:cut_point], i1.genotype[cut_point:])
+    cut_point = np.random.randint(i1.genotype.size)
+    o1 = np.concatenate([i1.genotype[0:cut_point], i2.genotype[cut_point:]])
+    o2 = np.concatenate([i2.genotype[0:cut_point], i1.genotype[cut_point:]])
     
     i1.genotype = o1
     i2.genotype = o2
