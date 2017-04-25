@@ -129,3 +129,9 @@ def test_apply_global_mutation():
     assert pop.size == pool_size
     for i in range(pop.size):
         assert pop.individuals[i].run_eval is True
+
+def test_uncorrelated_one_step_mutation():
+    np.random.seed(42)
+    i1 = pg.Individual(genotype=np.array([ 0.61185289,  0.13949386,  0.29214465,  0.36636184,  0.45606998, 0.78517596,  0.19967378,  0.51423444,  0.59241457,  0.04645041]))
+    m1 = pg.uncorrelated_one_step_mutation(i1)
+    assert np.isclose(m1.genotype.all(), np.array([ 0.60427399,  0.17499665,  0.37562893,  0.35352682,  0.44323586, 0.87173989,  0.24174041,  0.48850039,  0.62215478,  0.05481461]).all())
