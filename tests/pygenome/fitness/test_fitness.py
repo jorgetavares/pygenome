@@ -1,5 +1,5 @@
-import sys
-sys.path.append('../')
+#import sys
+#sys.path.append('../../../')
 
 import numpy as np
 import pygenome as pg

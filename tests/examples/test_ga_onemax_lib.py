@@ -1,6 +1,3 @@
-import sys
-sys.path.append('../../')
-
 from examples.ga_onemax_lib import *
 
 stdout1 = """0	0.03125	0.0407813020097	0.0055614551069

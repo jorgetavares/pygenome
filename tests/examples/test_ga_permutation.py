@@ -1,6 +1,3 @@
-import sys
-sys.path.append('../../')
-
 from examples.ga_permutation import *
 
 stdout1 = """0	6	8.86	0.990151503559

@@ -1,6 +1,3 @@
-import sys
-sys.path.append('../../')
-
 from  examples.gp_symbolic_regression import *
 
 stdout = """0	46.5	156.465962269	183.617385551
