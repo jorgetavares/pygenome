@@ -23,6 +23,32 @@ def apply_mutation(pop, rate, mt_op, **kargs):
     return pop
 
 
+def binary_flip_mutation(ind, gene_rate=None, **kargs):
+    '''
+    Flip Mutation
+
+    Args:
+        ind (Individual): individual with integer chromossome to be mutated
+        rate (float): per gene mutation rate
+        
+    Returns:
+        mutated individual
+    '''
+    chromossome = ind.genotype
+    rate = 1. / chromossome.size if gene_rate is None else gene_rate
+
+    for i in range(chromossome.size):
+        if np.random.uniform() < rate:
+            if chromossome[i] == 0:
+                chromossome[i] = 1
+            else:
+                chromossome[i] = 0    
+    
+    ind.genotype = chromossome
+
+    return ind
+
+
 def flip_mutation(ind, gene_rate=None, low=0, high=1, **kargs):
     '''
     Flip Mutation
