@@ -112,3 +112,7 @@ def test_flip_mutation3():
     assert m1.run_eval is True
     assert np.isclose(m1.genotype.all(), np.array([ 0.61185289,  0.13949386,  0.29214465,  0.36636184,  0.45606998, 0.78517596,  0.86617615,  0.51423444,  0.59241457,  0.96990985]).all()) 
 
+def test_sigma_check():
+    assert np.isclose(pg.sigma_check(0.0, epsilon=1e-08), 1e-08) is True
+    assert np.isclose(pg.sigma_check(-0.5, epsilon=1e-08), 1e-08) is True
+    assert np.isclose(pg.sigma_check(0.5, epsilon=1e-08), 0.5) is True
