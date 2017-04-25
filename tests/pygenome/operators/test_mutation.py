@@ -12,7 +12,7 @@ def test_apply_mutation1():
     original_pop = pop.clone()
     pop = pg.apply_mutation(pop, rate, operator, gene_rate=rate)
     for i in range(pop.size):
-        assert pop.individuals[i].run_eval == True
+        assert pop.individuals[i].run_eval is True
         assert np.array_equal(pop.individuals[i].genotype, original_pop.individuals[i].genotype) is not True
 
 def test_apply_mutation2():
@@ -25,7 +25,28 @@ def test_apply_mutation2():
     original_pop = pop.clone()
     pop = pg.apply_mutation(pop, rate, operator, gene_rate=rate)
     for i in range(pop.size):
-        assert pop.individuals[i].run_eval == True
+        assert pop.individuals[i].run_eval is True
         assert np.array_equal(pop.individuals[i].genotype, original_pop.individuals[i].genotype)
 
+def test_flip_mutation1():
+    np.random.seed(42)
+    i1 = pg.Individual(genotype=np.array([4, 3, 5, 7, 8, 1, 2, 0, 9, 6]))
+    m1 = pg.flip_mutation(i1, gene_rate=0.0, low=0, high=9)
+    assert m1.run_eval is True
+    assert np.array_equal(m1.genotype, np.array([4, 3, 5, 7, 8, 1, 2, 0, 9, 6])) 
 
+def test_flip_mutation2():
+    np.random.seed(42)
+    i1 = pg.Individual(genotype=np.array([4, 3, 5, 7, 8, 1, 2, 0, 9, 6]))
+    m1 = pg.flip_mutation(i1, gene_rate=1.0, low=0, high=9)
+    assert m1.run_eval is True
+    assert np.array_equal(m1.genotype, np.array([7, 6, 6, 7, 7, 5, 7, 5, 4, 9])) 
+
+def test_flip_mutation3():
+    np.random.seed(42)
+    i1 = pg.Individual(genotype=np.array([4, 3, 5, 7, 8, 1, 2, 0, 9, 6]))
+    m1 = pg.flip_mutation(i1, gene_rate=None, low=0, high=9)
+    assert m1.run_eval is True
+    assert np.array_equal(m1.genotype, np.array([4, 3, 5, 7, 8, 1, 7, 0, 9, 6])) 
+
+    
