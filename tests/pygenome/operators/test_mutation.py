@@ -105,7 +105,7 @@ def test_uniform_mutation2():
     assert m1.run_eval is True
     assert np.isclose(m1.genotype.all(), np.array([ 0.95071431,  0.59865848,  0.15599452,  0.86617615,  0.70807258, 0.96990985,  0.21233911,  0.18340451,  0.52475643,  0.29122914]).all()) 
 
-def test_flip_mutation3():
+def test_uniform_mutation3():
     np.random.seed(42)
     i1 = pg.Individual(genotype=np.array([ 0.61185289,  0.13949386,  0.29214465,  0.36636184,  0.45606998, 0.78517596,  0.19967378,  0.51423444,  0.59241457,  0.04645041]))
     m1 = pg.uniform_mutation(i1, gene_rate=None, low=0.0, high=1.0)
@@ -116,3 +116,16 @@ def test_sigma_check():
     assert np.isclose(pg.sigma_check(0.0, epsilon=1e-08), 1e-08) is True
     assert np.isclose(pg.sigma_check(-0.5, epsilon=1e-08), 1e-08) is True
     assert np.isclose(pg.sigma_check(0.5, epsilon=1e-08), 0.5) is True
+
+def test_apply_global_mutation():
+    np.random.seed(42)
+    size = 30
+    ind_size = 100
+    operator = pg.uncorrelated_one_step_mutation
+    pool_size = 100
+    pop = pg.make_uniform_population(size, ind_size)
+    original_pop = pop.clone()
+    pop = pg.apply_global_mutation(pop, pool_size, operator)
+    assert pop.size == pool_size
+    for i in range(pop.size):
+        assert pop.individuals[i].run_eval is True
