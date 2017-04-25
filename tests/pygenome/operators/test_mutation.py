@@ -90,3 +90,25 @@ def test_swap_mutation3():
     m1 = pg.swap_mutation(i1, gene_rate=None)
     assert m1.run_eval is True
     assert np.array_equal(m1.genotype, np.array([4, 3, 5, 7, 8, 1, 0, 2, 9, 6]))
+
+def test_uniform_mutation1():
+    np.random.seed(42)
+    i1 = pg.Individual(genotype=np.array([ 0.61185289,  0.13949386,  0.29214465,  0.36636184,  0.45606998, 0.78517596,  0.19967378,  0.51423444,  0.59241457,  0.04645041]))
+    m1 = pg.uniform_mutation(i1, gene_rate=0.0, low=0.0, high=1.0)
+    assert m1.run_eval is True
+    assert np.isclose(m1.genotype.all(), np.array([ 0.61185289,  0.13949386,  0.29214465,  0.36636184,  0.45606998, 0.78517596,  0.19967378,  0.51423444,  0.59241457,  0.04645041]).all()) 
+
+def test_uniform_mutation2():
+    np.random.seed(42)
+    i1 = pg.Individual(genotype=np.array([ 0.61185289,  0.13949386,  0.29214465,  0.36636184,  0.45606998, 0.78517596,  0.19967378,  0.51423444,  0.59241457,  0.04645041]))
+    m1 = pg.uniform_mutation(i1, gene_rate=1.0, low=0.0, high=1.0)
+    assert m1.run_eval is True
+    assert np.isclose(m1.genotype.all(), np.array([ 0.95071431,  0.59865848,  0.15599452,  0.86617615,  0.70807258, 0.96990985,  0.21233911,  0.18340451,  0.52475643,  0.29122914]).all()) 
+
+def test_flip_mutation3():
+    np.random.seed(42)
+    i1 = pg.Individual(genotype=np.array([ 0.61185289,  0.13949386,  0.29214465,  0.36636184,  0.45606998, 0.78517596,  0.19967378,  0.51423444,  0.59241457,  0.04645041]))
+    m1 = pg.uniform_mutation(i1, gene_rate=None, low=0.0, high=1.0)
+    assert m1.run_eval is True
+    assert np.isclose(m1.genotype.all(), np.array([ 0.61185289,  0.13949386,  0.29214465,  0.36636184,  0.45606998, 0.78517596,  0.86617615,  0.51423444,  0.59241457,  0.96990985]).all()) 
+
