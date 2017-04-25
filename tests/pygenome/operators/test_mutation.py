@@ -135,3 +135,9 @@ def test_uncorrelated_one_step_mutation():
     i1 = pg.Individual(genotype=np.array([ 0.61185289,  0.13949386,  0.29214465,  0.36636184,  0.45606998, 0.78517596,  0.19967378,  0.51423444,  0.59241457,  0.04645041]))
     m1 = pg.uncorrelated_one_step_mutation(i1)
     assert np.isclose(m1.genotype.all(), np.array([ 0.60427399,  0.17499665,  0.37562893,  0.35352682,  0.44323586, 0.87173989,  0.24174041,  0.48850039,  0.62215478,  0.05481461]).all())
+
+def test_uncorrelated_n_steps_mutation():
+    np.random.seed(42)
+    i1 = pg.Individual(genotype=np.array([ 0.61185289,  0.13949386,  0.29214465,  0.36636184,  0.45606998, 0.78517596,  0.19967378,  0.51423444,  0.59241457,  0.04645041]))
+    m1 = pg.uncorrelated_n_steps_mutation(i1)
+    assert np.isclose(m1.genotype.all(), np.array([ 1.97088495,  0.38304596, -0.28830838,  0.70303098,  0.43352264, 0.86057563,  0.31735872,  1.23638915,  0.6205196 ,  0.04865446]).all())
