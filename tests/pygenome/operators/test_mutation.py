@@ -70,3 +70,23 @@ def test_flip_mutation3():
     assert m1.run_eval is True
     assert np.array_equal(m1.genotype, np.array([4, 3, 5, 7, 8, 1, 7, 0, 9, 6])) 
 
+def test_swap_mutation1():
+    np.random.seed(42)
+    i1 = pg.Individual(genotype=np.array([4, 3, 5, 7, 8, 1, 2, 0, 9, 6]))
+    m1 = pg.swap_mutation(i1, gene_rate=0.0)
+    assert m1.run_eval is True
+    assert np.array_equal(m1.genotype, np.array([4, 3, 5, 7, 8, 1, 2, 0, 9, 6])) 
+
+def test_swap_mutation2():
+    np.random.seed(42)
+    i1 = pg.Individual(genotype=np.array([4, 3, 5, 7, 8, 1, 2, 0, 9, 6]))
+    m1 = pg.swap_mutation(i1, gene_rate=1.0)
+    assert m1.run_eval is True
+    assert np.array_equal(m1.genotype, np.array([0, 2, 3, 4, 9, 5, 8, 1, 7, 6])) 
+
+def test_swap_mutation3():
+    np.random.seed(42)
+    i1 = pg.Individual(genotype=np.array([4, 3, 5, 7, 8, 1, 2, 0, 9, 6]))
+    m1 = pg.swap_mutation(i1, gene_rate=None)
+    assert m1.run_eval is True
+    assert np.array_equal(m1.genotype, np.array([4, 3, 5, 7, 8, 1, 0, 2, 9, 6]))
