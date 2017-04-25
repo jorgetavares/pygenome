@@ -17,3 +17,7 @@
 * Unit tests to cover all major components
     + split larger tests into smaller ones
     + complete coverage
+* project organization
+    + add README files in major parts (examples, tests)
+    + create better directory structure for examples
+    + create basic documentation
