@@ -15,5 +15,5 @@
     + for standard output
     + for file output
 * Unit tests to cover all major components
-    + create direcotry structure to mimic the code
     + split larger tests into smaller ones
+    + complete coverage
