@@ -14,6 +14,12 @@ class Individual(object):
     def clone(self):
         return deepcopy(self)
 
+    def equal(self, ind):
+        fit = self.fitness.equal(ind.fitness)
+        gen = np.array_equal(self.genotype, ind.genotype)
+        eva = self.run_eval == ind.run_eval
+        return fit and gen and eva
+
 
 class TreeIndividual(Individual):
     '''
@@ -24,3 +30,8 @@ class TreeIndividual(Individual):
         super().__init__(fitness=fitness, genotype=tree)
         self.depth = depth
         self.nodes = nodes
+
+    def equal(self, ind):
+        depth = self.depth == ind.depth
+        nodes = self.nodes == ind.nodes
+        return super().equal(ind) and depth and nodes

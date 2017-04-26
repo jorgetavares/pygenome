@@ -11,6 +11,9 @@ class Fitness(object):
     def __init__(self, value=None):
         self.value = value
 
+    def equal(self, fit):
+        return self.value == fit.value
+
 
 def evaluate_population(pop, fitness_fn, **kargs):
     '''
