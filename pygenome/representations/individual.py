@@ -15,7 +15,10 @@ class Individual(object):
         return deepcopy(self)
 
     def equal(self, ind):
-        fit = self.fitness.equal(ind.fitness)
+        if self.fitness is not None:
+            fit = self.fitness.equal(ind.fitness)
+        else:
+            fit = self.fitness == ind.fitness
         gen = np.array_equal(self.genotype, ind.genotype)
         eva = self.run_eval == ind.run_eval
         return fit and gen and eva

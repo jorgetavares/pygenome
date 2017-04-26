@@ -12,7 +12,10 @@ class Fitness(object):
         self.value = value
 
     def equal(self, fit):
-        return self.value == fit.value
+        if fit is None:
+            return False
+        else:
+            return self.value == fit.value
 
 
 def evaluate_population(pop, fitness_fn, **kargs):
