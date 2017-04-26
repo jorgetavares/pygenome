@@ -5,7 +5,6 @@ from pygenome.representations.population import (
     make_uniform_population
 )
 from pygenome.fitness.evaluation import evaluate_population
-from pygenome.utilities.logging import evolution_progress
 from pygenome.operators.crossover import (
     apply_crossover,
     uniform_crossover,
@@ -27,7 +26,7 @@ from pygenome.operators.replacement import (
     generational_replacement,
     steady_state_replacement,
 )
-
+from pygenome.engines.generic import generic_ea
 
 # standard binary GA
 def genetic_algorithm_binary(fitness_fn, chr_size, pop_size=100,
@@ -118,25 +117,4 @@ def genetic_algorithm(fitness_fn, chr_size, low, high, pop_size=100,
     pop = generic_ea(total_generations, make_pop, eval_pop,
                      select_pop, apply_cx, apply_mt, replace_pop)
 
-    return pop
-
-
-# generic EA framework
-def generic_ea(total_generations, make_pop, eval_pop,
-               select_pop, apply_cx, apply_mt, replace_pop):
-    # build population
-    pop = make_pop()
-    pop = eval_pop(pop)
-    evolution_progress(0, pop)
-
-    # evolutionary loop
-    for i in range(1, total_generations):
-        parents = select_pop(pop)
-        offsprings = apply_cx(parents)
-        offsprings = apply_mt(offsprings)
-        pop = replace_pop(pop, offsprings)
-        pop = eval_pop(pop)
-        evolution_progress(i, pop)
-
-    # return final population
     return pop

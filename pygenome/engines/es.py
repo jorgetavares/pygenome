@@ -5,7 +5,6 @@ from pygenome.representations.population import (
     make_uniform_population
 )
 from pygenome.fitness.evaluation import evaluate_population
-from pygenome.utilities.logging import evolution_progress
 from pygenome.operators.crossover import (
     apply_global_crossover,
     intermediary_crossover
@@ -16,7 +15,7 @@ from pygenome.operators.mutation import (
 )
 from pygenome.operators.selection import best_individual
 from pygenome.operators.replacement import mu_comma_lambda_replacement
-
+from pygenome.engines.generic import generic_es
 
 def evolutionary_strategy(fitness_fn, chr_size, low, high, pop_size=30,
                           total_generations=100,
@@ -55,24 +54,4 @@ def evolutionary_strategy(fitness_fn, chr_size, low, high, pop_size=30,
     pop = generic_es(total_generations, make_pop,
                      eval_pop, apply_mt, apply_cx, replace_pop)
 
-    return pop
-
-
-# generic ES framework
-def generic_es(total_generations, make_pop, eval_pop,
-               apply_mt, apply_cx, replace_pop):
-    # build population
-    pop = make_pop()
-    pop = eval_pop(pop)
-    evolution_progress(0, pop)
-
-    # evolutionary loop
-    for i in range(1, total_generations):
-        offsprings = apply_mt(pop)
-        offsprings = apply_cx(offsprings)
-        offsprings = eval_pop(offsprings)
-        pop = replace_pop(pop, offsprings)
-        evolution_progress(i, pop)
-
-    # return final population
     return pop
