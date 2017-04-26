@@ -1,5 +1,6 @@
 import numpy as np
 import pygenome as pg
+import operator as op
 
 def test_make_individual1():
     ind = pg.Individual()
@@ -49,3 +50,20 @@ def test_equal_individual():
     ind5 = pg.Individual(fitness=pg.Fitness(value=3), genotype=[0, 1, 0, 1, 1])
     ind5.run_eval = False
     assert ind1.equal(ind5) is False
+
+def test_equal_tree_individual():
+    np.random.seed(42)
+    pset = pg.PrimitiveSet()
+    pset.addFunction(op.add, 2)
+    pset.addFunction(op.sub, 2)
+    pset.addTerminal(1)
+    pset.addTerminal(2)
+    pset.addTerminal(3)
+    pset.addVariable("x")
+    pop = pg.make_tree_population(1, pset, 7, 8, init_method=pg.full_tree)
+    i1 = pop.individuals[0]
+    i2 = i1.clone()
+    assert i1.equal(i2) is True
+    pop = pg.make_tree_population(1, pset, 7, 8, init_method=pg.full_tree)
+    i3 = pop.individuals[0]
+    assert i1.equal(i3) is False
