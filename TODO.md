@@ -16,8 +16,10 @@
     + for file output
 * Unit tests to cover all major components
     + split larger tests into smaller ones
-    + complete coverage
+    + complete coverage:
+        + selection
+        + replacement
+        + engines
 * project organization
-    + add README files in major parts (examples, tests)
     + create better directory structure for examples
     + create basic documentation
