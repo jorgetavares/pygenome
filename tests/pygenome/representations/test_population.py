@@ -20,6 +20,16 @@ def test_clone_population():
     assert np.array_equal(pop1.individuals, pop2.individuals) is False
     assert pop2.size == 5
 
+def test_equal_population():
+    np.random.seed(42)
+    size = 1000
+    ind_size = 20
+    pop1 = pg.make_integer_population(size, ind_size)
+    pop2 = pop1.clone()
+    pop3 = pg.make_integer_population(size, ind_size)
+    assert pop1.equal(pop2) is True
+    assert pop1.equal(pop3) is False
+
 def test_make_empty_population():
     size = 1000
     pop = pg.make_empty_population(size)

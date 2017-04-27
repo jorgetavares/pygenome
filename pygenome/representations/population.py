@@ -17,6 +17,15 @@ class Population(object):
     def clone(self):
         return deepcopy(self)
 
+    def equal(self, pop):
+        same_size = self.size == pop.size
+        same_individuals = True
+        for i in range(self.size):
+            if not self.individuals[i].equal(pop.individuals[i]):
+                same_individuals = False
+                break
+        return same_size and same_individuals
+
 
 def make_empty_population(size):
     '''
