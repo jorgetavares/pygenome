@@ -17,7 +17,6 @@
 * Unit tests to cover all major components
     + split larger tests into smaller ones
     + complete coverage:
-        + selection
         + replacement
         + engines
 * project organization
