@@ -148,21 +148,16 @@ def roulette_wheel_selection(pop):
     Returns:
         cloned selected individual
     '''
-    total = 0.0
-    for ind in pop.individuals:
-        total += ind.fitness.value
-    
-    probability = np.empty(pop.size)
-    for i in range(1, pop.size):
-        probability[i] = pop.individuals[i].fitness.value / total
+    from bisect import bisect_left
 
-    n = 0
-    total_sum = probability[n]
-    rand = np.random.uniform()
+    # this is required since this selection method 
+    # only works in maximization setup
+    def invert_fitness(value):
+        return 1.0 / (1.0 + value)
 
-    while total_sum < rand:
-        n += 1
-        total_sum += probability[n]
+    fitness_values = [invert_fitness(pop.individuals[i].fitness.value) for i in range(pop.size)]
+    cfs = [sum(fitness_values[:i+1]) for i in range(pop.size)]
+    i = bisect_left(cfs, np.random.uniform(low=0.0, high=cfs[-1]))
 
-    return pop.indvidiuals[n].clone()
+    return pop.individuals[i].clone()
     
