@@ -33,3 +33,21 @@ def test_steady_state():
             break
 
     assert found1 and found2 is True
+
+def test_elite_strategy():
+    np.random.seed(42)
+    size = 10
+    ind_size = 20
+    pop = pg.make_integer_population(size, ind_size)
+    fitness_function = lambda x : 1. / pg.onemax(x) 
+    pop = pg.make_integer_population(size, ind_size)
+    pop = pg.evaluate_population(pop, fitness_function)
+    best = pg.best_individual(pop)
+    pop = pg.elite_strategy(pop, best)
+    found = False
+    for ind in pop.individuals:
+        if ind.equal(best) is True:
+            found = True
+            break
+
+    assert found is True
