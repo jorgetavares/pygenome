@@ -14,8 +14,6 @@
 * Use logging
     + for standard output
     + for file output
-* Unit tests to cover all major components
-    + split larger tests into smaller ones
 * project organization
     + create better directory structure for examples
     + create basic documentation
