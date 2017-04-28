@@ -16,9 +16,6 @@
     + for file output
 * Unit tests to cover all major components
     + split larger tests into smaller ones
-    + complete coverage:
-        + replacement
-        + engines
 * project organization
     + create better directory structure for examples
     + create basic documentation
