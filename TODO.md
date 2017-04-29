@@ -11,9 +11,3 @@
     + add genotype to phenotype mapping function
     + add evaluator
     + add example
-* Use logging
-    + for standard output
-    + for file output
-* project organization
-    + create better directory structure for examples
-    + create basic documentation
