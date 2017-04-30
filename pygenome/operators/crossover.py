@@ -212,7 +212,9 @@ def tree_crossover(parent1, parent2, pset=None):
         dest[dest_pos:dest_pos + length] = src[src_pos:src_pos + length]
 
     def get_primitive_type(primitive):
-        if primitive in pset.terminals:
+        if primitive in pset.ephemeral_constants:
+            _, p_type = pset.ephemeral_constants[primitive]
+        elif primitive in pset.terminals:
             _, p_type = pset.terminals[primitive]
         elif primitive in pset.variables:
             _, p_type = pset.variables[primitive]

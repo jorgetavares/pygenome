@@ -16,6 +16,8 @@ class PrimitiveSet(object):
         self.variables_types = {}
         self.arity_cache = {}
         self.primitives = set() # to verify duplicates
+        self.ephemeral_cache = set() # for quick look-up
+        self.ephemeral_constants = {}
 
     def _addTypesCache(self, primitive_key, types, types_cache):
         return_type = types[0]
@@ -46,7 +48,7 @@ class PrimitiveSet(object):
             if self.typed:
                 self._addTypesCache(self.num_primitives, types, self.functions_types)
 
-    def addTerminal(self, term, types=None):
+    def addTerminal(self, term, types=None, ephemeral=False):
         if self.typed and types is None:
             raise AttributeError('This is a typed primitive set so types are required!')
         
@@ -59,6 +61,9 @@ class PrimitiveSet(object):
 
             if self.typed:
                 self._addTypesCache(self.num_primitives, types, self.terminals_types)
+
+            if ephemeral:
+                self.ephemeral_cache.add(self.num_primitives)
 
     def addVariable(self, var, types=None):
         if self.typed and types is None:
@@ -73,6 +78,13 @@ class PrimitiveSet(object):
 
             if self.typed:
                 self._addTypesCache(self.num_primitives, types, self.variables_types)
+
+    def addEphemeralConstant(self, idx):
+        fn, types = self.terminals[idx]
+        self.num_primitives += 1
+        constant = fn()
+        self.ephemeral_constants[self.num_primitives] = (constant, types)
+        return self.num_primitives
 
 
 def transverse_tree(pset, array_tree, counter):
@@ -89,7 +101,9 @@ def transverse_tree(pset, array_tree, counter):
     element = array_tree[counter]
     counter += 1
 
-    if element in pset.terminals:
+    if element in pset.ephemeral_constants:
+        return counter
+    elif element in pset.terminals:
         return counter
     elif element in pset.variables:
         return counter
@@ -122,7 +136,9 @@ def count_tree_internals(pset, tree):
         run_tree.total_nodes += 1
         depth += 1
 
-        if element in pset.terminals:
+        if element in pset.ephemeral_constants:
+            return [depth]
+        elif element in pset.terminals:
             return [depth]
         elif element in pset.variables:
             return [depth]
@@ -161,7 +177,10 @@ def interpreter(pset, tree, run=False, vars_inputs=None):
         element = array_tree[run_tree.position]
         run_tree.position +=1
 
-        if element in pset.terminals:
+        if element in pset.ephemeral_constants:
+            constant, _ = pset.ephemeral_constants[element]
+            return constant if run else str(constant)
+        elif element in pset.terminals:
             terminal, _ = pset.terminals[element]
             return terminal if run else str(terminal)
         elif element in pset.variables:
@@ -234,6 +253,9 @@ def grow_tree(pset, max_depth, total_max_depth, initial_type=None):
 
                 idx = valid_terminals[np.random.randint(len(valid_terminals))]
             
+            if idx in pset.ephemeral_cache:
+                idx = pset.addEphemeralConstant(idx)
+
             grow.tree[grow.position] = idx
         else:
             # return a function or a terminal/variable
@@ -253,6 +275,8 @@ def grow_tree(pset, max_depth, total_max_depth, initial_type=None):
                 idx = valid_set[np.random.randint(len(valid_set))]
                 
             if idx in pset.terminals or idx in pset.variables:
+                if idx in pset.ephemeral_cache:
+                    idx = pset.addEphemeralConstant(idx)    
                 grow.tree[grow.position] = idx
             else:
                 fn, arity, types = pset.functions[idx]
@@ -307,6 +331,9 @@ def full_tree(pset, max_depth, total_max_depth, initial_type=None):
 
                 idx = valid_terminals[np.random.randint(len(valid_terminals))]
             
+            if idx in pset.ephemeral_cache:
+                idx = pset.addEphemeralConstant(idx)
+
             full.tree[full.position] = idx
 
         else:

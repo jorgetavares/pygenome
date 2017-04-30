@@ -234,7 +234,17 @@ def tree_point_mutation(i1, pset=None, gene_rate=None, **kargs):
     Returns:
         mutated individual
     '''
-    terminals_idx = np.array(list(pset.terminals.keys()))
+    
+    if pset.ephemeral_cache:
+        terminals_keys = []
+        for k in list(pset.terminals.keys()):
+            if k in pset.ephemeral_cache:
+                pass
+            else:
+                terminals_keys.append(k)
+        terminals_idx = np.concatenate([np.array(terminals_keys), np.array(list(pset.ephemeral_constants.keys()))])
+    else:
+        terminals_idx = np.array(list(pset.terminals.keys()))
     variables_idx = np.array(list(pset.variables.keys()))
     all_terminals_idx = np.concatenate([terminals_idx, variables_idx])
                 
@@ -246,9 +256,13 @@ def tree_point_mutation(i1, pset=None, gene_rate=None, **kargs):
         if np.random.uniform() < gene_rate:
             primitive = new_genotype[i]
             # replace terminal/variable with another one 
-            if primitive in pset.terminals or primitive in pset.variables:
+            if primitive in pset.terminals or primitive in pset.variables or pset.ephemeral_constants:
                 if pset.typed:
-                    _, term_types = pset.terminals[primitive] if primitive in pset.terminals else (None, None) 
+                    if primitive in pset.terminals:
+                        _, term_types = pset.terminals[primitive] if primitive in pset.terminals else (None, None)
+                    elif primitive in pset.ephemeral_constants:
+                        _, term_types = pset.ephemeral_constants[primitive] if primitive in pset.ephemeral_constants else (None, None)
+                    
                     _, vars_types = pset.variables[primitive] if primitive in pset.variables else (None, None)
                     
                     if term_types is not None:
@@ -311,7 +325,9 @@ def subtree_mutation(parent, pset=None, **kargs):
         dest[dest_pos:dest_pos + length] = src[src_pos:src_pos + length]
     
     def get_primitive_type(primitive):
-        if primitive in pset.terminals:
+        if primitive in pset.ephemeral_constants:
+            _, p_type = pset.ephemeral_constants[primitive]
+        elif primitive in pset.terminals:
             _, p_type = pset.terminals[primitive]
         elif primitive in pset.variables:
             _, p_type = pset.variables[primitive]
