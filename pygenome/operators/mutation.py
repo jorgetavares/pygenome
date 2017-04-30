@@ -258,24 +258,26 @@ def tree_point_mutation(i1, pset=None, gene_rate=None, **kargs):
             # replace terminal/variable with another one 
             if primitive in pset.terminals or primitive in pset.variables or pset.ephemeral_constants:
                 if pset.typed:
-                    if primitive in pset.terminals:
-                        _, term_types = pset.terminals[primitive] if primitive in pset.terminals else (None, None)
-                    elif primitive in pset.ephemeral_constants:
-                        _, term_types = pset.ephemeral_constants[primitive] if primitive in pset.ephemeral_constants else (None, None)
-                    
+                    _, term_types = pset.terminals[primitive] if primitive in pset.terminals else (None, None)
+                    _, ephm_types = pset.ephemeral_constants[primitive] if primitive in pset.ephemeral_constants else (None, None)
                     _, vars_types = pset.variables[primitive] if primitive in pset.variables else (None, None)
                     
                     if term_types is not None:
                         typed_terminals = pset.terminals_types[term_types[0]]
                     else:
                         typed_terminals = [] 
-                    
+
+                    if ephm_types is not None:
+                        typed_ephemerals = pset.terminals_types[ephm_types[0]]
+                    else:
+                        typed_ephemerals = []
+              
                     if vars_types is not None:
                         typed_variables = pset.variables_types[vars_types[0]] 
                     else:
                         typed_variables = []
 
-                    valid_terminals = np.concatenate([np.array(typed_terminals, dtype=int), np.array(typed_variables, dtype=int)])
+                    valid_terminals = np.concatenate([np.array(typed_terminals, dtype=int), np.array(typed_variables, dtype=int), np.array(typed_ephemerals, dtype=int)])
                     new_genotype[i] = valid_terminals[np.random.randint(valid_terminals.size)]
                 else:
                     new_genotype[i] = all_terminals_idx[np.random.randint(all_terminals_idx.size)]                 
