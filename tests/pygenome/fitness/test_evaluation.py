@@ -4,7 +4,7 @@ import operator as op
 
 def test_Fitness():
     fit = pg.Fitness()
-    assert fit.value == None
+    assert fit.value is None
     fit = pg.Fitness(value=1.0)
     assert fit.value == 1.0
 
@@ -17,7 +17,7 @@ def test_evaluate_population():
     original_pop = pop.clone()
     pop = pg.evaluate_population(pop, fitness_function)
     for i in range(pop.size):
-        assert pop.individuals[i].run_eval == False
+        assert pop.individuals[i].run_eval is False
         assert pop.individuals[i].run_eval is not original_pop.individuals[i].run_eval
         assert type(pop.individuals[i].fitness) is pg.Fitness
         assert pop.individuals[i].fitness.value is not None
@@ -62,7 +62,7 @@ def test_evaluate_tree_population():
     original_pop = pop.clone()
     pop = pg.evaluate_tree_population(pop, fitness_function, pset)
     for i in range(pop.size):
-        assert pop.individuals[i].run_eval == False
+        assert pop.individuals[i].run_eval is False
         assert pop.individuals[i].run_eval is not original_pop.individuals[i].run_eval
         assert type(pop.individuals[i].fitness) is pg.Fitness
         assert pop.individuals[i].fitness.value is not None
