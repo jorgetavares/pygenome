@@ -6,7 +6,6 @@
         + design a more stable solution
 * GP/STGP: 
     + add example with ephemeral constants
-    + add tests for ephemeral constants
 * GE:
     + add grammar reader and data structure for grammars
     + add genotype to phenotype mapping function
