@@ -44,3 +44,21 @@ def test_duplicate_entries():
     assert list(pset.variables.keys()) == [3]
     assert pset.arity_cache == {2: [1]}
     assert pset.primitives == set([op.add, 2, "x"])
+
+def float_constants():
+    return np.random.uniform()
+
+def test_make_ephemeral_constants():
+    pset = pg.PrimitiveSet()
+    pset.addFunction(op.add, 2)
+    pset.addFunction(op.sub, 2)
+    pset.addTerminal(float_constants, types=None, ephemeral=True)
+
+    assert pset.num_primitives == 3
+    assert list(pset.functions.keys()) == [1, 2]
+    assert list(pset.terminals.keys()) == [3]
+    assert list(pset.variables.keys()) == []
+    assert pset.arity_cache == {2: [1, 2]}
+    assert pset.primitives == set([op.add, op.sub, float_constants])
+    assert pset.ephemeral_cache == set([3])
+    
