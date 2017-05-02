@@ -5,25 +5,25 @@ import operator as op
 def test_make_individual1():
     ind = pg.Individual()
     assert type(ind) is pg.Individual
-    assert ind.fitness == None
-    assert ind.genotype == None
-    assert ind.run_eval == True
+    assert ind.fitness is None
+    assert ind.genotype is None
+    assert ind.run_eval is True
 
 def test_make_individual2():
     ind = pg.Individual(fitness=pg.Fitness(value=3), genotype=[0, 1, 0, 1, 1])
     assert type(ind) is pg.Individual
     assert ind.fitness.value == 3
     assert ind.genotype == [0, 1, 0, 1, 1]
-    assert ind.run_eval == True
+    assert ind.run_eval is True
     
 def test_make_individual_tree():
     ind = pg.TreeIndividual()
     assert type(ind) is pg.TreeIndividual
-    assert ind.fitness == None
-    assert ind.genotype == None
-    assert ind.run_eval == True
-    assert ind.depth == None
-    assert ind.nodes == None
+    assert ind.fitness is None
+    assert ind.genotype is None
+    assert ind.run_eval is True
+    assert ind.depth is None
+    assert ind.nodes is None
 
 def test_clone_individual():
     ind1 = pg.Individual(fitness=pg.Fitness(value=3), genotype=[0, 1, 0, 1, 1])

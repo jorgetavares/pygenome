@@ -9,7 +9,7 @@ def test_primitive_set_add_functions():
     pset.addFunction(op.sub, 2)
     pset.addFunction(op.mul, 2)
 
-    assert pset.typed == False
+    assert pset.typed is False
     assert pset.num_primitives == 3
     assert list(pset.functions.keys()) == [1, 2, 3]
     assert pset.arity_cache == {2: [1, 2, 3]}
@@ -22,7 +22,7 @@ def test_primitive_set_add_typed_functions():
     pset.addFunction(op.sub, 2, [int, int, int])
     pset.addFunction(op.mul, 2, [float, float, float])
 
-    assert pset.typed == True
+    assert pset.typed is True
     assert pset.num_primitives == 3
     assert list(pset.functions.keys()) == [1, 2, 3]
     assert pset.arity_cache == {2: [1, 2, 3]}

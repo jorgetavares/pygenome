@@ -12,7 +12,7 @@ def test_apply_crossover1():
     original_pop = pop.clone()
     pop = pg.apply_crossover(pop, rate, operator)
     for i in range(pop.size):
-        assert pop.individuals[i].run_eval == True
+        assert pop.individuals[i].run_eval is True
         assert np.array_equal(pop.individuals[i].genotype, original_pop.individuals[i].genotype) is not True
 
 def test_apply_crossover2():
@@ -25,7 +25,7 @@ def test_apply_crossover2():
     original_pop = pop.clone()
     pop = pg.apply_crossover(pop, rate, operator)
     for i in range(pop.size):
-        assert pop.individuals[i].run_eval == True
+        assert pop.individuals[i].run_eval is True
         assert np.array_equal(pop.individuals[i].genotype, original_pop.individuals[i].genotype)
 
 def test_one_point_crossover():
@@ -61,7 +61,7 @@ def test_apply_global_crossover():
     original_pop = pop.clone()
     pop = pg.apply_global_crossover(pop, operator)
     for i in range(pop.size):
-        assert pop.individuals[i].run_eval == True
+        assert pop.individuals[i].run_eval is True
 
 def test_intermediary_crossover():
     np.random.seed(42)

@@ -35,7 +35,7 @@ def test_apply_crossover():
     original_pop = pop.clone()
     pop = pg.apply_crossover(pop, rate, operator, pset=pset)
     for i in range(pop.size):
-        assert pop.individuals[i].run_eval == True
+        assert pop.individuals[i].run_eval is True
         assert np.array_equal(pop.individuals[i].genotype, original_pop.individuals[i].genotype) is not True
 
 def test_tree_crossover1():
@@ -97,7 +97,6 @@ def test_tree_crossover2():
     assert o2.nodes == 3
     assert np.array_equal(o2.genotype, np.array([1, 5, 7, 0, 0, 0, 0, 0, 0, 0]))
     assert o2_str == 'add(1, 2)'
-
 
 def test_tree_crossover_typed1():
     np.random.seed(42)
