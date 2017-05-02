@@ -18,6 +18,7 @@ class PrimitiveSet(object):
         self.primitives = set() # to verify duplicates
         self.ephemeral_cache = set() # for quick look-up
         self.ephemeral_constants = {}
+        self.ephemeral_constants_ids = {}
 
     def _addTypesCache(self, primitive_key, types, types_cache):
         return_type = types[0]
@@ -83,8 +84,13 @@ class PrimitiveSet(object):
         fn, types = self.terminals[idx]
         self.num_primitives += 1
         constant = fn()
-        self.ephemeral_constants[self.num_primitives] = (constant, types)
-        return self.num_primitives
+        # don't store duplicate constants
+        if constant in self.ephemeral_constants_ids:
+            return self.ephemeral_constants_ids[constant]
+        else:
+            self.ephemeral_constants[self.num_primitives] = (constant, types)
+            self.ephemeral_constants_ids[constant] = self.num_primitives
+            return self.num_primitives
 
 
 def transverse_tree(pset, array_tree, counter):
