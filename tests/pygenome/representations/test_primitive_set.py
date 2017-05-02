@@ -62,3 +62,18 @@ def test_make_ephemeral_constants():
     assert pset.primitives == set([op.add, op.sub, float_constants])
     assert pset.ephemeral_cache == set([3])
     
+def test_make_ephemeral_constants_typed():
+    pset = pg.PrimitiveSet(typed=True)
+    pset.addFunction(op.add, 2, [float, float, float])
+    pset.addFunction(op.sub, 2, [float, float, float])
+    pset.addTerminal(float_constants, types=[float], ephemeral=True)
+
+    assert pset.num_primitives == 3
+    assert list(pset.functions.keys()) == [1, 2]
+    assert list(pset.terminals.keys()) == [3]
+    assert list(pset.variables.keys()) == []
+    assert pset.arity_cache == {2: [1, 2]}
+    assert pset.primitives == set([op.add, op.sub, float_constants])
+    assert pset.ephemeral_cache == set([3])
+    assert pset.functions_types == {float: [1, 2]}
+    assert pset.terminals_types == {float: [3]}
