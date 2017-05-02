@@ -448,3 +448,59 @@ def test_full_tree_ephemeral1():
     assert pset.num_primitives == 7
     assert pset.ephemeral_cache == {3}
     assert pset.ephemeral_constants == {4: (0.9507143064099162, None), 5: (0.7319939418114051, None), 6: (0.596850157946487, None), 7: (0.44583275285359114, None)}
+
+def test_full_tree_ephemeral_typed1():
+    np.random.seed(42)
+    pset = pg.PrimitiveSet(typed=True)
+    pset.addFunction(op.add, 2, [float, float, float])
+    pset.addFunction(op.sub, 2, [float, float, float])
+    pset.addTerminal(float_constants, types=[float], ephemeral=True)
+    init_max_depth = 3
+    max_depth = 6
+    tree = pg.full_tree(pset, init_max_depth, max_depth)
+    tree_str = pg.interpreter(pset, tree)
+    assert np.array_equal(tree, np.array([1, 2, 4, 5, 1, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]))
+    assert tree_str == 'add(sub(0.9507143064099162, 0.7319939418114051), add(0.596850157946487, 0.44583275285359114))'
+    assert pset.num_primitives == 7
+    assert pset.ephemeral_cache == {3}
+    assert pset.ephemeral_constants == {4: (0.9507143064099162, [float]), 5: (0.7319939418114051, [float]), 6: (0.596850157946487, [float]), 7: (0.44583275285359114, [float])}
+
+def test_grow_tree_ephemeral1():
+    np.random.seed(45345)
+    pset = pg.PrimitiveSet()
+    pset.addFunction(op.add, 2)
+    pset.addFunction(op.sub, 2)
+    pset.addTerminal(float_constants, types=None, ephemeral=True)
+    init_max_depth = 5
+    max_depth = 6
+    tree = pg.grow_tree(pset, init_max_depth, max_depth)
+    tree_str = pg.interpreter(pset, tree)
+    assert np.array_equal(tree, np.array([ 1,  4,  2,  2,  1,  5,  6,  2,  7,  8,  1,  1,  9, 10, 11,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]))
+    assert tree_str == 'add(0.6948470578046806, sub(sub(add(0.23851088045334068, 0.7485138905722925), sub(0.9421360052961212, 0.5983584346144624)), add(add(0.6952518271609337, 0.41227782045980343), 0.13638623666489624)))'
+    assert pset.num_primitives == 11
+    assert pset.ephemeral_cache == {3}
+    assert pset.ephemeral_constants == {4: (0.6948470578046806, None), 5: (0.23851088045334068, None), 6: (0.7485138905722925, None), 7: (0.9421360052961212, None), 8: (0.5983584346144624, None), 9: (0.6952518271609337, None), 10: (0.41227782045980343, None), 11: (0.13638623666489624, None)}
+
+def test_grow_tree_ephemeral_typed1():
+    np.random.seed(45345)
+    pset = pg.PrimitiveSet(typed=True)
+    pset.addFunction(op.add, 2, [float, float, float])
+    pset.addFunction(op.sub, 2, [float, float, float])
+    pset.addTerminal(float_constants, types=[float], ephemeral=True)
+    init_max_depth = 5
+    max_depth = 6
+    tree = pg.grow_tree(pset, init_max_depth, max_depth)
+    tree_str = pg.interpreter(pset, tree)
+    assert np.array_equal(tree, np.array([ 1,  4,  2,  2,  1,  5,  6,  2,  7,  8,  1,  1,  9, 10, 11,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0]))
+    assert tree_str == 'add(0.6948470578046806, sub(sub(add(0.23851088045334068, 0.7485138905722925), sub(0.9421360052961212, 0.5983584346144624)), add(add(0.6952518271609337, 0.41227782045980343), 0.13638623666489624)))'
+    assert pset.num_primitives == 11
+    assert pset.ephemeral_cache == {3}
+    assert pset.ephemeral_constants == {4: (0.6948470578046806, [float]), 5: (0.23851088045334068, [float]), 6: (0.7485138905722925, [float]), 7: (0.9421360052961212, [float]), 8: (0.5983584346144624, [float]), 9: (0.6952518271609337, [float]), 10: (0.41227782045980343, [float]), 11: (0.13638623666489624, [float])}
