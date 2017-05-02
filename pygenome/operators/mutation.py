@@ -256,7 +256,7 @@ def tree_point_mutation(i1, pset=None, gene_rate=None, **kargs):
         if np.random.uniform() < gene_rate:
             primitive = new_genotype[i]
             # replace terminal/variable with another one 
-            if primitive in pset.terminals or primitive in pset.variables or pset.ephemeral_constants:
+            if primitive in pset.terminals or primitive in pset.variables or primitive in pset.ephemeral_constants:
                 if pset.typed:
                     _, term_types = pset.terminals[primitive] if primitive in pset.terminals else (None, None)
                     _, ephm_types = pset.ephemeral_constants[primitive] if primitive in pset.ephemeral_constants else (None, None)
@@ -264,6 +264,8 @@ def tree_point_mutation(i1, pset=None, gene_rate=None, **kargs):
                     
                     if term_types is not None:
                         typed_terminals = pset.terminals_types[term_types[0]]
+                        for e in pset.ephemeral_cache:
+                            typed_terminals.remove(e)
                     else:
                         typed_terminals = [] 
 
@@ -278,9 +280,15 @@ def tree_point_mutation(i1, pset=None, gene_rate=None, **kargs):
                         typed_variables = []
 
                     valid_terminals = np.concatenate([np.array(typed_terminals, dtype=int), np.array(typed_variables, dtype=int), np.array(typed_ephemerals, dtype=int)])
-                    new_genotype[i] = valid_terminals[np.random.randint(valid_terminals.size)]
+
+                    new_idx = valid_terminals[np.random.randint(valid_terminals.size)]  
                 else:
-                    new_genotype[i] = all_terminals_idx[np.random.randint(all_terminals_idx.size)]                 
+                    new_idx = all_terminals_idx[np.random.randint(all_terminals_idx.size)]      
+
+                if new_idx in pset.ephemeral_cache:
+                    new_idx = pset.addEphemeralConstant(new_idx)
+                new_genotype[i] = new_idx
+
             # replace function with another one of the same arity
             elif primitive in pset.functions:
                 # only functions of the same arity are valid to be used
