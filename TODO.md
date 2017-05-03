@@ -4,8 +4,6 @@
     + allow dual chromossomes to be used everywhere
         + this will again change the operators handling (genome/individual)
         + design a more stable solution
-* GP/STGP: 
-    + add example with ephemeral constants
 * GE:
     + add grammar reader and data structure for grammars
     + add genotype to phenotype mapping function
