@@ -1,6 +1,7 @@
 import numpy as np
 import pygenome as pg
 
+
 class Grammar(object):
 
     def __init__(self, filename=None):
@@ -11,7 +12,7 @@ class Grammar(object):
             self.start_symbol = None
 
     def parseFromFile(self, filename):
-        
+
         def parse_line(line):
             rule = line.split(sep=':=')
             left_side = rule[0].strip()
@@ -19,7 +20,7 @@ class Grammar(object):
             return left_side, right_side
 
         grammar = {}
-        
+
         with open(filename, 'r') as input_file:
             left_side, right_side = parse_line(input_file.readline())
             grammar[right_side] = left_side
@@ -28,6 +29,5 @@ class Grammar(object):
             for line in input_file:
                 left_side, right_side = parse_line(line)
                 grammar[right_side] = left_side
-        
+
         return grammar, start_symbol
-    
