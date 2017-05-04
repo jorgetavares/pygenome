@@ -14,20 +14,20 @@ class Grammar(object):
     def parseFromFile(self, filename):
 
         def parse_line(line):
-            rule = line.split(sep=':=')
-            left_side = rule[0].strip()
-            right_side = [x.strip() for x in rule[1].split(sep='|')]
-            return left_side, right_side
+            rule = line.split(sep='::=')
+            name = rule[0].strip()
+            productions = [x.strip() for x in rule[1].split(sep='|')]
+            return name, productions
 
         grammar = {}
 
         with open(filename, 'r') as input_file:
-            left_side, right_side = parse_line(input_file.readline())
-            grammar[right_side] = left_side
-            start_symbol = left_side
+            name, productions = parse_line(input_file.readline())
+            grammar[name] = productions
+            start_symbol = name
 
             for line in input_file:
-                left_side, right_side = parse_line(line)
-                grammar[right_side] = left_side
+                name, productions = parse_line(line)
+                grammar[name] = productions
 
         return grammar, start_symbol
