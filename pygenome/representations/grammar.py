@@ -31,3 +31,21 @@ class Grammar(object):
                 grammar[name] = productions
 
         return grammar, start_symbol
+
+    def randomDerivative(start_symbol):
+
+        randomDrivative.program = ''
+
+        def random_map(current_symbol):
+
+            if current_symbol in self.grammar:
+                productions = self.grammar[current_symbol]
+                
+                if type(productions) is list:
+                    size = len(productions)
+                    return random_map(productions[np.random.randint(size)])
+                elif:
+                    symbols = productions.split()
+                    return " ".join([random_map(symbol) for symbol in productions])
+            else:
+                return current_symbol
