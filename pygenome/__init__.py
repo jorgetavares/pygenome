@@ -10,6 +10,7 @@ from .representations.individual import *
 from .representations.population import *
 from .representations.linear import *
 from .representations.tree import *
+from .representations.grammar import *
 from .fitness.functions import *
 from .fitness.loss import *
 from .fitness.evaluation import *

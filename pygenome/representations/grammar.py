@@ -32,20 +32,15 @@ class Grammar(object):
 
         return grammar, start_symbol
 
-    def randomDerivative(start_symbol):
+    def randomDerivative(self, current_symbol):
+        if current_symbol in self.grammar:
+            productions = self.grammar[current_symbol]
 
-        randomDrivative.program = ''
-
-        def random_map(current_symbol):
-
-            if current_symbol in self.grammar:
-                productions = self.grammar[current_symbol]
-                
-                if type(productions) is list:
-                    size = len(productions)
-                    return random_map(productions[np.random.randint(size)])
-                elif:
-                    symbols = productions.split()
-                    return " ".join([random_map(symbol) for symbol in productions])
+            if type(productions) is list:
+                size = len(productions)
+                return self.randomDerivative(productions[np.random.randint(size)])
             else:
-                return current_symbol
+                symbols = productions.split()
+                return " ".join([self.andomDerivative(symbol) for symbol in productions])
+        else:
+            return current_symbol
