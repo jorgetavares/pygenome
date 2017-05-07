@@ -11,6 +11,7 @@ class Grammar(object):
             self.grammar = {}
             self.start_symbol = None
 
+
     def parseFromFile(self, filename):
 
         def parse_line(line):
@@ -32,6 +33,7 @@ class Grammar(object):
 
         return grammar, start_symbol
 
+
     def randomDerivative(self, current_symbol, isproductions=False):
         
         if current_symbol in self.grammar:
@@ -48,3 +50,27 @@ class Grammar(object):
             return " ".join([self.randomDerivative(symbol) for symbol in symbols])
         else:
             return current_symbol
+
+
+    def mapDerivative(self, start_symbol, values, wrap=False):
+
+        def run_map(current_symbol, isproductions=False):
+            if current_symbol in self.grammar:
+                productions = self.grammar[current_symbol]
+
+                if type(productions) is list:
+                    size = len(productions)
+                    run_map.position += 1
+                    return run_map(productions[np.mod(values[run_map.position], size)], isproductions=True)
+                else:
+                    symbols = productions.split()
+                    return " ".join([run_map(symbol) for symbol in symbols], isproductions=True)
+            elif isproductions is True:
+                symbols = current_symbol.split()
+                return " ".join([run_map(symbol) for symbol in symbols])
+            else:
+                return current_symbol
+        
+        run_map.position = -1
+        program = run_map(start_symbol)
+        return program
