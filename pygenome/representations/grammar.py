@@ -52,7 +52,7 @@ class Grammar(object):
             return current_symbol
 
 
-    def mapDerivative(self, start_symbol, values, wrap=False):
+    def mapDerivative(self, start_symbol, values, wrap=True):
 
         def run_map(current_symbol, isproductions=False):
             if current_symbol in self.grammar:
@@ -61,6 +61,8 @@ class Grammar(object):
                 if type(productions) is list:
                     size = len(productions)
                     run_map.position += 1
+                    if run_map.position == values.size and wrap is True:
+                        run_map.position = 0
                     return run_map(productions[np.mod(values[run_map.position], size)], isproductions=True)
                 else:
                     symbols = productions.split()
