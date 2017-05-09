@@ -3,6 +3,7 @@ import pygenome as pg
 
 from pygenome.fitness.loss import mean_squared_error
 
+
 class Fitness(object):
     '''
     Base class for a Fitness
@@ -18,13 +19,14 @@ class Fitness(object):
             return self.value == fit.value
 
 
-def evaluate_population(pop, fitness_fn, **kargs):
+def evaluate_population(pop, fitness_fn, map_fn=None, **kargs):
     '''
     Evaluate Population
 
     Args:
         pop (Population): population to be evaluated in-place
         fitness_fn (function): fitness function that receives an individual
+        map_fn (function): mapping function from genotype to phenotype
         **kargs: keyword arguments that fitness_fn might have
 
     Returns:
@@ -33,9 +35,13 @@ def evaluate_population(pop, fitness_fn, **kargs):
     for i in range(pop.size):
         ind = pop.individuals[i]
         if ind.run_eval:
-            ind.fitness = Fitness(fitness_fn(ind.genotype, **kargs))
+            if map_fn is None:
+                ind.fitness = Fitness(fitness_fn(ind.genotype, **kargs))
+            else:
+                ind.fitness = Fitness(fitness_fn(
+                    map_fn(ind.genotype), **kargs))
             ind.run_eval = False
-    
+
     return pop
 
 
@@ -89,8 +95,9 @@ def make_fitness_regression(pset, fn, num_fitness_cases, loss=mean_squared_error
         x_evals = np.empty(num_fitness_cases)
         for i in range(num_fitness_cases):
             vars_inputs[variable] = x_points[i]
-            x_evals[i] = pg.interpreter(pset, solution, run=True, vars_inputs=vars_inputs)
-        
+            x_evals[i] = pg.interpreter(
+                pset, solution, run=True, vars_inputs=vars_inputs)
+
         return loss(x_evals, y_points)
 
     return regression
