@@ -33,18 +33,15 @@ def grammatical_evolution(grammar, fitness_fn, chr_size, low, high, pop_size=100
                           cx=uniform_crossover, cx_rate=0.7,
                           mt=flip_mutation, ind_mt_rate=1.0, op_mt_rate=0.01,
                           select_fn=tournament_selection,
-                          elitism=False, generational=True):
+                          elitism=False, generational=True, wrap=True):
     # config ga components
     make_pop_type = make_integer_population
 
     def make_pop():
         return make_pop_type(pop_size, chr_size, low=low, high=high)
 
-    def ge_map(ind):
-        return grammar.mapDerivative(grammar.start_symbol, ind, wrap=True)
-
     def eval_pop(p):
-        return evaluate_population(p, fitness_fn, map_fn=ge_map)
+        return evaluate_grammar_population(p, grammar, wrap, fitness_fn)
 
     # config selection/replacement strategy
     if generational:
