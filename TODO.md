@@ -5,7 +5,5 @@
         + this will again change the operators handling (genome/individual)
         + design a more stable solution
 * GE:
-    + add grammar reader and data structure for grammars
-    + add genotype to phenotype mapping function
     + add evaluator
     + add example

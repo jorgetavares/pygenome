@@ -101,3 +101,24 @@ def make_fitness_regression(pset, fn, num_fitness_cases, loss=mean_squared_error
         return loss(x_evals, y_points)
 
     return regression
+
+def evaluate_grammar_population(pop, grammar, wrap, fitness_fn, **kargs):
+    '''
+    Evaluate Population
+
+    Args:
+        pop (Population): population to be evaluated in-place
+        grammar (Grammar): gramar to convert a genotype into a phenotype
+        fitness_fn (function): fitness function that receives an individual
+        **kargs: keyword arguments that fitness_fn might have
+
+    Returns:
+        evaluated population by calling the fitness function
+    '''
+    for i in range(pop.size):
+        ind = pop.individuals[i]
+        if ind.run_eval:
+            ind.fitness = Fitness(fitness_fn(grammar.mapDerivative(grammar.start_symbol, ind.genotype, wrap=wrap), **kargs))
+            ind.run_eval = False
+    
+    return pop
