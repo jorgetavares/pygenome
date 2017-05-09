@@ -23,3 +23,4 @@ from .engines.generic import *
 from .engines.ga import *
 from .engines.es import *
 from .engines.gp import *
+from .engines.ge import *
