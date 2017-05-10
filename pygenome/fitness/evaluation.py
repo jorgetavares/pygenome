@@ -103,7 +103,6 @@ def make_fitness_regression(pset, fn, num_fitness_cases, loss=mean_squared_error
     return regression
 
 
-
 def evaluate_grammar_population(pop, grammar, wrap, fitness_fn, **kargs):
     '''
     Evaluate Population
@@ -119,10 +118,11 @@ def evaluate_grammar_population(pop, grammar, wrap, fitness_fn, **kargs):
     '''
     for i in range(pop.size):
         ind = pop.individuals[i]
-            ind.fitness = Fitness(fitness_fn(grammar.mapDerivative(
-                grammar.start_symbol, ind.genotype, wrap=wrap), **kargs))
-            ind.fitness = Fitness(fitness_fn(grammar.mapDerivative(
-
+            program = grammar.mapDerivative(
+                grammar.start_symbol, ind.genotype, wrap=wrap)
+            # how to fill input variables?
+            result = exec(program)
+            ind.fitness = Fitness(fitness_fn(result, **kargs))
             ind.run_eval = False
 
     return pop
