@@ -4,21 +4,27 @@ sys.path.append('../')
 import numpy as np
 import pygenome as pg
 
-import operator as op
-
-
-def protected_div(a, b):
-    if b > 0:
-        return op.truediv(a, b)
-    else:
-        return b
 
 # define problem
-# y = f(x) = x^2 / 2
-
-
+# y = f(x) = (x + 1) * (x - 3)
 def fn(x):
-    return protected_div(op.mul(x, x), 2.0)
+    return (x + 1) * (x - 3)
+
+
+def make_single_regression(grammar, fn, fitness_cases, loss=mean_squared_error):
+
+    x_points = np.asarray([x for x in range(num_fitness_cases)])
+    y_points = np.asarray([fn(x) for x in x_points])
+
+    def regression(solution):
+        x_evals = np.empty(num_fitness_cases)
+        for i in range(num_fitness_cases):
+            x = x_points[i]
+            x_evals[i] = exec(solution)
+
+        return loss(x_evals, y_points)
+
+    return regression
 
 
 def ge_with_elitism():
@@ -31,10 +37,10 @@ def ge_with_elitism():
 
     grammar = Grammar(filename='ge_symbolic_regression_grammar.txt')
     num_fitness_cases = 10
-    fitness_fn =  # TODO
+    fitness_fn = make_single_regression(grammar, fn, num_fitness_cases)
 
     pop = pg.grammatical_evolution(
-        grammar, fitness_fn,  ind_size, low, high, elitism=True, total_generations=20, pop_size=100)
+        grammar, fitness_fn, ind_size, low, high, elitism=True, total_generations=20, pop_size=100)
 
     best = pg.best_individual(pop)
     print('fitness: %s\tgenotype: %s' % (best.fitness.value, best.genotype))

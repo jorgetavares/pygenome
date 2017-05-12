@@ -120,9 +120,7 @@ def evaluate_grammar_population(pop, grammar, wrap, fitness_fn, **kargs):
         ind = pop.individuals[i]
             program = grammar.mapDerivative(
                 grammar.start_symbol, ind.genotype, wrap=wrap)
-            # how to fill input variables?
-            result = exec(program)
-            ind.fitness = Fitness(fitness_fn(result, **kargs))
+            ind.fitness = Fitness(fitness_fn(program, **kargs))
             ind.run_eval = False
 
     return pop
