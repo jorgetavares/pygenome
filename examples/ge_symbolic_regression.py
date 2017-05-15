@@ -11,7 +11,7 @@ def fn(x):
     return (x + 1) * (x - 3)
 
 
-def make_single_regression(grammar, fn, fitness_cases, loss=mean_squared_error):
+def make_single_regression(grammar, fn, num_fitness_cases, loss=pg.mean_squared_error):
 
     x_points = np.asarray([x for x in range(num_fitness_cases)])
     y_points = np.asarray([fn(x) for x in x_points])
@@ -35,7 +35,7 @@ def ge_with_elitism():
     high = 255
     wrap = True
 
-    grammar = Grammar(filename='ge_symbolic_regression_grammar.txt')
+    grammar = pg.Grammar(filename='ge_symbolic_regression_grammar.txt')
     num_fitness_cases = 10
     fitness_fn = make_single_regression(grammar, fn, num_fitness_cases)
 

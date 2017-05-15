@@ -2,7 +2,7 @@ import numpy as np
 
 from pygenome.representations.grammar import Grammar
 from pygenome.representations.population import make_integer_population
-from pygenome.fitness.evaluation import evaluate_population
+from pygenome.fitness.evaluation import evaluate_grammar_population
 from pygenome.utilities.logging import evolution_progress
 from pygenome.operators.crossover import (
     apply_crossover,

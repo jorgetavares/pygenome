@@ -118,9 +118,9 @@ def evaluate_grammar_population(pop, grammar, wrap, fitness_fn, **kargs):
     '''
     for i in range(pop.size):
         ind = pop.individuals[i]
-            program = grammar.mapDerivative(
-                grammar.start_symbol, ind.genotype, wrap=wrap)
-            ind.fitness = Fitness(fitness_fn(program, **kargs))
-            ind.run_eval = False
+        program = grammar.mapDerivative(
+            grammar.start_symbol, ind.genotype, wrap=wrap)
+        ind.fitness = Fitness(fitness_fn(program, **kargs))
+        ind.run_eval = False
 
     return pop
