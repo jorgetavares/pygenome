@@ -5,5 +5,4 @@
         + this will again change the operators handling (genome/individual)
         + design a more stable solution
 * GE:
-    + add evaluator
-    + add example
+    + Fix grammar derivation recursion issue
