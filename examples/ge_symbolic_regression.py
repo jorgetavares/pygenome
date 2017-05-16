@@ -20,7 +20,11 @@ def make_single_regression(grammar, fn, num_fitness_cases, loss=pg.mean_squared_
         x_evals = np.empty(num_fitness_cases)
         for i in range(num_fitness_cases):
             x = x_points[i]
-            x_evals[i] = exec(solution)
+            code = compile('result = ' + solution, 'solution', 'exec')
+            globals = {}
+            locals = {'x': x}
+            exec(code, globals, locals)
+            x_evals[i] = locals['result']
 
         return loss(x_evals, y_points)
 
@@ -30,7 +34,7 @@ def make_single_regression(grammar, fn, num_fitness_cases, loss=pg.mean_squared_
 def ge_with_elitism():
     np.random.seed(42)
 
-    ind_size = 100
+    ind_size = 10
     low = 0
     high = 255
     wrap = True
@@ -38,10 +42,8 @@ def ge_with_elitism():
     grammar = pg.Grammar(filename='ge_symbolic_regression_grammar.txt')
     num_fitness_cases = 10
     fitness_fn = make_single_regression(grammar, fn, num_fitness_cases)
-
     pop = pg.grammatical_evolution(
         grammar, fitness_fn, ind_size, low, high, elitism=True, total_generations=20, pop_size=100)
-
     best = pg.best_individual(pop)
     print('fitness: %s\tgenotype: %s' % (best.fitness.value, best.genotype))
 

@@ -1,6 +1,9 @@
 import numpy as np
 import pygenome as pg
 
+import sys
+sys.setrecursionlimit(10000)
+
 
 class Grammar(object):
 
@@ -10,7 +13,6 @@ class Grammar(object):
         else:
             self.grammar = {}
             self.start_symbol = None
-
 
     def parseFromFile(self, filename):
 
@@ -33,9 +35,8 @@ class Grammar(object):
 
         return grammar, start_symbol
 
-
     def randomDerivative(self, current_symbol, isproductions=False):
-        
+
         if current_symbol in self.grammar:
             productions = self.grammar[current_symbol]
 
@@ -50,7 +51,6 @@ class Grammar(object):
             return " ".join([self.randomDerivative(symbol) for symbol in symbols])
         else:
             return current_symbol
-
 
     def mapDerivative(self, start_symbol, values, wrap=True):
 
@@ -72,7 +72,7 @@ class Grammar(object):
                 return " ".join([run_map(symbol) for symbol in symbols])
             else:
                 return current_symbol
-        
+
         run_map.position = -1
         program = run_map(start_symbol)
         return program
