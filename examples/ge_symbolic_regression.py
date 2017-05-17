@@ -34,7 +34,7 @@ def make_single_regression(grammar, fn, num_fitness_cases, loss=pg.mean_squared_
 def ge_with_elitism():
     np.random.seed(42)
 
-    ind_size = 10
+    ind_size = 100
     low = 0
     high = 255
     wrap = True
