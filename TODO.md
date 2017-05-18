@@ -4,5 +4,3 @@
     + allow dual chromossomes to be used everywhere
         + this will again change the operators handling (genome/individual)
         + design a more stable solution
-* GE:
-    + Fix grammar derivation recursion issue
