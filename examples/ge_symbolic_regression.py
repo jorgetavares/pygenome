@@ -31,7 +31,7 @@ def make_single_regression(grammar, fn, num_fitness_cases, loss=pg.mean_squared_
     return regression
 
 
-def ge_with_elitism():
+def ge_with_elitism(grammar='ge_symbolic_regression_grammar.txt'):
     np.random.seed(42)
 
     ind_size = 100
@@ -39,7 +39,7 @@ def ge_with_elitism():
     high = 255
     wrap = True
 
-    grammar = pg.Grammar(filename='ge_symbolic_regression_grammar.txt')
+    grammar = pg.Grammar(filename=grammar)
     num_fitness_cases = 10
     fitness_fn = make_single_regression(grammar, fn, num_fitness_cases)
     pop = pg.grammatical_evolution(
