@@ -60,6 +60,13 @@ def make_generic_population(size, make_individual_fn, *args, **kargs):
     return pop
 
 
+def make_adaptive_population(pop, make_individual_fn, *args, **kargs):
+    for i in range(pop.size):
+        pop.individuals[i].parameters = make_individual_fn(*args, **kargs)
+        
+    return pop
+
+
 def make_integer_population(size, ind_size, low=0, high=1):
     '''
     Make Integer Population
