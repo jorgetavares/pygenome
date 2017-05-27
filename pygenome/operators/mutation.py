@@ -192,7 +192,7 @@ def uncorrelated_one_step_mutation(ind, epsilon=1e-08):
     return ind
 
 
-def uncorrelated_one_step_mutation_adptive(ind, epsilon=1e-08):
+def uncorrelated_one_step_mutation_adaptive(ind, epsilon=1e-08):
     '''
     Uncorrelated One Step Mutation
 
@@ -206,7 +206,7 @@ def uncorrelated_one_step_mutation_adptive(ind, epsilon=1e-08):
     chromossome = ind.genotype
 
     tau = 1.0 / np.sqrt(chromossome.size)
-    sigma = sigma_check(ind.parameter[0] * np.exp(tau * np.random.normal()), epsilon)
+    sigma = sigma_check(ind.parameters[0] * np.exp(tau * np.random.normal()), epsilon)
 
     offspring = np.empty(chromossome.size, dtype=chromossome.dtype)
 
