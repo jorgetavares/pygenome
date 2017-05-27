@@ -2,12 +2,13 @@ import numpy as np
 
 from pygenome.representations.population import (
     make_normal_population,
-    make_uniform_population
+    make_uniform_population,
+    make_adaptive_population
 )
 from pygenome.fitness.evaluation import evaluate_population
 from pygenome.operators.crossover import (
     apply_global_crossover,
-    intermediary_crossover
+    intermediary_crossover_adaptive
 )
 from pygenome.operators.mutation import (
     apply_global_mutation,
@@ -60,7 +61,7 @@ def evolutionary_strategy(fitness_fn, chr_size, low, high, pop_size=30,
 def evolutionary_strategy_adaptive(fitness_fn, chr_size, low, high, pop_size=30,
                                    total_generations=100,
                                    mt=uncorrelated_one_step_mutation_adaptive,
-                                   cx=intermediary_crossover, pool_size=100,
+                                   cx=intermediary_crossover_adaptive, pool_size=100,
                                    epsilon=1e-08,
                                    replace_pop=mu_comma_lambda_replacement,
                                    make_pop='uniform'):

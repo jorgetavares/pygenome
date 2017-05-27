@@ -174,6 +174,29 @@ def intermediary_crossover(i1, i2):
     return o1
 
 
+def intermediary_crossover_adaptive(i1, i2):
+    '''
+    Intermediary Crossover
+
+    Args:
+        i1 (Individual): indivdiual 1 fixed genome
+        i2 (Individual): indivdiual 2 fixed genome
+    
+    Returns:
+        single offspring from 2 parents
+    '''
+    o1 = pg.Individual(genotype=np.empty(i1.genotype.size, dtype=i1.genotype.dtype))
+    o1.parameters = np.empty(i1.parameters.size, dtype=i1.parameters.dtype)
+
+    for i in range(o1.genotype.size):
+        o1.genotype[i] = (i1.genotype[i] + i2.genotype[i]) / 2.0
+
+    for i in range(o1.parameters.size):
+        o1.parameters[i] = (i1.parameters[i] + i2.parameters[i]) / 2.0   
+    
+    return o1
+
+
 def discrete_crossover(i1, i2):
     '''
     Discrete Crossover
