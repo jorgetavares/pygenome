@@ -7,4 +7,4 @@
     + GE recursion in grammars
     + GE program building
     + GP maximum size for the tree arrays
-* Re-think API
+* Re-think API (more OOP)
