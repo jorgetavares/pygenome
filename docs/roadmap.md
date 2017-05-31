@@ -1,9 +1,9 @@
 # Roadmap
 
 This is an intial roadmap/wish list for pygenome.
-Last update 2017/04/29.
+Last update 2017/05/31.
 
-* version 0.01
+* version 0.1.x
   + Main evolutionary paradigms: GA, ES, GP (+ STGP) and GE
   + Genotype: single and dual chromossomes (for ES)
   + Genotype: binary, integer, permutation, floats, parse trees
@@ -16,7 +16,7 @@ Last update 2017/04/29.
   + Basic logging and population statistics
   + Basic Unit tests
 
-* version 0.02
+* version 0.2.x
   + Fitness: multi-objective (NSGA-2, SPEA2)
   + Paradigms: NEAT, SGE, CFGGP, CMA-ES
   + GP: add bloat control methods
@@ -27,7 +27,7 @@ Last update 2017/04/29.
   + Full Units tests
   + More documentation
 
-* version 0.03
+* version 0.3.x
   + Master-slave distribution
   + Island models
   + Sub-populations and species
@@ -36,11 +36,11 @@ Last update 2017/04/29.
   + Create documentation pages
   + Create tutorial jupyter notebooks
 
-* version 0.04
+* version 0.4.x
   + Add other Neuroevolution methods
   + Bridge to DL toolkits
   + add check-point saving and loading
   + GP: ADFs and ADMs
 
-* version 0.05
+* version 0.5.x
   + TBD

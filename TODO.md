@@ -1,5 +1,5 @@
 # TODO
-* Add more examples for v0.01
+* Add more examples for v0.1.x
 * Basic documentation
 * Fixes/improvements:
     + ES N uncorrelated not working properly
