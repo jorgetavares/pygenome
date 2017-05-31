@@ -1,7 +1,7 @@
 # Development Notes
 
 These are some notes regarding the development of pygenome in general. 
-Last update 2017/03/21.
+Last update 2017/05/30.
 
 ## Design Philosophy
 The main design decision so far has been in how to apply object-oriented programming. To keep things more simple, classes should only be used as containers (e.g., a kind of record) with the minimum amount of methods. Ideally not methods at all. To operate on objects we use only functions. This is losely inspired in CLOS, i.e., no class definition has the methods contained in the them. However, here functions are to be seen as functions and not really methods. 
@@ -25,3 +25,6 @@ Distributed computing should also be done to allow better scalability but also m
 
 ## Neuroevolution
 PyGenome must be a first-class library for Neuroevolution. Besides supporting the most popular methods like NEAT, it should also allow to connect easily to a external toolkit like Keras. This will allow to do Deep Neuroevolution. The main issues here will be how to do this bridge. How much can it be abstracted? How will concurrency/distributed will play out? Right now this is just an idea/goal.
+
+## Backends
+The main library to implement the core components is numpy. However, this can introduce some potential limitations, like, does not run on GPUs, less portable because of other underlying libraries, etc. Ideally, we would have the possibility to have multiple backends to run PyGenome, like pure python, where it would allow to use PyPy or something that does not rely on C-based libraries. Or PyTorch, and that way we could run easily on GPUs, etc.
