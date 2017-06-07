@@ -238,15 +238,19 @@ def uncorrelated_n_steps_mutation(ind, epsilon=1e-08):
     tau1 = (1.0 / np.sqrt(2.0 * n)) * np.random.normal()
     tau2 = 1.0 / np.sqrt(2.0 * np.sqrt(n))
     
-    sigmas = np.array(chromossome[n:])
+    parameters = np.array(chromossome[n:])
+    sigmas = np.empty(n, dtype=chromossome.dtype) 
+    
     for i in range(sigmas.size):
-        sigmas[i] = sigma_check(sigmas[i] * np.exp(tau1 + tau2 * np.random.normal()), epsilon)
+        sigmas[i] = sigma_check(parameters[i] * np.exp(tau1 + tau2 * np.random.normal()), epsilon)
 
     values = np.array(chromossome[:n])
-    for i in range(values.size):
-        values[i] = values[i] + sigmas[i] * np.random.normal()
+    offspring = np.empty(n, dtype=chromossome.dtype)
 
-    ind.genotype = np.concatenate((values, sigmas))
+    for i in range(values.size):
+        offspring[i] = values[i] + sigmas[i] * np.random.normal()
+
+    ind.genotype = np.concatenate((offspring, sigmas))
 
     return ind
     
