@@ -215,7 +215,7 @@ def uncorrelated_one_step_mutation_adaptive(ind, epsilon=1e-08):
 
     
     ind.genotype = offspring
-    ind.parameter = sigma
+    ind.parameters[0] = sigma
 
     return ind
 

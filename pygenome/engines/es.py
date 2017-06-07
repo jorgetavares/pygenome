@@ -69,7 +69,7 @@ def evolutionary_strategy_adaptive(fitness_fn, chr_size, low, high, pop_size=30,
                                    epsilon=1e-08,
                                    replace_pop=mu_comma_lambda_replacement,
                                    make_pop='uniform'):
-    if mt == uncorrelated_one_step_mutation:
+    if mt == uncorrelated_one_step_mutation_adaptive:
         ext_chr = 1
     else:
         ext_chr = chr_size
