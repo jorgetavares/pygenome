@@ -264,17 +264,21 @@ def uncorrelated_n_steps_mutation_adaptive(ind, epsilon=1e-08):
         mutated individual
     '''
     chromossome = ind.genotype
-    sigmas = ind.parameters
+    parameters = ind.parameters
 
     n = chromossome.size
     tau1 = (1.0 / np.sqrt(2.0 * n)) * np.random.normal()
     tau2 = 1.0 / np.sqrt(2.0 * np.sqrt(n))
     
+    sigmas = np.empty(parameters.size, dtype=parameters.dtype) 
+    
     for i in range(sigmas.size):
-        sigmas[i] = sigma_check(sigmas[i] * np.exp(tau1 + tau2 * np.random.normal()), epsilon)
+        sigmas[i] = sigma_check(parameters[i] * np.exp(tau1 + tau2 * np.random.normal()), epsilon)
+
+    offspring = np.empty(chromossome.size, dtype=chromossome.dtype)
 
     for i in range(chromossome.size):
-        chromossome[i] = chromossome[i] + sigmas[i] * np.random.normal()
+        offspring[i] = chromossome[i] + sigmas[i] * np.random.normal()
 
     ind.genotype = chromossome
     ind.parameters = sigmas
