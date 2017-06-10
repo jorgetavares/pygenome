@@ -42,7 +42,7 @@ nqueens_size = 20
 # GA 1
 def generational_with_elitism():
     np.random.seed(42)
-    pop = pg.genetic_algorithm_permutation(fitness_fn, nqueens_size, elitism=True, total_generations=2000, cx_rate=0.5, ind_mt_rate=0.2, op_mt_rate=3.0/nqueens_size)
+    pop = pg.genetic_algorithm_permutation(fitness_fn, nqueens_size, elitism=True, total_generations=200, cx_rate=0.5, ind_mt_rate=0.2, op_mt_rate=3.0/nqueens_size)
     best = pg.best_individual(pop)
     print('fitness: %s\tgenotype: %s' % (best.fitness.value, best.genotype))
 
