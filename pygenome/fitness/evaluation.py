@@ -1,5 +1,6 @@
 import numpy as np
 import pygenome as pg
+import sys
 
 from pygenome.fitness.loss import mean_squared_error
 
@@ -118,9 +119,13 @@ def evaluate_grammar_population(pop, grammar, wrap, fitness_fn, **kargs):
     '''
     for i in range(pop.size):
         ind = pop.individuals[i]
-        program = grammar.mapDerivative(
-            grammar.start_symbol, ind.genotype, wrap=wrap)
-        ind.fitness = Fitness(fitness_fn(program, **kargs))
+        try:
+            program = grammar.mapDerivative(
+                grammar.start_symbol, ind.genotype, wrap=wrap)
+            ind.fitness = Fitness(fitness_fn(program, **kargs))
+        except Exception:
+            ind.fitness = sys.float_info.max
+        
         ind.run_eval = False
 
     return pop
