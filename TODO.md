@@ -1,4 +1,4 @@
 # TODO
-* Add more examples for v0.1.x
+* Add more examples for v0.0.1
 * Make whell for pip install
-* Re-think API (more OOP)
+* Re-think Framework API (more OOP)
