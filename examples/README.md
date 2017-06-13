@@ -4,22 +4,22 @@ In this directory we can find examples of using the framework/library. The examp
 
 # List of Examples
 ## Genetic Algorithms
-+ Onemax
-+ Onemax using library components
-+ Permutation
-+ Sphere Model
-+ N-Queens
++ [Onemax](ga_onemax.py)
++ [Onemax using library components](ga_onemax_lib.py)
++ [Permutation](ga_permutation.py)
++ [Sphere Model](ga_sphere.py)
++ [N-Queens](ga_nqueens.py)
 
 ## Evolutionary Strategies
-+ Sphere Model
++ [Sphere Model](es_adaptive_sphere.py)
 
 ## Genetic Programming
-+ Symbolic Regression
-+ Symbolic Regression with ephemeral constants
++ [Symbolic Regression](gp_symbolic_regression.py)
++ [Symbolic Regression with ephemeral constants](gp_symbolic_regression_ephemeral.py)
 
 ## Strongly-Typed Genetic Programming
-+ Symbolic Regression
-+ Symbolic Regression with ephemeral constants
++ [Symbolic Regression](stgp_symbolic_regression.py)
++ [Symbolic Regression with ephemeral constants](stgp_symbolic_regression_ephemeral.py)
 
 ## Gramatical Evolution
-+ Symbolic Regression
++ [Symbolic Regression](ge_symbolic_regression.py)
