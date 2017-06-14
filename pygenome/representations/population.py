@@ -56,14 +56,14 @@ def make_generic_population(size, make_individual_fn, *args, **kargs):
     for i in range(size):
         pop.individuals[i] = pg.Individual()
         pop.individuals[i].genotype = make_individual_fn(*args, **kargs)
-       
+
     return pop
 
 
 def make_adaptive_population(pop, make_individual_fn, *args, **kargs):
     for i in range(pop.size):
         pop.individuals[i].parameters = make_individual_fn(*args, **kargs)
-        
+
     return pop
 
 
@@ -84,9 +84,10 @@ def make_integer_population(size, ind_size, low=0, high=1):
     if low is None and high is None:
         individual_type = pg.permutation_chromossome
         pop = make_generic_population(size, individual_type, ind_size)
-    else: 
+    else:
         individual_type = pg.integer_chromossome
-        pop = make_generic_population(size, individual_type, ind_size, low=low, high=high)
+        pop = make_generic_population(
+            size, individual_type, ind_size, low=low, high=high)
 
     return pop
 
@@ -120,7 +121,7 @@ def make_normal_population(size, ind_size, mean=0.0, sigma=1.0):
     Returns:
         array of individuals randomly initialized with a normal distribution
     '''
-    return make_generic_population(size, pg.normal_chromossome, ind_size, mean=mean, sigma=sigma)  
+    return make_generic_population(size, pg.normal_chromossome, ind_size, mean=mean, sigma=sigma)
 
 
 def make_tree_population(size, pset, init_max_depth, max_depth, initial_type=None, init_method=grow_tree):
@@ -134,7 +135,7 @@ def make_tree_population(size, pset, init_max_depth, max_depth, initial_type=Non
         max_depth (int): max tree depth that translates into max array size
         initial_type (type): when using types, this constraints the initial primitive ot be of this type
         init_method (function): function that generates random trees (grow_tree, full_tree)  
-    
+
     Returns:
         array of tree based individuals initialized according to given method, with or without types
     '''
@@ -142,9 +143,11 @@ def make_tree_population(size, pset, init_max_depth, max_depth, initial_type=Non
 
     for i in range(size):
         pop.individuals[i] = pg.TreeIndividual()
-        pop.individuals[i].genotype = init_method(pset, init_max_depth, max_depth, initial_type=initial_type)
-        depth, nodes = pg.count_tree_internals(pset, pop.individuals[i].genotype)
+        pop.individuals[i].genotype = init_method(
+            pset, init_max_depth, max_depth, initial_type=initial_type)
+        depth, nodes = pg.count_tree_internals(
+            pset, pop.individuals[i].genotype)
         pop.individuals[i].depth = depth
         pop.individuals[i].nodes = nodes
-               
+
     return pop

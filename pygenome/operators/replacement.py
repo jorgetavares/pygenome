@@ -17,7 +17,8 @@ def generational_replacement(pop, offsprings):
         # TODO: analyze if a deepcopy operation is required
         pop.individuals = offsprings.individuals
     else:
-        raise IndexError('generational replacement: pop.size != offsprings.size')
+        raise IndexError(
+            'generational replacement: pop.size != offsprings.size')
 
     return pop
 
@@ -38,7 +39,7 @@ def steady_state_replacement(pop, offsprings):
         # TODO: analyze if a deepcopy operation is required
         pop.individuals[index] = offspring
 
-    return pop 
+    return pop
 
 
 def elite_strategy(pop, best):
@@ -74,12 +75,12 @@ def mu_comma_lambda_replacement(pop, offsprings):
     # get offpsrings sorted indexes
     fitness_values = [i.fitness.value for i in offsprings.individuals]
     sort_indexes = np.argsort(fitness_values)
-    
+
     # replace population with sorted offpsrings
     for i in range(pop.size):
         pop.individuals[i] = offsprings.individuals[sort_indexes[i]].clone()
 
-    return pop 
+    return pop
 
 
 def mu_plus_lambda_replacement(pop, offsprings):
@@ -93,7 +94,7 @@ def mu_plus_lambda_replacement(pop, offsprings):
     Returns:
         popuplation from sorted original population plus offsprings
     '''
-    # joins individuals and get sorted indexes 
+    # joins individuals and get sorted indexes
     joint_pop = np.concatenate((pop.individuals, offsprings.individuals))
     fitness_values = [i.fitness.value for i in joint_pop]
     sort_indexes = np.argsort(fitness_values)

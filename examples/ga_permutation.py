@@ -2,28 +2,38 @@ import numpy as np
 import pygenome as pg
 
 # fitness function: measures the sortness of a permutation
+
+
 def sorted_permutation(vector):
     unsorted = vector.size
     for i in range(vector.size):
         if vector[i] == i:
             unsorted -= 1
-    return unsorted    
+    return unsorted
+
 
 permutation_size = 10
 
 # GA 1
+
+
 def generational_no_elitism():
     np.random.seed(42)
-    pop = pg.genetic_algorithm_permutation(sorted_permutation, permutation_size, total_generations=25)
+    pop = pg.genetic_algorithm_permutation(
+        sorted_permutation, permutation_size, total_generations=25)
     best = pg.best_individual(pop)
     print('fitness: %s\tgenotype: %s' % (best.fitness.value, best.genotype))
 
 # GA 2
+
+
 def generational_with_elitism():
     np.random.seed(42)
-    pop = pg.genetic_algorithm_permutation(sorted_permutation, permutation_size, total_generations=25, elitism=True)
+    pop = pg.genetic_algorithm_permutation(
+        sorted_permutation, permutation_size, total_generations=25, elitism=True)
     best = pg.best_individual(pop)
     print('fitness: %s\tgenotype: %s' % (best.fitness.value, best.genotype))
+
 
 # entry point
 if __name__ == "__main__":
@@ -31,4 +41,4 @@ if __name__ == "__main__":
     generational_no_elitism()
 
     print('GA 2: generational, with elitism')
-    generational_with_elitism()    
+    generational_with_elitism()

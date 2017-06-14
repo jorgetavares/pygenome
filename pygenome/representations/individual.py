@@ -1,16 +1,18 @@
 import numpy as np
 from copy import deepcopy
 
+
 class Individual(object):
     '''
     Base class for all type of individuals
     '''
 
     def __init__(self, fitness=None, genotype=None, parameters=None):
-        self.fitness = fitness # this should be an object since fitness can be more than a simple value
-        self.genotype = genotype   # this should be an object that can be of any type 
-        self.parameters = parameters # this allows self-adaptive parameters
-        self.run_eval = True # the individual requires evaluation
+        # this should be an object since fitness can be more than a simple value
+        self.fitness = fitness
+        self.genotype = genotype   # this should be an object that can be of any type
+        self.parameters = parameters  # this allows self-adaptive parameters
+        self.run_eval = True  # the individual requires evaluation
 
     def clone(self):
         return deepcopy(self)
