@@ -1,10 +1,10 @@
 # Development Notes
-
 These are some notes regarding the development of pygenome in general. 
-Last update 2017/05/30.
+Last update 2017/06/24.
 
 ## Design Philosophy
 The main design decision so far has been in how to apply object-oriented programming. To keep things more simple, classes should only be used as containers (e.g., a kind of record) with the minimum amount of methods. Ideally not methods at all. To operate on objects we use only functions. This is losely inspired in CLOS, i.e., no class definition has the methods contained in the them. However, here functions are to be seen as functions and not really methods. 
+**Update:** It seems an API closer to scikit-learn would be beneficial. Other Python libs also follow a similar approach, making a library/framework more familiar to users. It also might allow easier connection between libraries. 
 
 The motivation behind this is to try to keep the design as close as possible to a functional design, try to avoid as much as possible hidden side-effects and making the structure/api more complex. However, it's possible that this can also lead to the opposite desired effects and standard object-oriented design ends up being the best choice. With the use of the library/framework in making the examples, as well as the current development in terms of adding new features, it will help to change/improvement current decisions. As such, this is a work in progress and could be naturally change in the future.
 
