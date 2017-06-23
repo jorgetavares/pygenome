@@ -1,2 +1,3 @@
 # TODO
-* Add more examples for v0.0.1
+* Add more examples
+* API re-design
