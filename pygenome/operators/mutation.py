@@ -445,11 +445,17 @@ def subtree_mutation(parent, pset=None, **kargs):
     else:
         parent_type = None
 
-     # TODO: the default values to set the size of the generated  tree must be revised
+    # TODO: the default values to set the size of the generated  tree must be revised
     # and a proper mechanism to set these values on a per-problem case must be available
     # if typed set, start2 must be of the same type as start1
-    subtree = pg.grow_tree(pset, parent.depth - 1,
-                           parent.depth, initial_type=parent_type)
+    try:
+        subtree = pg.grow_tree(pset, parent.depth - 1,
+                               parent.depth, initial_type=parent_type)
+    except:
+        e = sys.exc_info()[0]
+        print('%s' % e)
+        print('parent.depth: %s' % parent.depth)
+
     start2 = 0
     end2 = pg.transverse_tree(pset, subtree, start2)
 

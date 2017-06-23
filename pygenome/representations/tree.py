@@ -311,7 +311,12 @@ def grow_tree(pset, max_depth, total_max_depth, initial_type=None):
 
     grow.position = 0
     grow.tree = np.zeros(max_size, dtype=np.int64)
-    grow(max_depth, arg_type=initial_type)
+    try:
+        grow(max_depth, arg_type=initial_type)
+    except:
+        print('max size: %s' % max_size)
+        print('max_depth: %s total_max_depth:%s' %
+              (max_depth, total_max_depth))
 
     return grow.tree
 
