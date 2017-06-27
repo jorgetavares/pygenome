@@ -1,6 +1,6 @@
 # Development Notes
 These are some notes regarding the development of pygenome in general. 
-Last update 2017/06/24.
+Last update 2017/06/27.
 
 ## Design Philosophy
 The main design decision so far has been in how to apply object-oriented programming. To keep things more simple, classes should only be used as containers (e.g., a kind of record) with the minimum amount of methods. Ideally not methods at all. To operate on objects we use only functions. This is losely inspired in CLOS, i.e., no class definition has the methods contained in the them. However, here functions are to be seen as functions and not really methods. 
@@ -28,3 +28,5 @@ PyGenome must be a first-class library for Neuroevolution. Besides supporting th
 
 ## Backends
 The main library to implement the core components is numpy. However, this can introduce some potential limitations, like, does not run on GPUs, less portable because of other underlying libraries, etc. Ideally, we would have the possibility to have multiple backends to run PyGenome, like pure python, where it would allow to use PyPy or something that does not rely on C-based libraries. Or PyTorch, and that way we could run easily on GPUs, etc.
+
+Note: after Chainer release [cupy](https://cupy.chainer.org/) as a drop-in replacement for numpy, a quick experiment showed that in this particular case it's not an option to enable GPU access. The main issue is that only numeric types and booleans are allowed in arrays to be send to the GPU (i.e., using cupy) and as such, it makes "impossible" to replace the numpy arrays that carry the individuals, population, etc. Not sure at this point if it does make sense to try to enable GPU.
