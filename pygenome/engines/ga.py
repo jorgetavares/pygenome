@@ -32,15 +32,18 @@ from pygenome.engines.generic import generic_ea
 class GeneticAlgorithm(object):
 
     def __self__():
-        self.fitness_fn = ,
-        self.chr_size = ,
+        self.fitness_fn = None,
+        self.chr_size = None,
         self.pop_size = 100,
-            total_generations = 20,
-            cx = uniform_crossover, cx_rate = 0.7,
-            mt = flip_mutation, ind_mt_rate = 1.0,
-            op_mt_rate = 0.01,
-            select_fn = tournament_selection,
-            elitism = False, generational = True
+        self.total_generations = 20,
+        self.cx = uniform_crossover,
+        self.cx_rate = 0.7,
+        self.mt = flip_mutation,
+        self.ind_mt_rate = 1.0,
+        self.op_mt_rate = 0.01,
+        self.select_fn = tournament_selection,
+        self.elitism = False,
+        self.generational = True
 
 
 # standard binary GA
