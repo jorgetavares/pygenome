@@ -1,4 +1,4 @@
 # TODO
+* API re-design (be more OO, sklearn style)
 * Add more examples
-* API re-design
 * Run profiling
