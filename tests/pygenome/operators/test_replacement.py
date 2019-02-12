@@ -1,6 +1,7 @@
 import numpy as np
 import pygenome as pg
 
+
 def test_generational():
     np.random.seed(42)
     size = 1000
@@ -11,6 +12,7 @@ def test_generational():
     pop1 = pg.generational_replacement(pop1, pop2)
     assert pop1.equal(pop2) is True
     assert pop1.equal(pop1_clone) is False
+
 
 # this tests needs to be improved
 def test_steady_state():
@@ -34,6 +36,7 @@ def test_steady_state():
 
     assert found1 and found2 is True
 
+
 def test_elite_strategy():
     np.random.seed(42)
     size = 10
@@ -52,6 +55,7 @@ def test_elite_strategy():
 
     assert found is True
 
+
 def test_m_comma_lambda():
     np.random.seed(42)
     sphere_model_size = 30
@@ -69,7 +73,8 @@ def test_m_comma_lambda():
     res = np.array([7.7633264242708808, 8.4249828886076532, 9.4585755842303119, 9.8351682100669695, 10.109666113362849, 10.120464613773503, 11.148338435537882, 12.62638917659477, 12.68750163403401, 13.486951247705489])
     assert np.allclose(f_p1, res) is True
     assert np.allclose(f_p1, f_p1c) is False
-    assert np.isclose(f_p1.any(), f_p2.any()) is True
+    assert f_p1.any() == f_p2.any()
+
 
 def test_m_plus_lambda():
     np.random.seed(42)
@@ -88,4 +93,4 @@ def test_m_plus_lambda():
     res = np.array([ 7.76332642,  8.08389311,  8.42498289,  8.77341594,  8.9523664 , 9.45857558,  9.49688766,  9.52769953,  9.7264757 ,  9.83516821])
     assert np.allclose(f_p1, res) is True
     assert np.allclose(f_p1, f_p1c) is False
-    assert np.isclose(f_p1.any(), f_p2.any()) is True
+    assert f_p1.any() == f_p2.any()
