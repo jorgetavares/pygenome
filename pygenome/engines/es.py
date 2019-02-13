@@ -22,6 +22,7 @@ from pygenome.operators.selection import best_individual
 from pygenome.operators.replacement import mu_comma_lambda_replacement
 from pygenome.engines.generic import generic_es
 
+
 def evolutionary_strategy(fitness_fn, chr_size, low, high, pop_size=30,
                           total_generations=100,
                           mt=uncorrelated_one_step_mutation,
@@ -62,10 +63,12 @@ def evolutionary_strategy(fitness_fn, chr_size, low, high, pop_size=30,
     return pop
 
 
-def evolutionary_strategy_adaptive(fitness_fn, chr_size, low, high, pop_size=30,
+def evolutionary_strategy_adaptive(fitness_fn, chr_size, low, high, 
+                                   pop_size=30,
                                    total_generations=100,
                                    mt=uncorrelated_one_step_mutation_adaptive,
-                                   cx=intermediary_crossover_adaptive, pool_size=100,
+                                   cx=intermediary_crossover_adaptive, 
+                                   pool_size=100,
                                    epsilon=1e-08,
                                    replace_pop=mu_comma_lambda_replacement,
                                    make_pop='uniform'):
@@ -77,11 +80,14 @@ def evolutionary_strategy_adaptive(fitness_fn, chr_size, low, high, pop_size=30,
     if make_pop == 'uniform':
         def make_pop():
             p = make_uniform_population(pop_size, chr_size, low=low, high=high)
-            return make_adaptive_population(p, uniform_chromossome, ext_chr, low=low, high=high)
+            return make_adaptive_population(p, uniform_chromossome, ext_chr, 
+                                            low=low, high=high)
     else:
         def make_pop():
-            p = make_normal_population(pop_size, chr_size, mean=low, sigma=high)
-            return make_adaptive_population(p, uniform_chromossome, ext_chr, low=low, high=high)
+            p = make_normal_population(pop_size, chr_size, 
+                                       mean=low, sigma=high)
+            return make_adaptive_population(p, uniform_chromossome, ext_chr, 
+                                            low=low, high=high)
 
     def eval_pop(p):
         return evaluate_population(p, fitness_fn)
