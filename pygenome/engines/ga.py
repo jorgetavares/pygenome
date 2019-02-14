@@ -29,23 +29,6 @@ from pygenome.operators.replacement import (
 from pygenome.engines.generic import generic_ea
 
 
-class GeneticAlgorithm(object):
-
-    def __self__():
-        self.fitness_fn = None,
-        self.chr_size = None,
-        self.pop_size = 100,
-        self.total_generations = 20,
-        self.cx = uniform_crossover,
-        self.cx_rate = 0.7,
-        self.mt = flip_mutation,
-        self.ind_mt_rate = 1.0,
-        self.op_mt_rate = 0.01,
-        self.select_fn = tournament_selection,
-        self.elitism = False,
-        self.generational = True
-
-
 # standard binary GA
 def genetic_algorithm_binary(fitness_fn, chr_size, pop_size=100,
                              total_generations=20,
