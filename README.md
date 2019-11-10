@@ -11,3 +11,5 @@ Evolutionary Algorithms in Python
 + Fitness: single objective
 + Examples for implemented EAs
 + Basic logging and population statistics
+
+Very simple toy lib in simple python. Mostly a fun project to try some things. 
